@@ -21,10 +21,15 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
+    if KeyListener.sharedKeyListener.canQuit {
+        HUDAlert.sharedHUDAlert.showHUD()
+    }
+    
     KeyListener.sharedKeyListener.tries += 1
     if KeyListener.sharedKeyListener.tries > 4 && KeyListener.sharedKeyListener.canQuit {
         KeyListener.sharedKeyListener.tries = 0
         KeyListener.sharedKeyListener.canQuit = false
+        HUDAlert.sharedHUDAlert.dismissHUD()
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
@@ -45,13 +50,27 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
     }
     
     if KeyListener.sharedKeyListener.tries < 4 {
+        delay(1) {
+            HUDAlert.sharedHUDAlert.dismissHUD()
+        }
         KeyListener.sharedKeyListener.logAccidentalQuit()
+    } else {
+        HUDAlert.sharedHUDAlert.dismissHUD()
     }
     
     KeyListener.sharedKeyListener.tries = 0
     KeyListener.sharedKeyListener.canQuit = true
     
     return Unmanaged<CGEvent>.passUnretained(event)
+}
+
+func delay(delay:Double, closure:()->()) {
+    dispatch_after(
+        dispatch_time(
+            DISPATCH_TIME_NOW,
+            Int64(delay * Double(NSEC_PER_SEC))
+        ),
+        dispatch_get_main_queue(), closure)
 }
 
 

@@ -13,6 +13,8 @@
 		28437E4E1CD93DE4002E90EF /* KeyListenerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28437E4D1CD93DE4002E90EF /* KeyListenerError.swift */; };
 		2853B63B1CD92D9700F186CE /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2853B63A1CD92D9700F186CE /* StatusMenuController.swift */; };
 		2880C4531CD7B3A000545E1F /* KeyListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880C4521CD7B3A000545E1F /* KeyListener.swift */; };
+		28DEC8041CD950450012B5E3 /* HUDAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DEC8031CD950450012B5E3 /* HUDAlert.swift */; };
+		28DEC8061CD954EA0012B5E3 /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DEC8051CD954EA0012B5E3 /* HUDView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		28437E4D1CD93DE4002E90EF /* KeyListenerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyListenerError.swift; sourceTree = "<group>"; };
 		2853B63A1CD92D9700F186CE /* StatusMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusMenuController.swift; sourceTree = "<group>"; };
 		2880C4521CD7B3A000545E1F /* KeyListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyListener.swift; sourceTree = "<group>"; };
+		28DEC8031CD950450012B5E3 /* HUDAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDAlert.swift; sourceTree = "<group>"; };
+		28DEC8051CD954EA0012B5E3 /* HUDView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,8 @@
 				2880C4511CD7B37C00545E1F /* Supporting Files */,
 				2832CA351CD688E9001D3373 /* AppDelegate.swift */,
 				2853B63A1CD92D9700F186CE /* StatusMenuController.swift */,
+				28DEC8031CD950450012B5E3 /* HUDAlert.swift */,
+				28DEC8051CD954EA0012B5E3 /* HUDView.swift */,
 			);
 			path = QBlocker;
 			sourceTree = "<group>";
@@ -153,8 +159,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28DEC8061CD954EA0012B5E3 /* HUDView.swift in Sources */,
 				2853B63B1CD92D9700F186CE /* StatusMenuController.swift in Sources */,
 				2880C4531CD7B3A000545E1F /* KeyListener.swift in Sources */,
+				28DEC8041CD950450012B5E3 /* HUDAlert.swift in Sources */,
 				28437E4E1CD93DE4002E90EF /* KeyListenerError.swift in Sources */,
 				2832CA361CD688E9001D3373 /* AppDelegate.swift in Sources */,
 			);
