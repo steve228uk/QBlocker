@@ -21,9 +21,8 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
-    
     KeyListener.sharedKeyListener.tries += 1
-    if KeyListener.sharedKeyListener.tries > 5 && KeyListener.sharedKeyListener.canQuit {
+    if KeyListener.sharedKeyListener.tries > 4 && KeyListener.sharedKeyListener.canQuit {
         KeyListener.sharedKeyListener.tries = 0
         KeyListener.sharedKeyListener.canQuit = false
         return Unmanaged<CGEvent>.passUnretained(event)
@@ -33,6 +32,21 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
 }
 
 private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, ptr: UnsafeMutablePointer<Void>) -> Unmanaged<CGEvent>? {
+    
+    // If the command key wasn't used we can pass the event on
+    let flags = CGEventGetFlags(event)
+    guard (flags.rawValue & CGEventFlags.MaskCommand.rawValue) != 0 else {
+        return Unmanaged<CGEvent>.passUnretained(event)
+    }
+    
+    // If the q key wasn't clicked we can ignore the event too
+    guard CGEventGetIntegerValueField(event, .KeyboardEventKeycode) == 12 else {
+        return Unmanaged<CGEvent>.passUnretained(event)
+    }
+    
+    if KeyListener.sharedKeyListener.tries < 4 {
+        KeyListener.sharedKeyListener.logAccidentalQuit()
+    }
     
     KeyListener.sharedKeyListener.tries = 0
     KeyListener.sharedKeyListener.canQuit = true
@@ -66,37 +80,50 @@ class KeyListener {
     /// If this is not checked then subsequent apps will continue to quit behind it.
     var canQuit = true
     
-    func start() {
+    /// The number of accidental quits that have been saved by QBlocker
+    var accidentalQuits: Int {
+        return NSUserDefaults.standardUserDefaults().integerForKey("accidentalQuits")
+    }
+    
+    /**
+     Start the keyDown and keyUp listeners.
+     
+     - throws: `KeyListenerError`
+     */
+    func start() throws {
         
         keyDown = CGEventTapCreate(CGEventTapLocation.CGHIDEventTap,
-                                CGEventTapPlacement.HeadInsertEventTap,
-                                CGEventTapOptions.Default,
-                                CGEventMask((1 << CGEventType.KeyDown.rawValue)),
-                                keyDownCallback, UnsafeMutablePointer<Void>(Unmanaged.passUnretained(self).toOpaque()))
-        
-        keyUp = CGEventTapCreate(CGEventTapLocation.CGHIDEventTap,
                                    CGEventTapPlacement.HeadInsertEventTap,
                                    CGEventTapOptions.Default,
-                                   CGEventMask((1 << CGEventType.KeyUp.rawValue)),
-                                   keyUpCallback, UnsafeMutablePointer<Void>(Unmanaged.passUnretained(self).toOpaque()))
+                                   CGEventMask((1 << CGEventType.KeyDown.rawValue)),
+                                   keyDownCallback,
+                                   UnsafeMutablePointer<Void>(Unmanaged.passUnretained(self).toOpaque()))
         
-        if (keyDown != nil)
-        {
-            print("running")
-            
-            keyDownRunLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, keyDown, 0)
-            CFRunLoopAddSource(CFRunLoopGetCurrent(), keyDownRunLoopSource, kCFRunLoopCommonModes)
-            
-            keyUpRunLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, keyUp, 0)
-            CFRunLoopAddSource(CFRunLoopGetCurrent(), keyUpRunLoopSource, kCFRunLoopCommonModes)
-            
-        }else
-        {
-            //todo: throw?
-            print("Fail CGEventTapCreate")
-            exit(1)
+        keyUp = CGEventTapCreate(CGEventTapLocation.CGHIDEventTap,
+                                CGEventTapPlacement.HeadInsertEventTap,
+                                CGEventTapOptions.Default,
+                                CGEventMask((1 << CGEventType.KeyUp.rawValue)),
+                                keyUpCallback,
+                                UnsafeMutablePointer<Void>(Unmanaged.passUnretained(self).toOpaque()))
+        
+        guard keyDown != nil else {
+            throw KeyListenerError.AccessibilityPermissionDenied
         }
+
+        keyDownRunLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, keyDown, 0)
+        CFRunLoopAddSource(CFRunLoopGetCurrent(), keyDownRunLoopSource, kCFRunLoopCommonModes)
         
+        keyUpRunLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, keyUp, 0)
+        CFRunLoopAddSource(CFRunLoopGetCurrent(), keyUpRunLoopSource, kCFRunLoopCommonModes)
+        
+    }
+    
+    /**
+     Store accidental quits in the user defaults
+     */
+    func logAccidentalQuit() {
+        let quits = accidentalQuits + 1
+        NSUserDefaults.standardUserDefaults().setInteger(quits, forKey: "accidentalQuits")
     }
     
 }

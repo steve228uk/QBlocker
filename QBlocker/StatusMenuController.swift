@@ -8,13 +8,14 @@
 
 import Cocoa
 
-class StatusMenuController: NSObject {
+class StatusMenuController: NSObject, NSMenuDelegate {
     
     let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
     
     @IBOutlet weak var statusMenu: NSMenu!
     
     override func awakeFromNib() {
+        statusMenu.delegate = self
         statusItem.image = NSImage(named: "Menu Bar")
         statusItem.menu = statusMenu
     }
@@ -23,6 +24,12 @@ class StatusMenuController: NSObject {
     
     @IBAction func quitItemClicked(sender: AnyObject) {
         NSApplication.sharedApplication().terminate(self)
+    }
+    
+    // MARK: - NSMenuDelegate
+    
+    func menuWillOpen(menu: NSMenu) {
+        statusMenu.itemAtIndex(0)?.title = String(format: "%d Quits Blocked", arguments: [KeyListener.sharedKeyListener.accidentalQuits])
     }
     
 }

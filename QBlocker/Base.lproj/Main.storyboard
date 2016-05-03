@@ -650,6 +650,10 @@
                 </customObject>
                 <menu id="tAl-mY-stm">
                     <items>
+                        <menuItem title="0 Quits Blocked" enabled="NO" id="EIC-he-4Jd">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="Mxc-8T-JGb"/>
                         <menuItem title="Quit QBlocker" id="kx7-eB-bn1">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
