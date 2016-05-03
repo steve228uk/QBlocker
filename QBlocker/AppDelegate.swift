@@ -15,9 +15,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let promptFlag = kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString
         let myDict: CFDictionary = [promptFlag: true]
-        print(AXIsProcessTrustedWithOptions(myDict))
-        
-        KeyListener.sharedKeyListener.start()
+        if AXIsProcessTrustedWithOptions(myDict) {
+            KeyListener.sharedKeyListener.start()
+        }
         
     }
 

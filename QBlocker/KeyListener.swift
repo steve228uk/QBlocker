@@ -8,8 +8,7 @@
 
 import Foundation
 
-private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, ptr: UnsafeMutablePointer<Void>) -> Unmanaged<CGEvent>?
-{
+private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, ptr: UnsafeMutablePointer<Void>) -> Unmanaged<CGEvent>? {
 
     // If the command key wasn't used we can pass the event on
     let flags = CGEventGetFlags(event)
@@ -22,6 +21,7 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
+    
     KeyListener.sharedKeyListener.tries += 1
     if KeyListener.sharedKeyListener.tries > 5 && KeyListener.sharedKeyListener.canQuit {
         KeyListener.sharedKeyListener.tries = 0
@@ -32,8 +32,7 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
     return nil
 }
 
-private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, ptr: UnsafeMutablePointer<Void>) -> Unmanaged<CGEvent>?
-{
+private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, ptr: UnsafeMutablePointer<Void>) -> Unmanaged<CGEvent>? {
     
     KeyListener.sharedKeyListener.tries = 0
     KeyListener.sharedKeyListener.canQuit = true
@@ -41,21 +40,30 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
     return Unmanaged<CGEvent>.passUnretained(event)
 }
 
+
 class KeyListener {
     
     /// Shared instance of the key listener
     static let sharedKeyListener = KeyListener()
     
+    /// The CGEvent for key down
     var keyDown: CFMachPort?
     
+    /// The run loop for key down
     var keyDownRunLoopSource: CFRunLoopSource?
     
+    /// The CG event for key up
     var keyUp: CFMachPort?
     
+    /// The run loop for key up
     var keyUpRunLoopSource: CFRunLoopSource?
     
+    /// The number of "tries" that CMD + Q have been hit.
+    /// This is set when a user holds down the CMD + Q shortcut.
     var tries = 0
     
+    /// Can quit is marked as false as soon as an app has just quit.
+    /// If this is not checked then subsequent apps will continue to quit behind it.
     var canQuit = true
     
     func start() {
