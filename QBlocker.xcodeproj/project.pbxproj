@@ -58,7 +58,6 @@
 			children = (
 				28437E4C1CD93DB0002E90EF /* Key Listener */,
 				2880C4511CD7B37C00545E1F /* Supporting Files */,
-				2880C44C1CD7B2EA00545E1F /* Utilities */,
 				2832CA351CD688E9001D3373 /* AppDelegate.swift */,
 				2853B63A1CD92D9700F186CE /* StatusMenuController.swift */,
 			);
@@ -72,13 +71,6 @@
 				28437E4D1CD93DE4002E90EF /* KeyListenerError.swift */,
 			);
 			name = "Key Listener";
-			sourceTree = "<group>";
-		};
-		2880C44C1CD7B2EA00545E1F /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Utilities;
 			sourceTree = "<group>";
 		};
 		2880C4511CD7B37C00545E1F /* Supporting Files */ = {
