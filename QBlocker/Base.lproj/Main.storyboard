@@ -661,6 +661,12 @@
                                 <action selector="checkForUpdates:" target="6Kw-qM-SIP" id="MPa-UH-RH5"/>
                             </connections>
                         </menuItem>
+                        <menuItem title="Open at Login" id="CHC-cH-raF">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="openAtLogin:" target="urJ-qt-1M5" id="tZa-Wb-OEx"/>
+                            </connections>
+                        </menuItem>
                         <menuItem isSeparatorItem="YES" id="Mxc-8T-JGb"/>
                         <menuItem title="Quit QBlocker" id="kx7-eB-bn1">
                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -701,6 +707,37 @@
                 <customObject id="MGL-lO-XT6" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="70" y="156.5"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="aVz-s0-neJ">
+            <objects>
+                <windowController id="NJS-yY-o1Q" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="RHZ-BJ-mfA">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                    </window>
+                    <connections>
+                        <segue destination="caj-n4-Riy" kind="relationship" relationship="window.shadowedContentViewController" id="s7Z-7G-4CO"/>
+                    </connections>
+                </windowController>
+                <customObject id="Qaj-cv-gPp" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="50" y="475"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Qdl-nL-ueY">
+            <objects>
+                <viewController id="caj-n4-Riy" sceneMemberID="viewController">
+                    <view key="view" id="TsC-Z4-4G5">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="t3B-tw-d0Y" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="50" y="879"/>
         </scene>
     </scenes>
 </document>

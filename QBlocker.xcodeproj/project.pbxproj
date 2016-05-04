@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		280140151CDA9D5200BC2E78 /* AtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280140141CDA9D5200BC2E78 /* AtLogin.swift */; };
 		2832CA361CD688E9001D3373 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2832CA351CD688E9001D3373 /* AppDelegate.swift */; };
 		2832CA3A1CD688E9001D3373 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2832CA391CD688E9001D3373 /* Assets.xcassets */; };
 		2832CA3D1CD688E9001D3373 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2832CA3B1CD688E9001D3373 /* Main.storyboard */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		18D302062F0781EB95263F14 /* Pods-QBlocker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QBlocker.release.xcconfig"; path = "Pods/Target Support Files/Pods-QBlocker/Pods-QBlocker.release.xcconfig"; sourceTree = "<group>"; };
+		280140141CDA9D5200BC2E78 /* AtLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtLogin.swift; sourceTree = "<group>"; };
 		2832CA321CD688E9001D3373 /* QBlocker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QBlocker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2832CA351CD688E9001D3373 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2832CA391CD688E9001D3373 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -47,6 +49,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		280140131CDA9B4600BC2E78 /* First Launch */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "First Launch";
+			sourceTree = "<group>";
+		};
+		280140161CDA9D9000BC2E78 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				280140141CDA9D5200BC2E78 /* AtLogin.swift */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
 		2832CA291CD688E8001D3373 = {
 			isa = PBXGroup;
 			children = (
@@ -68,12 +85,12 @@
 		2832CA341CD688E9001D3373 /* QBlocker */ = {
 			isa = PBXGroup;
 			children = (
+				280140161CDA9D9000BC2E78 /* Utility */,
+				280140131CDA9B4600BC2E78 /* First Launch */,
 				28437E4C1CD93DB0002E90EF /* Key Listener */,
 				2880C4511CD7B37C00545E1F /* Supporting Files */,
 				2832CA351CD688E9001D3373 /* AppDelegate.swift */,
 				2853B63A1CD92D9700F186CE /* StatusMenuController.swift */,
-				28DEC8031CD950450012B5E3 /* HUDAlert.swift */,
-				28DEC8051CD954EA0012B5E3 /* HUDView.swift */,
 			);
 			path = QBlocker;
 			sourceTree = "<group>";
@@ -83,6 +100,8 @@
 			children = (
 				2880C4521CD7B3A000545E1F /* KeyListener.swift */,
 				28437E4D1CD93DE4002E90EF /* KeyListenerError.swift */,
+				28DEC8031CD950450012B5E3 /* HUDAlert.swift */,
+				28DEC8051CD954EA0012B5E3 /* HUDView.swift */,
 			);
 			name = "Key Listener";
 			sourceTree = "<group>";
@@ -239,6 +258,7 @@
 				28DEC8061CD954EA0012B5E3 /* HUDView.swift in Sources */,
 				2853B63B1CD92D9700F186CE /* StatusMenuController.swift in Sources */,
 				2880C4531CD7B3A000545E1F /* KeyListener.swift in Sources */,
+				280140151CDA9D5200BC2E78 /* AtLogin.swift in Sources */,
 				28DEC8041CD950450012B5E3 /* HUDAlert.swift in Sources */,
 				28437E4E1CD93DE4002E90EF /* KeyListenerError.swift in Sources */,
 				2832CA361CD688E9001D3373 /* AppDelegate.swift in Sources */,

@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import CoreServices
 
 class StatusMenuController: NSObject, NSMenuDelegate {
     
@@ -27,10 +28,17 @@ class StatusMenuController: NSObject, NSMenuDelegate {
         NSApplication.sharedApplication().terminate(self)
     }
     
+    @IBAction func openAtLogin(sender: NSMenuItem) {
+        AtLogin.toggle()
+    }
+    
+    
     // MARK: - NSMenuDelegate
     
     func menuWillOpen(menu: NSMenu) {
         statusMenu.itemAtIndex(0)?.title = String(format: "%d Quits Blocked", arguments: [KeyListener.sharedKeyListener.accidentalQuits])
+        
+        statusMenu.itemAtIndex(3)?.state = (AtLogin.enabled) ? 1 : 0
     }
     
 }
