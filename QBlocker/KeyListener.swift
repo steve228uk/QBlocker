@@ -21,14 +21,12 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
+    // get the current active app
     guard let app = NSWorkspace.sharedWorkspace().menuBarOwningApplication else {
         return Unmanaged<CGEvent>.passUnretained(event)
     }
-
-    guard app.ownsMenuBar else {
-        return Unmanaged<CGEvent>.passUnretained(event)
-    }
     
+    // check that the app has CMD Q enabled
     guard KeyListener.cmdQActiveForApp(app) else {
         return nil
     }
@@ -82,7 +80,9 @@ func delay(delay:Double, closure:()->()) {
             DISPATCH_TIME_NOW,
             Int64(delay * Double(NSEC_PER_SEC))
         ),
-        dispatch_get_main_queue(), closure)
+        dispatch_get_main_queue(),
+        closure
+    )
 }
 
 
