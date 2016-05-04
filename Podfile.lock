@@ -1,0 +1,10 @@
+PODS:
+  - DevMateKit (1.7.1)
+
+DEPENDENCIES:
+  - DevMateKit
+
+SPEC CHECKSUMS:
+  DevMateKit: 3ba77083f5faa40266e0d2d70776de2a82c71dd0
+
+COCOAPODS: 0.39.0

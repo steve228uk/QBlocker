@@ -15,9 +15,11 @@
 		2880C4531CD7B3A000545E1F /* KeyListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880C4521CD7B3A000545E1F /* KeyListener.swift */; };
 		28DEC8041CD950450012B5E3 /* HUDAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DEC8031CD950450012B5E3 /* HUDAlert.swift */; };
 		28DEC8061CD954EA0012B5E3 /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DEC8051CD954EA0012B5E3 /* HUDView.swift */; };
+		89B8C5D3D02D89463E1239E8 /* Pods_QBlocker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1CE05FBCE54008C441D3CA3 /* Pods_QBlocker.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		18D302062F0781EB95263F14 /* Pods-QBlocker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QBlocker.release.xcconfig"; path = "Pods/Target Support Files/Pods-QBlocker/Pods-QBlocker.release.xcconfig"; sourceTree = "<group>"; };
 		2832CA321CD688E9001D3373 /* QBlocker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QBlocker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2832CA351CD688E9001D3373 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2832CA391CD688E9001D3373 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -25,9 +27,12 @@
 		2832CA3E1CD688E9001D3373 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28437E4D1CD93DE4002E90EF /* KeyListenerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyListenerError.swift; sourceTree = "<group>"; };
 		2853B63A1CD92D9700F186CE /* StatusMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusMenuController.swift; sourceTree = "<group>"; };
+		2879D1171CDA529C00B64F00 /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
 		2880C4521CD7B3A000545E1F /* KeyListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyListener.swift; sourceTree = "<group>"; };
 		28DEC8031CD950450012B5E3 /* HUDAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDAlert.swift; sourceTree = "<group>"; };
 		28DEC8051CD954EA0012B5E3 /* HUDView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
+		C1CE05FBCE54008C441D3CA3 /* Pods_QBlocker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QBlocker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAE265B701E85E6B909B8E2C /* Pods-QBlocker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QBlocker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QBlocker/Pods-QBlocker.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89B8C5D3D02D89463E1239E8 /* Pods_QBlocker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +52,8 @@
 			children = (
 				2832CA341CD688E9001D3373 /* QBlocker */,
 				2832CA331CD688E9001D3373 /* Products */,
+				38D42208756B276FCDCB321A /* Pods */,
+				C44CD8B7A74F8347ECBD8138 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,8 +93,26 @@
 				2832CA391CD688E9001D3373 /* Assets.xcassets */,
 				2832CA3B1CD688E9001D3373 /* Main.storyboard */,
 				2832CA3E1CD688E9001D3373 /* Info.plist */,
+				2879D1171CDA529C00B64F00 /* Bridge.h */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		38D42208756B276FCDCB321A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EAE265B701E85E6B909B8E2C /* Pods-QBlocker.debug.xcconfig */,
+				18D302062F0781EB95263F14 /* Pods-QBlocker.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C44CD8B7A74F8347ECBD8138 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C1CE05FBCE54008C441D3CA3 /* Pods_QBlocker.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -96,9 +122,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2832CA411CD688E9001D3373 /* Build configuration list for PBXNativeTarget "QBlocker" */;
 			buildPhases = (
+				E382C6621D20D82AD3EE2371 /* Check Pods Manifest.lock */,
 				2832CA2E1CD688E9001D3373 /* Sources */,
 				2832CA2F1CD688E9001D3373 /* Frameworks */,
 				2832CA301CD688E9001D3373 /* Resources */,
+				A5F3978DEF0056344662D1D8 /* Embed Pods Frameworks */,
+				D83C7FD3BC174A7B11207BD0 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -153,6 +182,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A5F3978DEF0056344662D1D8 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QBlocker/Pods-QBlocker-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D83C7FD3BC174A7B11207BD0 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QBlocker/Pods-QBlocker-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E382C6621D20D82AD3EE2371 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2832CA2E1CD688E9001D3373 /* Sources */ = {
@@ -266,6 +343,7 @@
 		};
 		2832CA421CD688E9001D3373 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EAE265B701E85E6B909B8E2C /* Pods-QBlocker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -274,11 +352,13 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.wearecocoon.QBlocker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/QBlocker/Bridge.h";
 			};
 			name = Debug;
 		};
 		2832CA431CD688E9001D3373 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18D302062F0781EB95263F14 /* Pods-QBlocker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -287,6 +367,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.wearecocoon.QBlocker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/QBlocker/Bridge.h";
 			};
 			name = Release;
 		};

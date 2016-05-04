@@ -643,6 +643,7 @@
                 </application>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="QBlocker" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="6Kw-qM-SIP" customClass="SUUpdater"/>
                 <customObject id="urJ-qt-1M5" customClass="StatusMenuController" customModule="QBlocker" customModuleProvider="target">
                     <connections>
                         <outlet property="statusMenu" destination="tAl-mY-stm" id="kUy-zb-1q0"/>
@@ -652,6 +653,13 @@
                     <items>
                         <menuItem title="0 Quits Blocked" enabled="NO" id="EIC-he-4Jd">
                             <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="Rxk-WH-Wkd"/>
+                        <menuItem title="Check For Updates" id="77f-nv-QKY">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="checkForUpdates:" target="6Kw-qM-SIP" id="MPa-UH-RH5"/>
+                            </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="Mxc-8T-JGb"/>
                         <menuItem title="Quit QBlocker" id="kx7-eB-bn1">

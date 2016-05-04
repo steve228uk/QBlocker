@@ -13,6 +13,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         
+        setupDevMate()
+        
         let promptFlag = kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString
         let myDict: CFDictionary = [promptFlag: true]
         if AXIsProcessTrustedWithOptions(myDict) {
@@ -21,12 +23,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             } catch {
                 print(error)
             }
+        } else {
+            
         }
         
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
 
+    }
+    
+    func setupDevMate() {
+        DevMateKit.sendTrackingReport(nil, delegate: nil)
+        DevMateKit.setupIssuesController(nil, reportingUnhandledIssues: true)
+        DM_SUUpdater.sharedUpdater().automaticallyChecksForUpdates = true
+        DM_SUUpdater.sharedUpdater().automaticallyDownloadsUpdates = true
     }
 
 }
