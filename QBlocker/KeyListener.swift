@@ -21,7 +21,19 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
-    if KeyListener.sharedKeyListener.canQuit {
+    guard let app = NSWorkspace.sharedWorkspace().menuBarOwningApplication else {
+        return Unmanaged<CGEvent>.passUnretained(event)
+    }
+
+    guard app.ownsMenuBar else {
+        return Unmanaged<CGEvent>.passUnretained(event)
+    }
+    
+    guard KeyListener.cmdQActiveForApp(app) else {
+        return nil
+    }
+    
+    if KeyListener.sharedKeyListener.canQuit && KeyListener.sharedKeyListener.tries < 4 {
         HUDAlert.sharedHUDAlert.showHUD()
     }
     
@@ -143,6 +155,61 @@ class KeyListener {
     func logAccidentalQuit() {
         let quits = accidentalQuits + 1
         NSUserDefaults.standardUserDefaults().setInteger(quits, forKey: "accidentalQuits")
+    }
+    
+    /**
+     Checks if CMD+Q is in the menu bar for the current application
+     
+     - parameter app: The Current App
+     */
+    class func cmdQActiveForApp(app: NSRunningApplication) -> Bool {
+        
+        let app = AXUIElementCreateApplication(app.processIdentifier).takeRetainedValue()
+        var menuBar: AnyObject?
+        AXUIElementCopyAttributeValue(app, kAXMenuBarAttribute, &menuBar)
+        
+        // If we can't get the menubar then exit
+        guard menuBar != nil else {
+            return false
+        }
+        
+        // Get the toplevel menu items
+        let menu = menuBar as! AXUIElement
+        var children: AnyObject?
+        AXUIElementCopyAttributeValue(menu, kAXChildrenAttribute, &children)
+
+        guard let items = children as? NSArray where items.count > 0 else {
+            return false
+        }
+        
+        // Get the submenus of the first item
+        var subMenus: AnyObject?
+        let title = items[1] as! AXUIElement // subscript 0 is the apple menu
+        AXUIElementCopyAttributeValue(title, kAXChildrenAttribute, &subMenus)
+        
+        guard let menus = subMenus as? NSArray where menus.count > 0 else {
+            return false
+        }
+        
+        // Get the entries of the submenu
+        var entries: AnyObject?
+        let submenu = menus[0] as! AXUIElement
+        AXUIElementCopyAttributeValue(submenu, kAXChildrenAttribute, &entries)
+        
+        guard let menuItems = entries as? NSArray where menuItems.count > 0 else {
+            return false
+        }
+        
+        // Loop through the menu items and check if CMD + Q is the shortcut
+        for item in menuItems {
+            var cmdChar: AnyObject?
+            AXUIElementCopyAttributeValue(item as! AXUIElement, kAXMenuItemCmdCharAttribute, &cmdChar)
+            if let char = cmdChar as? String where char == "Q" {
+                return true
+            }
+        }
+        
+        return false
     }
     
 }
