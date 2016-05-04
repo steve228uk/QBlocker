@@ -33,7 +33,7 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return nil
     }
     
-    if KeyListener.sharedKeyListener.canQuit && KeyListener.sharedKeyListener.tries < 4 {
+    if KeyListener.sharedKeyListener.canQuit && KeyListener.sharedKeyListener.tries <= 4 {
         HUDAlert.sharedHUDAlert.showHUD()
     }
     
@@ -61,7 +61,7 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
-    if KeyListener.sharedKeyListener.tries < 4 {
+    if KeyListener.sharedKeyListener.tries <= 4 {
         delay(1) {
             HUDAlert.sharedHUDAlert.dismissHUD()
         }
