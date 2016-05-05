@@ -9,10 +9,10 @@
 import Foundation
 
 private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, ptr: UnsafeMutablePointer<Void>) -> Unmanaged<CGEvent>? {
-
+    
     // If the command key wasn't used we can pass the event on
-    let flags = CGEventGetFlags(event)
-    guard (flags.rawValue & CGEventFlags.MaskCommand.rawValue) != 0 else {
+    let flags = CGEventGetFlags(event)    
+    guard (flags.rawValue & CGEventFlags.MaskCommand.rawValue) > 0 else {
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
