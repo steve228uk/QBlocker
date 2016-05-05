@@ -14,7 +14,6 @@ class AccessibilityWindowController: NSWindowController {
         super.windowDidLoad()
 
         window?.titlebarAppearsTransparent = true
-        window?.movableByWindowBackground = true
         window?.backgroundColor = NSColor(calibratedHue:0.00, saturation:0.00, brightness:0.90, alpha:1.00)
     }
     
