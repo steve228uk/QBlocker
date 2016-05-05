@@ -711,12 +711,15 @@
         <!--Window Controller-->
         <scene sceneID="aVz-s0-neJ">
             <objects>
-                <windowController id="NJS-yY-o1Q" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="RHZ-BJ-mfA">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                <windowController storyboardIdentifier="accessibility window" id="NJS-yY-o1Q" customClass="AccessibilityWindowController" customModule="QBlocker" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="QBlocker" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="RHZ-BJ-mfA">
+                        <windowStyleMask key="styleMask" titled="YES" fullSizeContentView="YES"/>
+                        <rect key="contentRect" x="196" y="241" width="647" height="350"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                        <value key="minSize" type="size" width="647" height="350"/>
+                        <value key="maxSize" type="size" width="647" height="350"/>
+                        <value key="minFullScreenContentSize" type="size" width="647" height="350"/>
+                        <value key="maxFullScreenContentSize" type="size" width="647" height="350"/>
                     </window>
                     <connections>
                         <segue destination="caj-n4-Riy" kind="relationship" relationship="window.shadowedContentViewController" id="s7Z-7G-4CO"/>
@@ -724,20 +727,82 @@
                 </windowController>
                 <customObject id="Qaj-cv-gPp" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="50" y="475"/>
+            <point key="canvasLocation" x="49.5" y="475"/>
         </scene>
-        <!--View Controller-->
+        <!--Accessibility View Controller-->
         <scene sceneID="Qdl-nL-ueY">
             <objects>
-                <viewController id="caj-n4-Riy" sceneMemberID="viewController">
+                <viewController showSeguePresentationStyle="single" id="caj-n4-Riy" customClass="AccessibilityViewController" customModule="QBlocker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="TsC-Z4-4G5">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="627" height="350"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3VB-cl-E7P">
+                                <rect key="frame" x="267" y="234" width="192" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="188" id="MDT-qR-nkX"/>
+                                    <constraint firstAttribute="height" constant="35" id="cp1-Zd-pPJ"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Almost There…" id="L6k-v9-XpI">
+                                    <font key="font" metaFont="systemLight" size="29"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="als-Dn-zow">
+                                <rect key="frame" x="26" y="75" width="201" height="201"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="201" id="JKd-tv-UxV"/>
+                                    <constraint firstAttribute="height" constant="201" id="fxY-EJ-3bh"/>
+                                </constraints>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="settings" id="Nm7-pd-xiR"/>
+                            </imageView>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Ev3-L8-PIw">
+                                <rect key="frame" x="267" y="147" width="342" height="68"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="338" id="Nqi-jx-tWJ"/>
+                                    <constraint firstAttribute="height" constant="68" id="xLG-jb-Yg1"/>
+                                </constraints>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="NKu-Ik-I2K">
+                                    <font key="font" metaFont="system"/>
+                                    <string key="title">QBlocker uses OS X's accessibility features to block accidental quits. Please enable accessibility features for QBlocker in System Preferences and then re-open the app.</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Rwa-CD-yge">
+                                <rect key="frame" x="263" y="88" width="198" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="33b-o7-tgk"/>
+                                    <constraint firstAttribute="width" constant="186" id="lIo-qe-1rw"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Open System Preferences" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iks-uw-Btk">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="openPreferences:" target="caj-n4-Riy" id="EcR-Ez-uPf"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Rwa-CD-yge" firstAttribute="leading" secondItem="als-Dn-zow" secondAttribute="trailing" constant="42" id="0Bu-bR-ZFR"/>
+                            <constraint firstItem="Ev3-L8-PIw" firstAttribute="top" secondItem="3VB-cl-E7P" secondAttribute="bottom" constant="19" id="Jdw-Ph-8ah"/>
+                            <constraint firstItem="Ev3-L8-PIw" firstAttribute="leading" secondItem="als-Dn-zow" secondAttribute="trailing" constant="42" id="Mrl-ss-TXX"/>
+                            <constraint firstItem="3VB-cl-E7P" firstAttribute="top" secondItem="TsC-Z4-4G5" secondAttribute="top" constant="81" id="eyv-bd-YEY"/>
+                            <constraint firstItem="3VB-cl-E7P" firstAttribute="leading" secondItem="als-Dn-zow" secondAttribute="trailing" constant="42" id="fr7-Zg-8fg"/>
+                            <constraint firstItem="als-Dn-zow" firstAttribute="top" secondItem="TsC-Z4-4G5" secondAttribute="top" constant="74" id="j2h-yh-8S4"/>
+                            <constraint firstItem="Rwa-CD-yge" firstAttribute="top" secondItem="Ev3-L8-PIw" secondAttribute="bottom" constant="31" id="vRP-Ax-a7U"/>
+                            <constraint firstItem="als-Dn-zow" firstAttribute="leading" secondItem="TsC-Z4-4G5" secondAttribute="leading" constant="26" id="ynF-pk-Mdf"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <customObject id="t3B-tw-d0Y" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="50" y="879"/>
+            <point key="canvasLocation" x="50.5" y="973"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="settings" width="516" height="516"/>
+    </resources>
 </document>

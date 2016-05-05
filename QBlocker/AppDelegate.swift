@@ -11,12 +11,14 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    var accessibilityWindowController: NSWindowController?
+    
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         
         setupDevMate()
         
         let promptFlag = kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString
-        let myDict: CFDictionary = [promptFlag: true]
+        let myDict: CFDictionary = [promptFlag: false]
         if AXIsProcessTrustedWithOptions(myDict) {
             do {
                 try KeyListener.sharedKeyListener.start()
@@ -24,7 +26,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 print(error)
             }
         } else {
-            
+            if let windowController = NSStoryboard(name: "Main", bundle: nil).instantiateControllerWithIdentifier("accessibility window") as? NSWindowController {
+                accessibilityWindowController = windowController
+                accessibilityWindowController?.showWindow(self)
+            }
         }
         
     }
