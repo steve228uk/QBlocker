@@ -23,12 +23,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             do {
                 try KeyListener.sharedKeyListener.start()
             } catch {
-                print(error)
+                NSLog("Could not launch listener")
             }
         } else {
             if let windowController = NSStoryboard(name: "Main", bundle: nil).instantiateControllerWithIdentifier("accessibility window") as? NSWindowController {
                 accessibilityWindowController = windowController
                 accessibilityWindowController?.showWindow(self)
+                accessibilityWindowController?.window?.makeKeyAndOrderFront(self)
             }
         }
         

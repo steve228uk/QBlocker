@@ -17,7 +17,7 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
     }
     
     // If the q key wasn't clicked we can ignore the event too
-    guard CGEventGetIntegerValueField(event, .KeyboardEventKeycode) == 12 else {
+    guard KeyListener.keyValueForEvent(event)?.lowercaseString == "q" else {
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
@@ -64,6 +64,7 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
             HUDAlert.sharedHUDAlert.dismissHUD()
         }
         KeyListener.sharedKeyListener.logAccidentalQuit()
+        return nil
     } else {
         HUDAlert.sharedHUDAlert.dismissHUD()
     }
@@ -210,6 +211,17 @@ class KeyListener {
         }
         
         return false
+    }
+    
+    /**
+     Return the key character
+     
+     - parameter event: They keyboard event
+     
+     - returns: The characters clicked
+     */
+    class func keyValueForEvent(event: CGEvent) -> String? {
+        return NSEvent(CGEvent: event)?.charactersIgnoringModifiers
     }
     
 }
