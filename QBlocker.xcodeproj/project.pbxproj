@@ -178,6 +178,7 @@
 				TargetAttributes = {
 					2832CA311CD688E9001D3373 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = B598AEF9ZM;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 0;
@@ -383,7 +384,7 @@
 			baseConfigurationReference = EAE265B701E85E6B909B8E2C /* Pods-QBlocker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = QBlocker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -399,7 +400,7 @@
 			baseConfigurationReference = 18D302062F0781EB95263F14 /* Pods-QBlocker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = QBlocker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";

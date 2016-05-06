@@ -35,6 +35,11 @@ struct AtLogin {
         let loginItems = LSSharedFileListCopySnapshot(loginItemsRef.takeRetainedValue(), nil).takeRetainedValue()
         for item in loginItems as NSArray {
             
+            // Ensure that the item is a LSSharedFileListItem
+            guard CFGetTypeID(item) == LSSharedFileListItemGetTypeID() else {
+                continue
+            }
+            
             var error: Unmanaged<CFError>?
             let itemUrl = LSSharedFileListItemCopyResolvedURL(item as! LSSharedFileListItem, 0, &error).takeRetainedValue() as NSURL
             
