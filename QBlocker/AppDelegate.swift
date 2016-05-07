@@ -43,10 +43,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      Show the first run screen if the NSUserDefault stating it has already be run isn't set
      */
     func showFirstRunWindowIfRequired() {
+        guard !NSUserDefaults.standardUserDefaults().boolForKey("firstRunComplete") else {
+            return
+        }
+        
         if let windowController = NSStoryboard(name: "Main", bundle: nil).instantiateControllerWithIdentifier("first run window") as? NSWindowController {
             firstRunWindowController = windowController
             firstRunWindowController?.showWindow(self)
             firstRunWindowController?.window?.makeKeyAndOrderFront(self)
+            
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "firstRunComplete")
         }
     }
 

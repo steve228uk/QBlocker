@@ -11,8 +11,10 @@ import CoreServices
 
 class StatusMenuController: NSObject, NSMenuDelegate {
     
+    /// The icon added to the menu bar
     let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
     
+    /// Reference to the storyboard
     @IBOutlet weak var statusMenu: NSMenu!
     
     override func awakeFromNib() {
@@ -28,17 +30,21 @@ class StatusMenuController: NSObject, NSMenuDelegate {
         NSApplication.sharedApplication().terminate(self)
     }
     
+    /**
+     Toggle open at login on/off
+     
+     - parameter sender: The menu item
+     */
     @IBAction func openAtLogin(sender: NSMenuItem) {
         AtLogin.toggle()
     }
-    
     
     // MARK: - NSMenuDelegate
     
     func menuWillOpen(menu: NSMenu) {
         statusMenu.itemAtIndex(0)?.title = String(format: "%d Quits Blocked", arguments: [KeyListener.sharedKeyListener.accidentalQuits])
         
-        statusMenu.itemAtIndex(3)?.state = (AtLogin.enabled) ? 1 : 0
+        statusMenu.itemAtIndex(4)?.state = (AtLogin.enabled) ? 1 : 0
     }
     
 }

@@ -14,4 +14,9 @@ class FirstRunViewController: NSViewController {
         view.window?.orderOut(self)
     }
     
+    @IBAction func showExcludeApps(sender: AnyObject) {
+        performSegueWithIdentifier("show exclude apps", sender: sender)
+        view.window?.orderOut(self)
+    }
+    
 }
