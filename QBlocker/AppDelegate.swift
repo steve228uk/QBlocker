@@ -12,6 +12,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     var accessibilityWindowController: NSWindowController?
+    var firstRunWindowController: NSWindowController?
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         
@@ -25,6 +26,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             } catch {
                 NSLog("Could not launch listener")
             }
+            
+            showFirstRunWindowIfRequired()
+            
         } else {
             if let windowController = NSStoryboard(name: "Main", bundle: nil).instantiateControllerWithIdentifier("accessibility window") as? NSWindowController {
                 accessibilityWindowController = windowController
@@ -34,11 +38,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
     }
-
-    func applicationWillTerminate(aNotification: NSNotification) {
-
-    }
     
+    /**
+     Show the first run screen if the NSUserDefault stating it has already be run isn't set
+     */
+    func showFirstRunWindowIfRequired() {
+        if let windowController = NSStoryboard(name: "Main", bundle: nil).instantiateControllerWithIdentifier("first run window") as? NSWindowController {
+            firstRunWindowController = windowController
+            firstRunWindowController?.showWindow(self)
+            firstRunWindowController?.window?.makeKeyAndOrderFront(self)
+        }
+    }
+
     func setupDevMate() {
         DevMateKit.sendTrackingReport(nil, delegate: nil)
         DevMateKit.setupIssuesController(nil, reportingUnhandledIssues: true)
