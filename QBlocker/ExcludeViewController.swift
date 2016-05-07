@@ -25,12 +25,40 @@ class ExcludeViewController: NSViewController {
         panel.allowedFileTypes = ["app"]
         panel.beginSheetModalForWindow(view.window!) { response in
             if (response == NSFileHandlingPanelOKButton) {
-                print("yay!")
+                for url in panel.URLs {
+                    guard let bundle = NSBundle(URL: url)?.bundleIdentifier, path = url.path else {
+                        continue
+                    }
+                    
+                    let name = NSFileManager.defaultManager().displayNameAtPath(path)
+                    
+                    let app = App()
+                    app.name = name
+                    app.bundleID = bundle
+                    KeyListener.sharedKeyListener.addExcludedApp(app)
+                }
+                self.tableView.reloadData()
             }
         }
     }
     
     @IBAction func removeClicked(sender: AnyObject) {
+        guard tableView.selectedRowIndexes.count > 0,
+            let apps = KeyListener.sharedKeyListener.excludedApps else {
+                print("Nothing selected")
+                return
+            }
+        
+        var toRemove = [App]()
+        tableView.selectedRowIndexes.enumerateIndexesUsingBlock { index, stop in
+            toRemove.append(apps[index])
+        }
+        
+        for app in toRemove {
+            KeyListener.sharedKeyListener.removeExcludedApp(app)
+        }
+        
+        tableView.reloadData()
     }
     
 }

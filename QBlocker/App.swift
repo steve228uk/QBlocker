@@ -16,4 +16,8 @@ class App: Object {
     /// The bundle ID of the app. e.g. uk.co.wearecocoon.QBlocker
     dynamic var bundleID = ""
     
+    override static func primaryKey() -> String? {
+        return "bundleID"
+    }
+    
 }

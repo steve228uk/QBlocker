@@ -18,7 +18,7 @@ extension KeyListener {
     func addExcludedApp(app: App) {
         do {
             try realm?.write {
-                realm?.add(app)
+                realm?.add(app, update: true)
             }
         } catch {
             print("Could not write excluded app")

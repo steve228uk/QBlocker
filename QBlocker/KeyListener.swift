@@ -29,6 +29,14 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
+    // Check if the current app is in the blacklist
+    if let bundleId = app.bundleIdentifier {
+        guard !KeyListener.sharedKeyListener.excludedAppBundles.contains(bundleId) else {
+            print("App is excluded")
+            return Unmanaged<CGEvent>.passUnretained(event)
+        }
+    }
+    
     // check that the app has CMD Q enabled
     guard KeyListener.cmdQActiveForApp(app) else {
         print("\(app.bundleIdentifier) does not use cmd+q")
@@ -113,7 +121,16 @@ class KeyListener {
     
     /// Array of apps to be ignored by QBlocker
     var excludedApps: Results<App>? {
-        return realm?.objects(App)
+        return realm?.objects(App).sorted("name")
+    }
+    
+    /// The bundle identifiers of excluded apps
+    var excludedAppBundles: [String] {
+        guard let apps = excludedApps else {
+            return []
+        }
+        
+        return apps.map { $0.bundleID }
     }
     
     init() {
