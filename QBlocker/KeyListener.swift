@@ -12,34 +12,40 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
     
     // If the command key wasn't used we can pass the event on
     let flags = CGEventGetFlags(event)    
-    guard (flags.rawValue & CGEventFlags.MaskCommand.rawValue) > 0 else {
+    guard (flags.rawValue & CGEventFlags.MaskCommand.rawValue) != 0 else {
+        print("command not clicked")
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
     // If the q key wasn't clicked we can ignore the event too
     guard KeyListener.keyValueForEvent(event)?.lowercaseString == "q" else {
+        print("q not clicked")
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
     // get the current active app
     guard let app = NSWorkspace.sharedWorkspace().menuBarOwningApplication else {
+        print("could not get menubar owning app")
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
     // check that the app has CMD Q enabled
     guard KeyListener.cmdQActiveForApp(app) else {
+        print("\(app.bundleIdentifier) does not use cmd+q")
         return nil
     }
     
     if KeyListener.sharedKeyListener.canQuit && KeyListener.sharedKeyListener.tries <= 4 {
-        HUDAlert.sharedHUDAlert.showHUD()
+        print("showing HUD")
+        HUDAlert.sharedHUDAlert.showHUD(1)
     }
     
     KeyListener.sharedKeyListener.tries += 1
     if KeyListener.sharedKeyListener.tries > 4 && KeyListener.sharedKeyListener.canQuit {
+        print("quit successful")
         KeyListener.sharedKeyListener.tries = 0
         KeyListener.sharedKeyListener.canQuit = false
-        HUDAlert.sharedHUDAlert.dismissHUD()
+        HUDAlert.sharedHUDAlert.dismissHUD(false)
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
@@ -60,11 +66,7 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
     }
     
     if KeyListener.sharedKeyListener.tries <= 4 {
-        delay(1) {
-            HUDAlert.sharedHUDAlert.dismissHUD()
-        }
         KeyListener.sharedKeyListener.logAccidentalQuit()
-        return nil
     } else {
         HUDAlert.sharedHUDAlert.dismissHUD()
     }
@@ -73,17 +75,6 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
     KeyListener.sharedKeyListener.canQuit = true
     
     return Unmanaged<CGEvent>.passUnretained(event)
-}
-
-func delay(delay:Double, closure:()->()) {
-    dispatch_after(
-        dispatch_time(
-            DISPATCH_TIME_NOW,
-            Int64(delay * Double(NSEC_PER_SEC))
-        ),
-        dispatch_get_main_queue(),
-        closure
-    )
 }
 
 
