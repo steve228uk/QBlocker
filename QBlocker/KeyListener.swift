@@ -147,6 +147,8 @@ class KeyListener {
     func logAccidentalQuit() {
         let quits = accidentalQuits + 1
         NSUserDefaults.standardUserDefaults().setInteger(quits, forKey: "accidentalQuits")
+        
+        
     }
     
     /**

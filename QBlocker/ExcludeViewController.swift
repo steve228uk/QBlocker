@@ -15,6 +15,18 @@ class ExcludeViewController: NSViewController {
     // MARK: - Actions
     
     @IBAction func addClicked(sender: AnyObject) {
+        let panel = NSOpenPanel()
+        panel.title = "Choose a .app"
+        panel.canChooseDirectories = false
+        panel.canChooseFiles = true
+        panel.canCreateDirectories = false
+        panel.allowsMultipleSelection = true
+        panel.allowedFileTypes = ["app"]
+        panel.beginSheetModalForWindow(view.window!) { response in
+            if (response == NSFileHandlingPanelOKButton) {
+                print("yay!")
+            }
+        }
     }
     
     @IBAction func removeClicked(sender: AnyObject) {

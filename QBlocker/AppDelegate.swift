@@ -56,6 +56,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    /**
+     Setup the devmate tracker, issues and updater
+     */
     func setupDevMate() {
         DevMateKit.sendTrackingReport(nil, delegate: nil)
         DevMateKit.setupIssuesController(nil, reportingUnhandledIssues: true)
