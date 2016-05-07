@@ -18,6 +18,8 @@
 		2883C1E61CDE36B10007AC47 /* FirstRunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2883C1E41CDE36B10007AC47 /* FirstRunViewController.swift */; };
 		28A5185B1CDE416800BE7ED1 /* ExcludeWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5185A1CDE416800BE7ED1 /* ExcludeWindowController.swift */; };
 		28A5185D1CDE49CD00BE7ED1 /* ExcludeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5185C1CDE49CD00BE7ED1 /* ExcludeViewController.swift */; };
+		28A5185F1CDE87A300BE7ED1 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5185E1CDE87A300BE7ED1 /* App.swift */; };
+		28A518611CDE8ADF00BE7ED1 /* KeyListener + Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A518601CDE8ADF00BE7ED1 /* KeyListener + Realm.swift */; };
 		28BEB6831CDBE79D00E693D3 /* AccessibilityWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BEB6811CDBE79D00E693D3 /* AccessibilityWindowController.swift */; };
 		28BEB6861CDBEB6500E693D3 /* OpenPreferences.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 28BEB6851CDBEB4F00E693D3 /* OpenPreferences.scpt */; };
 		28BEB6881CDBEB8200E693D3 /* AccessibilityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BEB6871CDBEB8200E693D3 /* AccessibilityViewController.swift */; };
@@ -42,6 +44,8 @@
 		2883C1E41CDE36B10007AC47 /* FirstRunViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstRunViewController.swift; sourceTree = "<group>"; };
 		28A5185A1CDE416800BE7ED1 /* ExcludeWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExcludeWindowController.swift; sourceTree = "<group>"; };
 		28A5185C1CDE49CD00BE7ED1 /* ExcludeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExcludeViewController.swift; sourceTree = "<group>"; };
+		28A5185E1CDE87A300BE7ED1 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		28A518601CDE8ADF00BE7ED1 /* KeyListener + Realm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KeyListener + Realm.swift"; sourceTree = "<group>"; };
 		28BEB6811CDBE79D00E693D3 /* AccessibilityWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityWindowController.swift; sourceTree = "<group>"; };
 		28BEB6851CDBEB4F00E693D3 /* OpenPreferences.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = OpenPreferences.scpt; sourceTree = "<group>"; };
 		28BEB6871CDBEB8200E693D3 /* AccessibilityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				2880C4521CD7B3A000545E1F /* KeyListener.swift */,
+				28A518601CDE8ADF00BE7ED1 /* KeyListener + Realm.swift */,
 				28437E4D1CD93DE4002E90EF /* KeyListenerError.swift */,
 				28DEC8031CD950450012B5E3 /* HUDAlert.swift */,
 				28DEC8051CD954EA0012B5E3 /* HUDView.swift */,
@@ -142,6 +147,7 @@
 			children = (
 				28A5185A1CDE416800BE7ED1 /* ExcludeWindowController.swift */,
 				28A5185C1CDE49CD00BE7ED1 /* ExcludeViewController.swift */,
+				28A5185E1CDE87A300BE7ED1 /* App.swift */,
 			);
 			name = "Exclude Apps";
 			sourceTree = "<group>";
@@ -296,11 +302,13 @@
 				28A5185B1CDE416800BE7ED1 /* ExcludeWindowController.swift in Sources */,
 				28BEB6831CDBE79D00E693D3 /* AccessibilityWindowController.swift in Sources */,
 				2880C4531CD7B3A000545E1F /* KeyListener.swift in Sources */,
+				28A5185F1CDE87A300BE7ED1 /* App.swift in Sources */,
 				280140151CDA9D5200BC2E78 /* AtLogin.swift in Sources */,
 				28DEC8041CD950450012B5E3 /* HUDAlert.swift in Sources */,
 				28A5185D1CDE49CD00BE7ED1 /* ExcludeViewController.swift in Sources */,
 				28437E4E1CD93DE4002E90EF /* KeyListenerError.swift in Sources */,
 				2832CA361CD688E9001D3373 /* AppDelegate.swift in Sources */,
+				28A518611CDE8ADF00BE7ED1 /* KeyListener + Realm.swift in Sources */,
 				2883C1E61CDE36B10007AC47 /* FirstRunViewController.swift in Sources */,
 				28BEB6881CDBEB8200E693D3 /* AccessibilityViewController.swift in Sources */,
 				2883C1E31CDE30BF0007AC47 /* Delay.swift in Sources */,

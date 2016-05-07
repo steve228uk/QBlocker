@@ -3,4 +3,5 @@ use_frameworks!
 
 target 'QBlocker' do
     pod 'DevMateKit'
+    pod 'RealmSwift'
 end

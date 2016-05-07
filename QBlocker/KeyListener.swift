@@ -6,7 +6,7 @@
 //  Copyright © 2016 Cocoon Development Ltd. All rights reserved.
 //
 
-import Foundation
+import RealmSwift
 
 private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, ptr: UnsafeMutablePointer<Void>) -> Unmanaged<CGEvent>? {
     
@@ -83,6 +83,9 @@ class KeyListener {
     /// Shared instance of the key listener
     static let sharedKeyListener = KeyListener()
     
+    /// Reference to our default Realm
+    var realm: Realm?
+    
     /// The CGEvent for key down
     var keyDown: CFMachPort?
     
@@ -106,6 +109,19 @@ class KeyListener {
     /// The number of accidental quits that have been saved by QBlocker
     var accidentalQuits: Int {
         return NSUserDefaults.standardUserDefaults().integerForKey("accidentalQuits")
+    }
+    
+    /// Array of apps to be ignored by QBlocker
+    var excludedApps: Results<App>? {
+        return realm?.objects(App)
+    }
+    
+    init() {
+        do {
+            realm = try Realm()
+        } catch {
+            print("Failed to load Realm")
+        }
     }
     
     /**

@@ -1,10 +1,18 @@
 PODS:
   - DevMateKit (1.7.1)
+  - Realm (0.101.0):
+    - Realm/Headers (= 0.101.0)
+  - Realm/Headers (0.101.0)
+  - RealmSwift (0.101.0):
+    - Realm (= 0.101.0)
 
 DEPENDENCIES:
   - DevMateKit
+  - RealmSwift
 
 SPEC CHECKSUMS:
   DevMateKit: 3ba77083f5faa40266e0d2d70776de2a82c71dd0
+  Realm: b21596d6d7e1c054f6fae967d27263d2593ca309
+  RealmSwift: 5247501bcd68b9db3a718cba808e1ce45ba67034
 
 COCOAPODS: 0.39.0

@@ -1,0 +1,19 @@
+//
+//  App.swift
+//  QBlocker
+//
+//  Created by Stephen Radford on 07/05/2016.
+//  Copyright © 2016 Cocoon Development Ltd. All rights reserved.
+//
+
+import RealmSwift
+
+class App: Object {
+    
+    /// The name of the app that will be displayed as a label
+    dynamic var name = ""
+    
+    /// The bundle ID of the app. e.g. uk.co.wearecocoon.QBlocker
+    dynamic var bundleID = ""
+    
+}

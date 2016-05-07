@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import RealmSwift
 
 class ExcludeViewController: NSViewController {
 
