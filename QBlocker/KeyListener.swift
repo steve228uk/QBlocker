@@ -24,8 +24,8 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
     }
     
     // get the current active app
-    guard let app = NSWorkspace.sharedWorkspace().frontmostApplication else {
-        print("could not get frontmostApplication owning app")
+    guard let app = NSWorkspace.sharedWorkspace().menuBarOwningApplication else {
+        print("could not get menubar owning app")
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
