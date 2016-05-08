@@ -13,7 +13,8 @@ class ExcludeWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
     
-        window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.PopUpMenuWindowLevelKey))
+        window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.MaximumWindowLevelKey))
+        window?.makeKeyAndOrderFront(self)
     }
 
 }

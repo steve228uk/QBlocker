@@ -270,7 +270,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="SWt-Cl-IuJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="438" height="136"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="438" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -510,6 +510,6 @@
         <image name="settings" width="516" height="516"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="xhC-FZ-oih"/>
+        <segue reference="dWU-FS-4Bh"/>
     </inferredMetricsTieBreakers>
 </document>
