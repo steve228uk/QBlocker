@@ -1,2 +1,20 @@
 # QBlocker
-Stop accidentally quitting apps
+
+QBlocker stops you from accidentally quitting an app when you actually meant to close the window. It works by blocking the default CMD + Q keyboard shortcut and forcing you to hold it down to quit.
+
+## Download
+
+Grab the [latest version here](https://dl.devmate.com/uk.co.wearecocoon.QBlocker/QBlocker.dmg) or download a version from the Github releases page.
+
+## Contributing
+
+Any contribution is welcome whether it's reporting bugs, helping with design, fixing typos or getting stuck in with development.
+
+## I love QBlocker, can I donate?
+
+Sorry, no! Instead please consider donating to one of the following charities:
+
+- **[Stonewall](http://www.stonewall.org.uk/support-stonewall)**
+- **[Shelter](http://www.shelter.org.uk)**
+- **[Epilepsy Action](https://www.epilepsy.org.uk/involved/donations)**
+- **[UNICEF](http://www.unicef.org.uk)**
