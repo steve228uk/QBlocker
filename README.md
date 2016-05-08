@@ -1,3 +1,5 @@
+![QBlocker Icon](https://raw.githubusercontent.com/steve228uk/QBlocker/master/Assets/qblocker-icons/github.png)
+
 # QBlocker
 
 QBlocker stops you from accidentally quitting an app when you actually meant to close the window. It works by blocking the default CMD + Q keyboard shortcut and forcing you to hold it down to quit.
