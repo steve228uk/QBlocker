@@ -23,6 +23,11 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
+    guard KeyListener.sharedKeyListener.canQuit else {
+        print("not allowed to quit yet")
+        return nil
+    }
+    
     // get the current active app
     guard let app = NSWorkspace.sharedWorkspace().menuBarOwningApplication else {
         print("could not get menubar owning app")
@@ -49,7 +54,7 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
     }
     
     KeyListener.sharedKeyListener.tries += 1
-    if KeyListener.sharedKeyListener.tries > 4 && KeyListener.sharedKeyListener.canQuit {
+    if KeyListener.sharedKeyListener.tries > 4 {
         print("quit successful")
         KeyListener.sharedKeyListener.tries = 0
         KeyListener.sharedKeyListener.canQuit = false
