@@ -12,7 +12,7 @@ Any contribution is welcome whether it's reporting bugs, helping with design, fi
 
 ## I love QBlocker, can I donate?
 
-Sorry, no! Instead please consider donating to one of the following charities:
+I'm not currently accepting donations, instead please consider donating to one of the following charities:
 
 - **[Stonewall](http://www.stonewall.org.uk/support-stonewall)**
 - **[Shelter](http://www.shelter.org.uk)**
