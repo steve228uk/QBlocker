@@ -74,7 +74,7 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
     }
     
     // If the q key wasn't clicked we can ignore the event too
-    guard CGEventGetIntegerValueField(event, .KeyboardEventKeycode) == 12 else {
+    guard KeyListener.keyValueForEvent(event)?.lowercaseString == "q" else {
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
