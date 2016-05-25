@@ -14,6 +14,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var accessibilityWindowController: NSWindowController?
     var firstRunWindowController: NSWindowController?
     
+    override init() {
+        super.init()
+        NSUserDefaults.standardUserDefaults().registerDefaults(["accidentalQuits": 0, "firstRunComplete": false, "listMode": 0])
+    }
+    
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         
         setupDevMate()

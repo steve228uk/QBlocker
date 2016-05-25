@@ -43,7 +43,7 @@ class StatusMenuController: NSObject, NSMenuDelegate {
     
     func menuWillOpen(menu: NSMenu) {
         statusMenu.itemAtIndex(0)?.title = String(format: "%d Quits Blocked", arguments: [KeyListener.sharedKeyListener.accidentalQuits])
-        
+        statusMenu.itemAtIndex(2)?.title = String(format: "Edit %@", ListMode.selectedMode.localizedDescription)
         statusMenu.itemAtIndex(4)?.state = (AtLogin.enabled) ? 1 : 0
     }
     
