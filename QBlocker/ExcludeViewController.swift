@@ -12,11 +12,6 @@ import RealmSwift
 class ExcludeViewController: NSViewController {
 
     @IBOutlet weak var tableView: NSTableView!
-    @IBOutlet weak var modeDescriptionLabel: NSTextField! {
-        didSet {
-            self.updateModeDescriptionLabel()
-        }
-    }
     
     // MARK: - Actions
     
@@ -64,20 +59,6 @@ class ExcludeViewController: NSViewController {
         }
         
         tableView.reloadData()
-    }
-    
-    @IBAction func modeChanged(sender: NSSegmentedControl) {
-        self.updateModeDescriptionLabel()
-    }
-    
-    // MARK: - Helpers
-    
-    private func updateModeDescriptionLabel() {
-        if ListMode.selectedMode == .Whitelist {
-            self.modeDescriptionLabel.stringValue = "QBlocker will ignore these apps when using ⌘Q:"
-        } else {
-            self.modeDescriptionLabel.stringValue = "QBlocker will only block these apps when using ⌘Q:"
-        }
     }
     
 }

@@ -12,6 +12,20 @@ Grab the [latest version here](https://dl.devmate.com/uk.co.wearecocoon.QBlocker
 
 Any contribution is welcome whether it's reporting bugs, helping with design, fixing typos or getting stuck in with development.
 
+## Screenshots
+
+### Menu Bar Icon + Menu
+
+![http://imgur.com/DqbWTXN](http://i.imgur.com/DqbWTXN.png)
+
+### Quit Message Demonstration
+
+![http://imgur.com/GDRx911](http://i.imgur.com/GDRx911.png)
+
+### Exclude Apps Screen 
+
+![http://i.imgur.com/T1ncGvV](http://i.imgur.com/T1ncGvV.png)
+
 ## I love QBlocker, can I donate?
 
 I'm not currently accepting donations, instead please consider donating to one of the following charities:

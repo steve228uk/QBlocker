@@ -7,8 +7,8 @@
 //
 
 enum ListMode: Int {
-    case Whitelist = 0
-    case Blacklist = 1
+    case Blacklist = 0
+    case Whitelist = 1
     
     static var selectedMode: ListMode {
         return ListMode(rawValue: NSUserDefaults.standardUserDefaults().integerForKey("listMode")) ?? .Whitelist
@@ -16,14 +16,5 @@ enum ListMode: Int {
     
     func select() {
         NSUserDefaults.standardUserDefaults().setInteger(self.rawValue, forKey: "listMode")
-    }
-    
-    var localizedDescription: String {
-        switch self {
-        case .Whitelist:
-            return "Whitelist"
-        case .Blacklist:
-            return "Blacklist"
-        }
     }
 }

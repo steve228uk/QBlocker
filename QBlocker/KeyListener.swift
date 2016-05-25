@@ -34,10 +34,11 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
-    // Check if the current app is in the blacklist
+    // Check if the current app is in the list
     if let bundleId = app.bundleIdentifier {
         let isIdentifierListed = KeyListener.sharedKeyListener.listedBundleIdentifiers.contains(bundleId)
-        if (ListMode.selectedMode == .Blacklist && !isIdentifierListed) || (ListMode.selectedMode == .Whitelist && isIdentifierListed) {
+        print(ListMode.selectedMode)
+        if (ListMode.selectedMode == .Blacklist && isIdentifierListed) || (ListMode.selectedMode == .Whitelist && !isIdentifierListed) {
             print("App is excluded")
             return Unmanaged<CGEvent>.passUnretained(event)
         }
