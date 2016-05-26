@@ -17,6 +17,12 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
+    // If the shift key was held down we should ignore the event as it breaks the systemwide logout shortcut
+    guard (flags.rawValue & CGEventFlags.MaskShift.rawValue) == 0 else {
+        print("shift clicked")
+        return Unmanaged<CGEvent>.passUnretained(event)
+    }
+    
     // If the q key wasn't clicked we can ignore the event too
     guard KeyListener.keyValueForEvent(event)?.lowercaseString == "q" else {
         print("q not clicked")
@@ -72,6 +78,12 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
     // If the command key wasn't used we can pass the event on
     let flags = CGEventGetFlags(event)
     guard (flags.rawValue & CGEventFlags.MaskCommand.rawValue) != 0 else {
+        return Unmanaged<CGEvent>.passUnretained(event)
+    }
+    
+    // If the shift key was held down we should ignore the event as it breaks the systemwide logout shortcut
+    guard (flags.rawValue & CGEventFlags.MaskShift.rawValue) == 0 else {
+        print("shift clicked")
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
