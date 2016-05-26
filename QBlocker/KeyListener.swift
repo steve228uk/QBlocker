@@ -34,9 +34,11 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
-    // Check if the current app is in the blacklist
+    // Check if the current app is in the list
     if let bundleId = app.bundleIdentifier {
-        guard !KeyListener.sharedKeyListener.excludedAppBundles.contains(bundleId) else {
+        let isIdentifierListed = KeyListener.sharedKeyListener.listedBundleIdentifiers.contains(bundleId)
+        print(ListMode.selectedMode)
+        if (ListMode.selectedMode == .Blacklist && isIdentifierListed) || (ListMode.selectedMode == .Whitelist && !isIdentifierListed) {
             print("App is excluded")
             return Unmanaged<CGEvent>.passUnretained(event)
         }
@@ -124,18 +126,18 @@ class KeyListener {
         return NSUserDefaults.standardUserDefaults().integerForKey("accidentalQuits")
     }
     
-    /// Array of apps to be ignored by QBlocker
-    var excludedApps: Results<App>? {
+    /// Array of apps to be ignored/allowed (depending on the setting) by QBlocker
+    var list: Results<App>? {
         return realm?.objects(App).sorted("name")
     }
     
-    /// The bundle identifiers of excluded apps
-    var excludedAppBundles: [String] {
-        guard let apps = excludedApps else {
+    /// The bundle identifiers of all apps from list
+    var listedBundleIdentifiers: Set<String> {
+        guard let apps = list else {
             return []
         }
         
-        return apps.map { $0.bundleID }
+        return Set(apps.map { $0.bundleID })
     }
     
     init() {

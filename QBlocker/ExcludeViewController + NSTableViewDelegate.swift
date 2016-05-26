@@ -13,7 +13,7 @@ extension ExcludeViewController: NSTableViewDelegate {
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
         guard let cell = tableView.makeViewWithIdentifier("app name cell", owner: nil) as? NSTableCellView,
-            let app = KeyListener.sharedKeyListener.excludedApps?[row] else {
+            let app = KeyListener.sharedKeyListener.list?[row] else {
                 return nil
         }
         

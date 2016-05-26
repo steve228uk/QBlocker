@@ -11,7 +11,7 @@ import Cocoa
 extension ExcludeViewController: NSTableViewDataSource {
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return KeyListener.sharedKeyListener.excludedApps?.count ?? 0
+        return KeyListener.sharedKeyListener.list?.count ?? 0
     }
     
 }
