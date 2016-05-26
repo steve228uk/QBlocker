@@ -22,7 +22,7 @@ Any contribution is welcome whether it's reporting bugs, helping with design, fi
 
 ![http://imgur.com/GDRx911](http://i.imgur.com/GDRx911.png)
 
-### Exclude Apps Screen 
+### Preferences
 
 ![http://i.imgur.com/T1ncGvV](http://i.imgur.com/T1ncGvV.png)
 
