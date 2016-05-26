@@ -6,7 +6,7 @@ QBlocker stops you from accidentally quitting an app when you actually meant to 
 
 ## Download
 
-Grab the [latest version here](https://dl.devmate.com/uk.co.wearecocoon.QBlocker/QBlocker.dmg) or download a version from the Github releases page.
+Grab the [latest stable version here](https://dl.devmate.com/uk.co.wearecocoon.QBlocker/QBlocker.dmg) or download a version from the Github releases page.
 
 ## Contributing
 
@@ -16,15 +16,15 @@ Any contribution is welcome whether it's reporting bugs, helping with design, fi
 
 ### Menu Bar Icon + Menu
 
-![http://imgur.com/DqbWTXN](http://i.imgur.com/DqbWTXN.png)
+![QBlocker Menu](http://i.imgur.com/DqbWTXN.png)
 
 ### Quit Message Demonstration
 
-![http://imgur.com/GDRx911](http://i.imgur.com/GDRx911.png)
+![Quitting](http://i.imgur.com/GDRx911.png)
 
 ### Preferences
 
-![http://i.imgur.com/T1ncGvV](http://i.imgur.com/T1ncGvV.png)
+![Preferences](https://raw.githubusercontent.com/steve228uk/QBlocker/master/Assets/screenshots/preferences.png)
 
 ## I love QBlocker, can I donate?
 
