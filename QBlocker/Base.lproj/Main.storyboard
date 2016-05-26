@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
@@ -274,7 +274,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="SWt-Cl-IuJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="438" height="172"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="438" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -364,7 +364,7 @@
                             </button>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="200-4c-TLg">
                                 <rect key="frame" x="116" y="254" width="346" height="17"/>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="QBlocker on the following apps:" id="tTH-fJ-Voj">
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="QBlocker with the following apps:" id="tTH-fJ-Voj">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -372,13 +372,13 @@
                             </textField>
                             <popUpButton horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ija-R0-jFa">
                                 <rect key="frame" x="18" y="249" width="95" height="26"/>
-                                <popUpButtonCell key="cell" type="push" title="Don't use" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="29s-ie-PBn" id="tax-Yo-Qah">
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="tax-Yo-Qah">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="3yo-cB-cHo">
                                         <items>
-                                            <menuItem title="Don't use" state="on" id="29s-ie-PBn"/>
-                                            <menuItem title="Use" id="HAv-aU-ig3"/>
+                                            <menuItem title="Don't use" id="29s-ie-PBn"/>
+                                            <menuItem title="Only use" id="HAv-aU-ig3"/>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
