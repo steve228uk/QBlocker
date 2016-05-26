@@ -11,8 +11,24 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    var accessibilityWindowController: NSWindowController?
-    var firstRunWindowController: NSWindowController?
+    private var accessibilityWindowController: NSWindowController?
+    private var firstRunWindowController: NSWindowController?
+    private lazy var preferencesWindowController: NSWindowController = {
+        return NSStoryboard(name: "Main", bundle: nil).instantiateControllerWithIdentifier("preferences window") as! NSWindowController
+    }()
+    
+    class var sharedDelegate: AppDelegate? {
+        return NSApplication.sharedApplication().delegate as? AppDelegate
+    }
+    
+    // MARK: - Instantiation
+    
+    override init() {
+        super.init()
+        NSUserDefaults.standardUserDefaults().registerDefaults(["accidentalQuits": 0, "firstRunComplete": false, "listMode": 0])
+    }
+    
+    // MARK: - NSApplicationDelegate
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         
@@ -39,6 +55,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
     }
     
+    // MARK: - Actions
+    
     /**
      Show the first run screen if the NSUserDefault stating it has already be run isn't set
      */
@@ -54,6 +72,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "firstRunComplete")
         }
+    }
+    
+    /**
+     Bring the app into foreground and show the preferences window
+     */
+    func showPreferencesWindow() {
+        NSApplication.sharedApplication().activateIgnoringOtherApps(true)
+        self.preferencesWindowController.showWindow(nil)
     }
 
     /**

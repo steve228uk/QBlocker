@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13FA35AC1CF623C400A29767 /* ListMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FA35AB1CF623C400A29767 /* ListMode.swift */; };
 		280140151CDA9D5200BC2E78 /* AtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280140141CDA9D5200BC2E78 /* AtLogin.swift */; };
 		2832CA361CD688E9001D3373 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2832CA351CD688E9001D3373 /* AppDelegate.swift */; };
 		2832CA3A1CD688E9001D3373 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2832CA391CD688E9001D3373 /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		13FA35AB1CF623C400A29767 /* ListMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListMode.swift; sourceTree = "<group>"; };
 		18D302062F0781EB95263F14 /* Pods-QBlocker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QBlocker.release.xcconfig"; path = "Pods/Target Support Files/Pods-QBlocker/Pods-QBlocker.release.xcconfig"; sourceTree = "<group>"; };
 		280140141CDA9D5200BC2E78 /* AtLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtLogin.swift; sourceTree = "<group>"; };
 		2832CA321CD688E9001D3373 /* QBlocker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QBlocker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +156,7 @@
 				28A518661CDE997400BE7ED1 /* ExcludeViewController + NSTableViewDelegate.swift */,
 				28A5185A1CDE416800BE7ED1 /* ExcludeWindowController.swift */,
 				28A5185E1CDE87A300BE7ED1 /* App.swift */,
+				13FA35AB1CF623C400A29767 /* ListMode.swift */,
 			);
 			name = "Exclude Apps";
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13FA35AC1CF623C400A29767 /* ListMode.swift in Sources */,
 				28DEC8061CD954EA0012B5E3 /* HUDView.swift in Sources */,
 				28A518631CDE91C200BE7ED1 /* ExcludeViewController + NSTableViewDataSource.swift in Sources */,
 				2853B63B1CD92D9700F186CE /* StatusMenuController.swift in Sources */,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -44,6 +44,11 @@
                                                 <action selector="performMiniaturize:" target="Ady-hI-5gd" id="VwT-WD-YPe"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Close" keyEquivalent="w" id="C14-wL-mfK">
+                                            <connections>
+                                                <action selector="orderOut:" target="Ady-hI-5gd" id="or3-oz-1nw"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Zoom" id="R4o-n2-Eq4">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -83,10 +88,9 @@
                             <modifierMask key="keyEquivalentModifierMask"/>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="Rxk-WH-Wkd"/>
-                        <menuItem title="Exclude Apps" id="zj1-g2-cGs">
-                            <modifierMask key="keyEquivalentModifierMask"/>
+                        <menuItem title="Preferences…" keyEquivalent="," id="zj1-g2-cGs">
                             <connections>
-                                <segue destination="jz5-Br-QOJ" kind="show" id="xhC-FZ-oih"/>
+                                <action selector="showPreferences:" target="urJ-qt-1M5" id="eHd-rz-tBh"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Check For Updates" id="77f-nv-QKY">
@@ -241,7 +245,7 @@
         <!--Window Controller-->
         <scene sceneID="6aa-xv-SIJ">
             <objects>
-                <windowController showSeguePresentationStyle="single" id="gfC-8x-n2e" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="preferences window" showSeguePresentationStyle="single" id="gfC-8x-n2e" sceneMemberID="viewController">
                     <window key="window" identifier="exclude apps window" title="Exclude Apps" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="HV7-1Y-AXw">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
@@ -260,17 +264,17 @@
             <objects>
                 <viewController title="Exclude Apps" showSeguePresentationStyle="single" id="jz5-Br-QOJ" customClass="ExcludeViewController" customModule="QBlocker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="awZ-l5-lQX">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="258"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="298"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zh1-4Z-4tW">
-                                <rect key="frame" x="20" y="59" width="440" height="138"/>
+                                <rect key="frame" x="20" y="59" width="440" height="174"/>
                                 <clipView key="contentView" id="28T-TC-E8L">
-                                    <rect key="frame" x="1" y="1" width="438" height="136"/>
+                                    <rect key="frame" x="1" y="1" width="438" height="172"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="SWt-Cl-IuJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="438" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="438" height="172"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -359,27 +363,45 @@
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="200-4c-TLg">
-                                <rect key="frame" x="18" y="216" width="444" height="17"/>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="QBlocker will ignore these apps when using ⌘Q:" id="tTH-fJ-Voj">
+                                <rect key="frame" x="116" y="254" width="346" height="17"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="QBlocker on the following apps:" id="tTH-fJ-Voj">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <popUpButton horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ija-R0-jFa">
+                                <rect key="frame" x="18" y="249" width="95" height="26"/>
+                                <popUpButtonCell key="cell" type="push" title="Don't use" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="29s-ie-PBn" id="tax-Yo-Qah">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="3yo-cB-cHo">
+                                        <items>
+                                            <menuItem title="Don't use" state="on" id="29s-ie-PBn"/>
+                                            <menuItem title="Use" id="HAv-aU-ig3"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <binding destination="FMf-NB-J6F" name="selectedIndex" keyPath="values.listMode" id="Yf4-KB-Y8R"/>
+                                </connections>
+                            </popUpButton>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="zh1-4Z-4tW" secondAttribute="trailing" constant="20" id="5nG-3o-8sd"/>
+                            <constraint firstItem="Ija-R0-jFa" firstAttribute="top" secondItem="awZ-l5-lQX" secondAttribute="top" constant="25" id="EIy-mm-Zeh"/>
                             <constraint firstAttribute="bottom" secondItem="aRi-02-kha" secondAttribute="bottom" constant="20" id="Faf-ZU-ZLx"/>
-                            <constraint firstItem="zh1-4Z-4tW" firstAttribute="top" secondItem="200-4c-TLg" secondAttribute="bottom" constant="19" id="G7G-9n-T4K"/>
                             <constraint firstAttribute="trailing" secondItem="200-4c-TLg" secondAttribute="trailing" constant="20" id="Geg-OC-6ac"/>
-                            <constraint firstItem="200-4c-TLg" firstAttribute="top" secondItem="awZ-l5-lQX" secondAttribute="top" constant="25" id="HxV-Pz-ZJF"/>
+                            <constraint firstItem="zh1-4Z-4tW" firstAttribute="top" secondItem="Ija-R0-jFa" secondAttribute="bottom" constant="19" id="Gpo-Yb-iiP"/>
+                            <constraint firstItem="Ija-R0-jFa" firstAttribute="leading" secondItem="awZ-l5-lQX" secondAttribute="leading" constant="20" id="S5M-ia-niO"/>
                             <constraint firstItem="915-3U-2Q2" firstAttribute="leading" secondItem="awZ-l5-lQX" secondAttribute="leading" constant="20" id="T4l-cg-scf"/>
                             <constraint firstItem="aRi-02-kha" firstAttribute="top" secondItem="zh1-4Z-4tW" secondAttribute="bottom" constant="16" id="YIe-2p-gXb"/>
                             <constraint firstItem="aRi-02-kha" firstAttribute="leading" secondItem="awZ-l5-lQX" secondAttribute="leading" constant="44" id="hXm-wy-iSY"/>
                             <constraint firstItem="915-3U-2Q2" firstAttribute="top" secondItem="zh1-4Z-4tW" secondAttribute="bottom" constant="16" id="ilj-L3-Tsh"/>
+                            <constraint firstItem="200-4c-TLg" firstAttribute="leading" secondItem="Ija-R0-jFa" secondAttribute="trailing" constant="8" id="iu9-FB-qOq"/>
                             <constraint firstAttribute="bottom" secondItem="915-3U-2Q2" secondAttribute="bottom" constant="20" id="snG-o3-20c"/>
+                            <constraint firstItem="200-4c-TLg" firstAttribute="centerY" secondItem="Ija-R0-jFa" secondAttribute="centerY" id="vbF-2b-twB"/>
                             <constraint firstItem="zh1-4Z-4tW" firstAttribute="leading" secondItem="awZ-l5-lQX" secondAttribute="leading" constant="20" id="zMN-jJ-NOu"/>
-                            <constraint firstItem="200-4c-TLg" firstAttribute="leading" secondItem="awZ-l5-lQX" secondAttribute="leading" constant="20" id="zMZ-Wg-VzA"/>
                         </constraints>
                     </view>
                     <connections>
@@ -387,8 +409,9 @@
                     </connections>
                 </viewController>
                 <customObject id="ugb-oY-o80" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="FMf-NB-J6F"/>
             </objects>
-            <point key="canvasLocation" x="1501" y="137"/>
+            <point key="canvasLocation" x="1501" y="147"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="elp-cf-pyV">
@@ -494,9 +517,6 @@
                             <constraint firstItem="NZ2-Gz-crp" firstAttribute="top" secondItem="ESu-Xb-exo" secondAttribute="bottom" constant="31" id="yZb-u4-M60"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <segue destination="jz5-Br-QOJ" kind="show" identifier="show exclude apps" id="iNS-YF-V7y"/>
-                    </connections>
                 </viewController>
                 <customObject id="edL-yY-2fy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -509,7 +529,4 @@
         <image name="Tick" width="516" height="516"/>
         <image name="settings" width="516" height="516"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="dWU-FS-4Bh"/>
-    </inferredMetricsTieBreakers>
 </document>

@@ -44,7 +44,7 @@ class ExcludeViewController: NSViewController {
     
     @IBAction func removeClicked(sender: AnyObject) {
         guard tableView.selectedRowIndexes.count > 0,
-            let apps = KeyListener.sharedKeyListener.excludedApps else {
+            let apps = KeyListener.sharedKeyListener.list else {
                 print("Nothing selected")
                 return
             }
