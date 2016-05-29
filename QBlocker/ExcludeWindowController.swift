@@ -13,8 +13,9 @@ class ExcludeWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
     
-        window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.MaximumWindowLevelKey))
-        window?.makeKeyAndOrderFront(self)
+        window?.titlebarAppearsTransparent = true
+        window?.titleVisibility = .Hidden
+        window?.movableByWindowBackground = true
     }
 
 }

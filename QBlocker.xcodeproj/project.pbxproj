@@ -28,6 +28,7 @@
 		28BEB6881CDBEB8200E693D3 /* AccessibilityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BEB6871CDBEB8200E693D3 /* AccessibilityViewController.swift */; };
 		28DEC8041CD950450012B5E3 /* HUDAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DEC8031CD950450012B5E3 /* HUDAlert.swift */; };
 		28DEC8061CD954EA0012B5E3 /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DEC8051CD954EA0012B5E3 /* HUDView.swift */; };
+		28F40A711CFB61EB006719C8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F40A701CFB61EB006719C8 /* TabBarController.swift */; };
 		89B8C5D3D02D89463E1239E8 /* Pods_QBlocker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1CE05FBCE54008C441D3CA3 /* Pods_QBlocker.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		28BEB6871CDBEB8200E693D3 /* AccessibilityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityViewController.swift; sourceTree = "<group>"; };
 		28DEC8031CD950450012B5E3 /* HUDAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDAlert.swift; sourceTree = "<group>"; };
 		28DEC8051CD954EA0012B5E3 /* HUDView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
+		28F40A701CFB61EB006719C8 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		C1CE05FBCE54008C441D3CA3 /* Pods_QBlocker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QBlocker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAE265B701E85E6B909B8E2C /* Pods-QBlocker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QBlocker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QBlocker/Pods-QBlocker.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,7 +115,7 @@
 		2832CA341CD688E9001D3373 /* QBlocker */ = {
 			isa = PBXGroup;
 			children = (
-				28A518591CDE415100BE7ED1 /* Exclude Apps */,
+				28A518591CDE415100BE7ED1 /* Preferences */,
 				280140161CDA9D9000BC2E78 /* Utility */,
 				280140131CDA9B4600BC2E78 /* First Launch */,
 				28437E4C1CD93DB0002E90EF /* Key Listener */,
@@ -148,7 +150,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		28A518591CDE415100BE7ED1 /* Exclude Apps */ = {
+		28A518591CDE415100BE7ED1 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
 				28A5185C1CDE49CD00BE7ED1 /* ExcludeViewController.swift */,
@@ -157,8 +159,9 @@
 				28A5185A1CDE416800BE7ED1 /* ExcludeWindowController.swift */,
 				28A5185E1CDE87A300BE7ED1 /* App.swift */,
 				13FA35AB1CF623C400A29767 /* ListMode.swift */,
+				28F40A701CFB61EB006719C8 /* TabBarController.swift */,
 			);
-			name = "Exclude Apps";
+			name = Preferences;
 			sourceTree = "<group>";
 		};
 		38D42208756B276FCDCB321A /* Pods */ = {
@@ -316,6 +319,7 @@
 				28A5185F1CDE87A300BE7ED1 /* App.swift in Sources */,
 				280140151CDA9D5200BC2E78 /* AtLogin.swift in Sources */,
 				28A518671CDE997400BE7ED1 /* ExcludeViewController + NSTableViewDelegate.swift in Sources */,
+				28F40A711CFB61EB006719C8 /* TabBarController.swift in Sources */,
 				28DEC8041CD950450012B5E3 /* HUDAlert.swift in Sources */,
 				28A5185D1CDE49CD00BE7ED1 /* ExcludeViewController.swift in Sources */,
 				28437E4E1CD93DE4002E90EF /* KeyListenerError.swift in Sources */,
