@@ -25,7 +25,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     override init() {
         super.init()
-        NSUserDefaults.standardUserDefaults().registerDefaults(["accidentalQuits": 0, "firstRunComplete": false, "listMode": 0])
+        NSUserDefaults.standardUserDefaults().registerDefaults([
+            "accidentalQuits": 0,
+            "firstRunComplete": false,
+            "listMode": 0,
+            "delay": 4
+        ])
     }
     
     // MARK: - NSApplicationDelegate

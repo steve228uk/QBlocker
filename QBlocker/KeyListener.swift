@@ -56,13 +56,13 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return nil
     }
     
-    if KeyListener.sharedKeyListener.canQuit && KeyListener.sharedKeyListener.tries <= 4 {
+    if KeyListener.sharedKeyListener.canQuit && KeyListener.sharedKeyListener.tries <= KeyListener.delay {
         print("showing HUD")
         HUDAlert.sharedHUDAlert.showHUD(1)
     }
     
     KeyListener.sharedKeyListener.tries += 1
-    if KeyListener.sharedKeyListener.tries > 4 {
+    if KeyListener.sharedKeyListener.tries > KeyListener.delay {
         print("quit successful")
         KeyListener.sharedKeyListener.tries = 0
         KeyListener.sharedKeyListener.canQuit = false
@@ -92,7 +92,7 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
-    if KeyListener.sharedKeyListener.tries <= 4 {
+    if KeyListener.sharedKeyListener.tries <= KeyListener.delay {
         KeyListener.sharedKeyListener.logAccidentalQuit()
     } else {
         HUDAlert.sharedHUDAlert.dismissHUD()
@@ -109,6 +109,11 @@ class KeyListener {
     
     /// Shared instance of the key listener
     static let sharedKeyListener = KeyListener()
+    
+    /// How long the Q key needs to be held before you can quit
+    static var delay: Int {
+        return NSUserDefaults.standardUserDefaults().integerForKey("delay") ?? 4
+    }
     
     /// Reference to our default Realm
     var realm: Realm?

@@ -291,9 +291,38 @@
                     <view key="view" id="xMI-CY-yIf">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="309"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QUn-P3-fqO">
+                                <rect key="frame" x="18" y="220" width="108" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="3Hs-g8-I7T"/>
+                                    <constraint firstAttribute="width" constant="104" id="EPz-Gc-26S"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Delay before quit" id="coN-nr-oH9">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hdQ-jM-EKg">
+                                <rect key="frame" x="18" y="182" width="444" height="27"/>
+                                <sliderCell key="cell" state="on" alignment="left" minValue="1" maxValue="8" doubleValue="4" tickMarkPosition="below" numberOfTickMarks="8" allowsTickMarkValuesOnly="YES" sliderType="linear" id="6kE-Q7-pMa"/>
+                                <connections>
+                                    <binding destination="gd4-zX-drz" name="value" keyPath="values.delay" id="D1C-IY-hbe"/>
+                                </connections>
+                            </slider>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="hdQ-jM-EKg" secondAttribute="trailing" constant="20" id="1Fn-BX-okP"/>
+                            <constraint firstItem="QUn-P3-fqO" firstAttribute="top" secondItem="xMI-CY-yIf" secondAttribute="top" constant="72" id="77n-8H-deG"/>
+                            <constraint firstItem="hdQ-jM-EKg" firstAttribute="leading" secondItem="xMI-CY-yIf" secondAttribute="leading" constant="20" id="ElH-c9-iPX"/>
+                            <constraint firstItem="hdQ-jM-EKg" firstAttribute="top" secondItem="QUn-P3-fqO" secondAttribute="bottom" constant="13" id="r0c-96-65j"/>
+                            <constraint firstItem="QUn-P3-fqO" firstAttribute="leading" secondItem="xMI-CY-yIf" secondAttribute="leading" constant="20" id="ule-em-hfC"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <customObject id="D6Z-Pn-Ut1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="gd4-zX-drz"/>
             </objects>
             <point key="canvasLocation" x="2595" y="-147.5"/>
         </scene>
@@ -312,7 +341,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="SWt-Cl-IuJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="438" height="139"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="438" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -420,9 +449,6 @@
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
-                                <connections>
-                                    <binding destination="FMf-NB-J6F" name="selectedIndex" keyPath="values.listMode" id="Yf4-KB-Y8R"/>
-                                </connections>
                             </popUpButton>
                         </subviews>
                         <constraints>
