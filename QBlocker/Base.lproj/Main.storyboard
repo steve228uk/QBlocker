@@ -535,13 +535,27 @@
                                 </constraints>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="oJB-WH-LMv">
                                     <font key="font" metaFont="system"/>
-                                    <string key="title">You're all set. QBlocker will stop accidental quits by forcing you to hold ⌘Q instead. If you want to, you can exclude some apps or let QBlocker work its magic on everything.</string>
+                                    <string key="title">You're all set. QBlocker will stop accidental quits by forcing you to hold ⌘Q instead. If you want to, you can set some rules or let QBlocker work its magic on everything.</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NZ2-Gz-crp">
+                                <rect key="frame" x="263" y="88" width="101" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Dzm-eB-QIZ"/>
+                                    <constraint firstAttribute="width" constant="89" id="TqF-Jm-h0l"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Edit Rules" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LlK-Jc-n8z">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="showExcludeApps:" target="exK-R1-cXC" id="eIY-zc-q10"/>
+                                </connections>
+                            </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IkA-0P-ZYN">
-                                <rect key="frame" x="385" y="88" width="142" height="32"/>
+                                <rect key="frame" x="372" y="88" width="142" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="KAB-4I-Vvt"/>
                                     <constraint firstAttribute="width" constant="130" id="k7c-PA-FVJ"/>
@@ -554,20 +568,6 @@
                                     <action selector="dismissWindow:" target="exK-R1-cXC" id="Qg1-jt-Xdv"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NZ2-Gz-crp">
-                                <rect key="frame" x="263" y="88" width="122" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="Dzm-eB-QIZ"/>
-                                    <constraint firstAttribute="width" constant="110" id="TqF-Jm-h0l"/>
-                                </constraints>
-                                <buttonCell key="cell" type="push" title="Exclude Apps" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LlK-Jc-n8z">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="showExcludeApps:" target="exK-R1-cXC" id="eIY-zc-q10"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="ESu-Xb-exo" firstAttribute="leading" secondItem="wEI-xV-8bV" secondAttribute="trailing" constant="42" id="Hhn-mg-2ah"/>
@@ -575,7 +575,7 @@
                             <constraint firstItem="wEI-xV-8bV" firstAttribute="top" secondItem="YYm-7L-IEO" secondAttribute="top" constant="74" id="QAd-bO-ngb"/>
                             <constraint firstItem="uJG-2K-H3v" firstAttribute="leading" secondItem="wEI-xV-8bV" secondAttribute="trailing" constant="42" id="Qz0-MP-Loe"/>
                             <constraint firstItem="NZ2-Gz-crp" firstAttribute="leading" secondItem="wEI-xV-8bV" secondAttribute="trailing" constant="42" id="SVm-4h-wq1"/>
-                            <constraint firstItem="IkA-0P-ZYN" firstAttribute="leading" secondItem="NZ2-Gz-crp" secondAttribute="trailing" constant="12" id="Za4-5i-jbb"/>
+                            <constraint firstItem="IkA-0P-ZYN" firstAttribute="leading" secondItem="NZ2-Gz-crp" secondAttribute="trailing" constant="20" id="Za4-5i-jbb"/>
                             <constraint firstItem="ESu-Xb-exo" firstAttribute="top" secondItem="uJG-2K-H3v" secondAttribute="bottom" constant="19" id="aJP-Hj-HdF"/>
                             <constraint firstItem="uJG-2K-H3v" firstAttribute="top" secondItem="YYm-7L-IEO" secondAttribute="top" constant="81" id="lgX-C0-S3A"/>
                             <constraint firstItem="wEI-xV-8bV" firstAttribute="leading" secondItem="YYm-7L-IEO" secondAttribute="leading" constant="26" id="oel-YH-hRq"/>
