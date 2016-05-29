@@ -248,8 +248,9 @@
                 <windowController storyboardIdentifier="preferences window" showSeguePresentationStyle="single" id="gfC-8x-n2e" customClass="ExcludeWindowController" customModule="QBlocker" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Exclude Apps" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="HV7-1Y-AXw">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES" fullSizeContentView="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="196" y="240" width="480" height="310"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                        <value key="minSize" type="size" width="480" height="310"/>
                     </window>
                     <connections>
                         <segue destination="cSg-bQ-gWp" kind="relationship" relationship="window.shadowedContentViewController" id="p6D-pL-f2u"/>
