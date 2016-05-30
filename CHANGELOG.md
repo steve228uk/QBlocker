@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2
+
+- Adds ability to change the length of delay before an app quits.
+
 ## 1.1
 
 - Adds ability to exclude apps or only use QBlocker with some apps. Thanks [@floschliep](https://github.com/floschliep)!
