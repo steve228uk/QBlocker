@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
     </dependencies>
@@ -312,13 +312,41 @@
                                     <binding destination="gd4-zX-drz" name="value" keyPath="values.delay" id="D1C-IY-hbe"/>
                                 </connections>
                             </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lsY-gq-1ae">
+                                <rect key="frame" x="18" y="161" width="44" height="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="QT9-3K-qku"/>
+                                    <constraint firstAttribute="width" constant="40" id="bjC-Nd-Lh7"/>
+                                </constraints>
+                                <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Shorter" id="hqW-gE-5yC">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0Td-79-auh">
+                                <rect key="frame" x="421" y="161" width="41" height="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="37" id="9wP-CQ-m3a"/>
+                                    <constraint firstAttribute="height" constant="14" id="d5d-5B-0bu"/>
+                                </constraints>
+                                <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Longer" id="h7q-PQ-nbu">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="hdQ-jM-EKg" secondAttribute="trailing" constant="20" id="1Fn-BX-okP"/>
                             <constraint firstItem="QUn-P3-fqO" firstAttribute="top" secondItem="xMI-CY-yIf" secondAttribute="top" constant="72" id="77n-8H-deG"/>
                             <constraint firstItem="hdQ-jM-EKg" firstAttribute="leading" secondItem="xMI-CY-yIf" secondAttribute="leading" constant="20" id="ElH-c9-iPX"/>
+                            <constraint firstAttribute="trailing" secondItem="0Td-79-auh" secondAttribute="trailing" constant="20" id="GPh-lL-nzG"/>
+                            <constraint firstItem="lsY-gq-1ae" firstAttribute="top" secondItem="hdQ-jM-EKg" secondAttribute="bottom" constant="8" id="Opu-2B-OsK"/>
+                            <constraint firstItem="lsY-gq-1ae" firstAttribute="leading" secondItem="xMI-CY-yIf" secondAttribute="leading" constant="20" id="d6b-2R-vGg"/>
                             <constraint firstItem="hdQ-jM-EKg" firstAttribute="top" secondItem="QUn-P3-fqO" secondAttribute="bottom" constant="13" id="r0c-96-65j"/>
                             <constraint firstItem="QUn-P3-fqO" firstAttribute="leading" secondItem="xMI-CY-yIf" secondAttribute="leading" constant="20" id="ule-em-hfC"/>
+                            <constraint firstItem="0Td-79-auh" firstAttribute="top" secondItem="hdQ-jM-EKg" secondAttribute="bottom" constant="8" id="zd3-Mr-NeR"/>
                         </constraints>
                     </view>
                 </viewController>
