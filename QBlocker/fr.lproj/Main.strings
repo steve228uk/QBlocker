@@ -1,0 +1,117 @@
+
+/* Class = "NSMenuItem"; title = "QBlocker"; ObjectID = "1Xt-HY-uBw"; */
+"1Xt-HY-uBw.title" = "QBlocker";
+
+/* Class = "NSMenuItem"; title = "Don't use"; ObjectID = "29s-ie-PBn"; */
+"29s-ie-PBn.title" = "N'utiliser pas";
+
+/* Class = "NSMenuItem"; title = "About QBlocker"; ObjectID = "5kV-Vb-QxS"; */
+"5kV-Vb-QxS.title" = "À propos de QBlocker";
+
+/* Class = "NSMenuItem"; title = "Check for Updates…"; ObjectID = "77f-nv-QKY"; */
+"77f-nv-QKY.title" = "Rechercher les mises à jour…";
+
+/* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
+"AYu-sK-qS6.title" = "Main Menu";
+
+/* Class = "NSMenuItem"; title = "Close"; ObjectID = "C14-wL-mfK"; */
+"C14-wL-mfK.title" = "Fermer";
+
+/* Class = "NSMenuItem"; title = "Open at Login"; ObjectID = "CHC-cH-raF"; */
+"CHC-cH-raF.title" = "Ouvrir au démarrage";
+
+/* Class = "NSMenuItem"; title = "0 Quits Blocked"; ObjectID = "EIC-he-4Jd"; */
+"EIC-he-4Jd.title" = "0 Quits Blocked";
+
+/* Class = "NSMenuItem"; title = "Only use"; ObjectID = "HAv-aU-ig3"; */
+"HAv-aU-ig3.title" = "N'utiliser que";
+
+/* Class = "NSWindow"; title = "Exclude Apps"; ObjectID = "HV7-1Y-AXw"; */
+"HV7-1Y-AXw.title" = "Exclure des Applications";
+
+/* Class = "NSTextFieldCell"; title = "Almost There…"; ObjectID = "L6k-v9-XpI"; */
+"L6k-v9-XpI.title" = "Almost There…";
+
+/* Class = "NSMenuItem"; title = "Bring All to Front"; ObjectID = "LE2-aR-0XJ"; */
+"LE2-aR-0XJ.title" = "Tout ramener au premier plan";
+
+/* Class = "NSButtonCell"; title = "Edit Rules…"; ObjectID = "LlK-Jc-n8z"; */
+"LlK-Jc-n8z.title" = "Modifier les règles…";
+
+/* Class = "NSTextFieldCell"; title = "QBlocker uses OS X's accessibility features to block accidental quits. Please enable accessibility features for QBlocker in System Preferences and then re-open the app."; ObjectID = "NKu-Ik-I2K"; */
+"NKu-Ik-I2K.title" = "QBlocker uses OS X's accessibility features to block accidental quits. Please enable accessibility features for QBlocker in System Preferences and then re-open the app.";
+
+/* Class = "NSMenuItem"; title = "Minimize"; ObjectID = "OY7-WF-poV"; */
+"OY7-WF-poV.title" = "Placer dans le Dock";
+
+/* Class = "NSMenuItem"; title = "Hide QBlocker"; ObjectID = "Olw-nP-bQN"; */
+"Olw-nP-bQN.title" = "Masquer QBlocker";
+
+/* Class = "NSMenuItem"; title = "Zoom"; ObjectID = "R4o-n2-Eq4"; */
+"R4o-n2-Eq4.title" = "Réduire/agrandir";
+
+/* Class = "NSWindow"; title = "QBlocker"; ObjectID = "RHZ-BJ-mfA"; */
+"RHZ-BJ-mfA.title" = "QBlocker";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "Ssp-mj-hN7"; */
+"Ssp-mj-hN7.title" = "Text Cell";
+
+/* Class = "NSMenu"; title = "Window"; ObjectID = "Td7-aD-5lo"; */
+"Td7-aD-5lo.title" = "Fenêtre";
+
+/* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "Vdr-fp-XzO"; */
+"Vdr-fp-XzO.title" = "Masquer les autres";
+
+/* Class = "NSTextFieldCell"; title = "Ready!"; ObjectID = "W5Y-tt-wNs"; */
+"W5Y-tt-wNs.title" = "Ready!";
+
+/* Class = "NSViewController"; title = "Settings"; ObjectID = "WJP-7x-CCi"; */
+"WJP-7x-CCi.title" = "Préférences";
+
+/* Class = "NSWindow"; title = "QBlocker"; ObjectID = "WUu-Nm-we6"; */
+"WUu-Nm-we6.title" = "QBlocker";
+
+/* Class = "NSMenuItem"; title = "Window"; ObjectID = "aUF-d1-5bR"; */
+"aUF-d1-5bR.title" = "Fenêtre";
+
+/* Class = "NSTextFieldCell"; title = "Delay before quit"; ObjectID = "coN-nr-oH9"; */
+"coN-nr-oH9.title" = "Retard avant quitter";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "dJM-FI-pG2"; */
+"dJM-FI-pG2.title" = "Table View Cell";
+
+/* Class = "NSTextFieldCell"; title = "Hold ⌘Q To Quit"; ObjectID = "eXf-sC-q1h"; */
+"eXf-sC-q1h.title" = "Maintenir enfoncé ⌘Q pour quitter";
+
+/* Class = "NSButtonCell"; title = "Block Everything"; ObjectID = "fb2-jC-quL"; */
+"fb2-jC-quL.title" = "Bloquer tout";
+
+/* Class = "NSTextFieldCell"; title = "Longer"; ObjectID = "h7q-PQ-nbu"; */
+"h7q-PQ-nbu.title" = "Plus long";
+
+/* Class = "NSTextFieldCell"; title = "Shorter"; ObjectID = "hqW-gE-5yC"; */
+"hqW-gE-5yC.title" = "Plus court";
+
+/* Class = "NSButtonCell"; title = "Open System Preferences…"; ObjectID = "iks-uw-Btk"; */
+"iks-uw-Btk.title" = "Ouvrir les Préférences Système…";
+
+/* Class = "NSViewController"; title = "Rules"; ObjectID = "jz5-Br-QOJ"; */
+"jz5-Br-QOJ.title" = "Règles";
+
+/* Class = "NSMenuItem"; title = "Quit QBlocker"; ObjectID = "kx7-eB-bn1"; */
+"kx7-eB-bn1.title" = "Quitter QBlocker";
+
+/* Class = "NSTextFieldCell"; title = "You're all set. QBlocker will stop accidental quits by forcing you to hold ⌘Q instead. If you want to, you can set some rules or let QBlocker work its magic on everything."; ObjectID = "oJB-WH-LMv"; */
+"oJB-WH-LMv.title" = "You're all set. QBlocker will stop accidental quits by forcing you to hold ⌘Q instead. If you want to, you can set some rules or let QBlocker work its magic on everything.";
+
+/* Class = "NSTextFieldCell"; title = "QBlocker with the following apps:"; ObjectID = "tTH-fJ-Voj"; */
+"tTH-fJ-Voj.title" = "QBlocker avec les applications suivantes:";
+
+/* Class = "NSMenu"; title = "QBlocker"; ObjectID = "uQy-DD-JDr"; */
+"uQy-DD-JDr.title" = "QBlocker";
+
+/* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */
+"wpr-3q-Mcd.title" = "Aide";
+
+/* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "zj1-g2-cGs"; */
+"zj1-g2-cGs.title" = "Préférences…";

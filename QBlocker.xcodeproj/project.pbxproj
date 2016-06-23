@@ -30,6 +30,7 @@
 		28DEC8061CD954EA0012B5E3 /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DEC8051CD954EA0012B5E3 /* HUDView.swift */; };
 		28F40A711CFB61EB006719C8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F40A701CFB61EB006719C8 /* TabBarController.swift */; };
 		89B8C5D3D02D89463E1239E8 /* Pods_QBlocker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1CE05FBCE54008C441D3CA3 /* Pods_QBlocker.framework */; };
+		8FBA965F1D18E631008848D9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FBA965D1D18E631008848D9 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,12 @@
 		28F40A701CFB61EB006719C8 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		C1CE05FBCE54008C441D3CA3 /* Pods_QBlocker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QBlocker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAE265B701E85E6B909B8E2C /* Pods-QBlocker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QBlocker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QBlocker/Pods-QBlocker.debug.xcconfig"; sourceTree = "<group>"; };
+		8FBA965C1D18E618008848D9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		8FBA965E1D18E631008848D9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8FBCEA7D1D195CA300AF7860 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
+		8FBCEA7E1D195CA300AF7860 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8FD8C7B01D1B941400FFEFCD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		8FD8C7B11D1B941400FFEFCD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +152,7 @@
 			children = (
 				2832CA391CD688E9001D3373 /* Assets.xcassets */,
 				2832CA3E1CD688E9001D3373 /* Info.plist */,
+				8FBA965D1D18E631008848D9 /* Localizable.strings */,
 				2879D1171CDA529C00B64F00 /* Bridge.h */,
 			);
 			name = "Supporting Files";
@@ -232,6 +240,9 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
+				nl,
+				fr,
 			);
 			mainGroup = 2832CA291CD688E8001D3373;
 			productRefGroup = 2832CA331CD688E9001D3373 /* Products */;
@@ -249,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28BEB6861CDBEB6500E693D3 /* OpenPreferences.scpt in Resources */,
+				8FBA965F1D18E631008848D9 /* Localizable.strings in Resources */,
 				2832CA3A1CD688E9001D3373 /* Assets.xcassets in Resources */,
 				2832CA3D1CD688E9001D3373 /* Main.storyboard in Resources */,
 			);
@@ -338,8 +350,21 @@
 			isa = PBXVariantGroup;
 			children = (
 				2832CA3C1CD688E9001D3373 /* Base */,
+				8FBA965C1D18E618008848D9 /* de */,
+				8FBCEA7D1D195CA300AF7860 /* nl */,
+				8FD8C7B01D1B941400FFEFCD /* fr */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8FBA965D1D18E631008848D9 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8FBA965E1D18E631008848D9 /* de */,
+				8FBCEA7E1D195CA300AF7860 /* nl */,
+				8FD8C7B11D1B941400FFEFCD /* fr */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
