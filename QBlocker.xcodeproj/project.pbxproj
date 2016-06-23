@@ -64,6 +64,8 @@
 		EAE265B701E85E6B909B8E2C /* Pods-QBlocker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QBlocker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QBlocker/Pods-QBlocker.debug.xcconfig"; sourceTree = "<group>"; };
 		8FBA965C1D18E618008848D9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		8FBA965E1D18E631008848D9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8FBCEA7D1D195CA300AF7860 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
+		8FBCEA7E1D195CA300AF7860 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +239,7 @@
 				en,
 				Base,
 				de,
+				nl,
 			);
 			mainGroup = 2832CA291CD688E8001D3373;
 			productRefGroup = 2832CA331CD688E9001D3373 /* Products */;
@@ -345,6 +348,7 @@
 			children = (
 				2832CA3C1CD688E9001D3373 /* Base */,
 				8FBA965C1D18E618008848D9 /* de */,
+				8FBCEA7D1D195CA300AF7860 /* nl */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -353,6 +357,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				8FBA965E1D18E631008848D9 /* de */,
+				8FBCEA7E1D195CA300AF7860 /* nl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
