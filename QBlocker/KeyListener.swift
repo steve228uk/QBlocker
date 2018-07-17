@@ -21,6 +21,12 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
     guard (flags.rawValue & CGEventFlags.MaskShift.rawValue) == 0 else {
         print("shift clicked")
         return Unmanaged<CGEvent>.passUnretained(event)
+    }    
+    
+    // If the control key was held down we should ignore the event as it breaks the systemwide screen-lock shortcut
+    guard (flags.rawValue & CGEventFlags.MaskControl.rawValue) == 0 else {
+        print("control clicked")
+        return Unmanaged<CGEvent>.passUnretained(event)
     }
     
     // If the q key wasn't clicked we can ignore the event too
@@ -86,6 +92,13 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
         print("shift clicked")
         return Unmanaged<CGEvent>.passUnretained(event)
     }
+    
+    // If the control key was held down we should ignore the event as it breaks the systemwide screen-lock shortcut
+    guard (flags.rawValue & CGEventFlags.MaskControl.rawValue) == 0 else {
+        print("control clicked")
+        return Unmanaged<CGEvent>.passUnretained(event)
+    }
+
     
     // If the q key wasn't clicked we can ignore the event too
     guard KeyListener.keyValueForEvent(event)?.lowercaseString == "q" else {
