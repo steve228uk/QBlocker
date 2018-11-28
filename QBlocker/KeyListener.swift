@@ -52,7 +52,7 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
     
     // check that the app has CMD Q enabled
     guard KeyListener.cmdQActiveForApp(app: app) else {
-        print("\(app.bundleIdentifier) does not use cmd+q")
+        print("\(app.bundleIdentifier ?? String(describing: app)) does not use cmd+q")
         return nil
     }
     
