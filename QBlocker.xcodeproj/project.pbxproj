@@ -30,6 +30,7 @@
 		28DEC8041CD950450012B5E3 /* HUDAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DEC8031CD950450012B5E3 /* HUDAlert.swift */; };
 		28DEC8061CD954EA0012B5E3 /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DEC8051CD954EA0012B5E3 /* HUDView.swift */; };
 		28F40A711CFB61EB006719C8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F40A701CFB61EB006719C8 /* TabBarController.swift */; };
+		B1F349A621AF0824005DC323 /* AccessibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F349A521AF0824005DC323 /* AccessibilityView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		9AE2D0BFC44767B8D2FE86C2 /* Pods_QBlocker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QBlocker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3F762D47D17E2933604A226 /* Pods-QBlocker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QBlocker.release.xcconfig"; path = "Pods/Target Support Files/Pods-QBlocker/Pods-QBlocker.release.xcconfig"; sourceTree = "<group>"; };
 		B12B3DD321AEF3AC00BAE6B6 /* QBlocker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QBlocker.entitlements; sourceTree = "<group>"; };
+		B1F349A521AF0824005DC323 /* AccessibilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				28BEB6871CDBEB8200E693D3 /* AccessibilityViewController.swift */,
 				2883C1E41CDE36B10007AC47 /* FirstRunViewController.swift */,
 				28BEB6851CDBEB4F00E693D3 /* OpenPreferences.scpt */,
+				B1F349A521AF0824005DC323 /* AccessibilityView.swift */,
 			);
 			name = "First Launch";
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				28A518631CDE91C200BE7ED1 /* ExcludeViewController + NSTableViewDataSource.swift in Sources */,
 				2853B63B1CD92D9700F186CE /* StatusMenuController.swift in Sources */,
 				28A5185B1CDE416800BE7ED1 /* ExcludeWindowController.swift in Sources */,
+				B1F349A621AF0824005DC323 /* AccessibilityView.swift in Sources */,
 				28BEB6831CDBE79D00E693D3 /* AccessibilityWindowController.swift in Sources */,
 				2880C4531CD7B3A000545E1F /* KeyListener.swift in Sources */,
 				28A5185F1CDE87A300BE7ED1 /* App.swift in Sources */,

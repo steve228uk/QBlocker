@@ -25,7 +25,4 @@ class AccessibilityViewController: NSViewController {
         // Quit the app
         NSApp.terminate(self)
     }
-    
-    
-    
 }

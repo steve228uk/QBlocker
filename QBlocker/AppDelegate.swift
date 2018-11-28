@@ -11,7 +11,7 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    private var accessibilityWindowController: NSWindowController?
+    private var accessibilityWindowController: AccessibilityWindowController?
     private var firstRunWindowController: NSWindowController?
     private lazy var preferencesWindowController: NSWindowController = {
         return NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "preferences window") as! NSWindowController
@@ -51,7 +51,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             showFirstRunWindowIfRequired()
             
         } else {
-            if let windowController = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "accessibility window") as? NSWindowController {
+            if let windowController = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "accessibility window") as? AccessibilityWindowController {
                 accessibilityWindowController = windowController
                 accessibilityWindowController?.showWindow(self)
                 accessibilityWindowController?.window?.makeKeyAndOrderFront(self)

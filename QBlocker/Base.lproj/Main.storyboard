@@ -179,7 +179,7 @@
         <scene sceneID="Qdl-nL-ueY">
             <objects>
                 <viewController showSeguePresentationStyle="single" id="caj-n4-Riy" customClass="AccessibilityViewController" customModule="QBlocker" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="TsC-Z4-4G5">
+                    <view key="view" id="TsC-Z4-4G5" customClass="AccessibilityView" customModule="QBlocker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="627" height="350"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -227,7 +227,7 @@
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Almost There…" id="L6k-v9-XpI">
                                     <font key="font" metaFont="systemLight" size="29"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                         </subviews>
@@ -554,7 +554,7 @@
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Ready!" id="W5Y-tt-wNs">
                                     <font key="font" metaFont="systemLight" size="29"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
