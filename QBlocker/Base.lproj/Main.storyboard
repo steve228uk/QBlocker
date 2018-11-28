@@ -176,7 +176,7 @@
         <scene sceneID="Qdl-nL-ueY">
             <objects>
                 <viewController showSeguePresentationStyle="single" id="caj-n4-Riy" customClass="AccessibilityViewController" customModule="QBlocker" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="TsC-Z4-4G5" customClass="AccessibilityView" customModule="QBlocker" customModuleProvider="target">
+                    <view key="view" id="TsC-Z4-4G5">
                         <rect key="frame" x="0.0" y="0.0" width="627" height="350"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -434,7 +434,7 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="h2P-GP-vXR">
                                 <rect key="frame" x="20" y="20" width="49" height="23"/>
                                 <subviews>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="915-3U-2Q2">
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="915-3U-2Q2">
                                         <rect key="frame" x="0.0" y="-1" width="25" height="25"/>
                                         <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" scrollable="YES" lineBreakMode="clipping" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="uSP-cJ-QBg">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -444,7 +444,7 @@
                                             <action selector="addClicked:" target="jz5-Br-QOJ" id="J2c-pf-GOT"/>
                                         </connections>
                                     </button>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="aRi-02-kha">
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aRi-02-kha">
                                         <rect key="frame" x="25" y="-1" width="24" height="25"/>
                                         <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cd6-qW-P4J">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
