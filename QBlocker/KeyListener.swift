@@ -29,7 +29,7 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
-    guard KeyListener.sharedKeyListener.canQuit else {
+    guard KeyListener.shared.canQuit else {
         print("not allowed to quit yet")
         return nil
     }
@@ -42,7 +42,7 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
     
     // Check if the current app is in the list
     if let bundleId = app.bundleIdentifier {
-        let isIdentifierListed = KeyListener.sharedKeyListener.listedBundleIdentifiers.contains(bundleId)
+        let isIdentifierListed = KeyListener.shared.listedBundleIdentifiers.contains(bundleId)
         print(ListMode.selectedMode)
         if (ListMode.selectedMode == .Blacklist && isIdentifierListed) || (ListMode.selectedMode == .Whitelist && !isIdentifierListed) {
             print("App is excluded")
@@ -56,16 +56,16 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         return nil
     }
     
-    if KeyListener.sharedKeyListener.canQuit && KeyListener.sharedKeyListener.tries <= KeyListener.delay {
+    if KeyListener.shared.canQuit && KeyListener.shared.tries <= KeyListener.delay {
         print("showing HUD")
         HUDAlert.sharedHUDAlert.showHUD(delayTime: 1)
     }
     
-    KeyListener.sharedKeyListener.tries += 1
-    if KeyListener.sharedKeyListener.tries > KeyListener.delay {
+    KeyListener.shared.tries += 1
+    if KeyListener.shared.tries > KeyListener.delay {
         print("quit successful")
-        KeyListener.sharedKeyListener.tries = 0
-        KeyListener.sharedKeyListener.canQuit = false
+        KeyListener.shared.tries = 0
+        KeyListener.shared.canQuit = false
         HUDAlert.sharedHUDAlert.dismissHUD(fade: false)
         return Unmanaged<CGEvent>.passUnretained(event)
     }
@@ -92,14 +92,14 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
-    if KeyListener.sharedKeyListener.tries <= KeyListener.delay {
-        KeyListener.sharedKeyListener.logAccidentalQuit()
+    if KeyListener.shared.tries <= KeyListener.delay {
+        KeyListener.shared.logAccidentalQuit()
     } else {
         HUDAlert.sharedHUDAlert.dismissHUD()
     }
     
-    KeyListener.sharedKeyListener.tries = 0
-    KeyListener.sharedKeyListener.canQuit = true
+    KeyListener.shared.tries = 0
+    KeyListener.shared.canQuit = true
     
     return Unmanaged<CGEvent>.passUnretained(event)
 }
@@ -108,7 +108,7 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
 class KeyListener {
     
     /// Shared instance of the key listener
-    static let sharedKeyListener = KeyListener()
+    static let shared = KeyListener()
     
     /// How long the Q key needs to be held before you can quit
     static var delay: Int {

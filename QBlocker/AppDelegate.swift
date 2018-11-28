@@ -43,7 +43,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let myDict: CFDictionary = [promptFlag: false] as CFDictionary
         if AXIsProcessTrustedWithOptions(myDict) {
             do {
-                try KeyListener.sharedKeyListener.start()
+                try KeyListener.shared.start()
             } catch {
                 NSLog("Could not launch listener")
             }
