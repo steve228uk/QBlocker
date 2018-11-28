@@ -13,7 +13,7 @@ typealias DispatchBlock = () -> Void
 func delay(time:TimeInterval, closure:@escaping ()->Void) ->  dispatch_cancelable_closure? {
     
     func dispatch_later(clsr:@escaping ()->Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + time * Double(NSEC_PER_SEC), execute: clsr)
+        DispatchQueue.main.asyncAfter(deadline: .now() + time, execute: clsr)
     }
 
     var closure:DispatchBlock? = closure
