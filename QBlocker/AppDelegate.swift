@@ -14,18 +14,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var accessibilityWindowController: NSWindowController?
     private var firstRunWindowController: NSWindowController?
     private lazy var preferencesWindowController: NSWindowController = {
-        return NSStoryboard(name: "Main", bundle: nil).instantiateControllerWithIdentifier("preferences window") as! NSWindowController
+        return NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "preferences window") as! NSWindowController
     }()
     
     class var sharedDelegate: AppDelegate? {
-        return NSApplication.sharedApplication().delegate as? AppDelegate
+        return NSApplication.shared.delegate as? AppDelegate
     }
     
     // MARK: - Instantiation
     
     override init() {
         super.init()
-        NSUserDefaults.standardUserDefaults().registerDefaults([
+        UserDefaults.standard.register(defaults: [
             "accidentalQuits": 0,
             "firstRunComplete": false,
             "listMode": 0,
@@ -35,12 +35,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     // MARK: - NSApplicationDelegate
     
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ notification: Notification) {
         
         setupDevMate()
         
         let promptFlag = kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString
-        let myDict: CFDictionary = [promptFlag: false]
+        let myDict: CFDictionary = [promptFlag: false] as CFDictionary
         if AXIsProcessTrustedWithOptions(myDict) {
             do {
                 try KeyListener.sharedKeyListener.start()
@@ -51,7 +51,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             showFirstRunWindowIfRequired()
             
         } else {
-            if let windowController = NSStoryboard(name: "Main", bundle: nil).instantiateControllerWithIdentifier("accessibility window") as? NSWindowController {
+            if let windowController = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "accessibility window") as? NSWindowController {
                 accessibilityWindowController = windowController
                 accessibilityWindowController?.showWindow(self)
                 accessibilityWindowController?.window?.makeKeyAndOrderFront(self)
@@ -66,16 +66,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      Show the first run screen if the NSUserDefault stating it has already be run isn't set
      */
     func showFirstRunWindowIfRequired() {
-        guard !NSUserDefaults.standardUserDefaults().boolForKey("firstRunComplete") else {
+        guard !UserDefaults.standard.bool(forKey: "firstRunComplete") else {
             return
         }
         
-        if let windowController = NSStoryboard(name: "Main", bundle: nil).instantiateControllerWithIdentifier("first run window") as? NSWindowController {
+        if let windowController = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "first run window") as? NSWindowController {
             firstRunWindowController = windowController
             firstRunWindowController?.showWindow(self)
             firstRunWindowController?.window?.makeKeyAndOrderFront(self)
             
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "firstRunComplete")
+            UserDefaults.standard.set(true, forKey: "firstRunComplete")
         }
     }
     
@@ -83,7 +83,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      Bring the app into foreground and show the preferences window
      */
     func showPreferencesWindow() {
-        NSApplication.sharedApplication().activateIgnoringOtherApps(true)
+        NSApplication.shared.activate(ignoringOtherApps: true)
         self.preferencesWindowController.showWindow(nil)
     }
 
@@ -93,8 +93,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func setupDevMate() {
         DevMateKit.sendTrackingReport(nil, delegate: nil)
         DevMateKit.setupIssuesController(nil, reportingUnhandledIssues: true)
-        DM_SUUpdater.sharedUpdater().automaticallyChecksForUpdates = true
-        DM_SUUpdater.sharedUpdater().automaticallyDownloadsUpdates = true
+        DM_SUUpdater.shared().automaticallyChecksForUpdates = true
+        DM_SUUpdater.shared().automaticallyDownloadsUpdates = true
     }
 
 }

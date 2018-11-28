@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -153,7 +155,7 @@
         <scene sceneID="aVz-s0-neJ">
             <objects>
                 <windowController storyboardIdentifier="accessibility window" id="NJS-yY-o1Q" customClass="AccessibilityWindowController" customModule="QBlocker" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="QBlocker" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="RHZ-BJ-mfA">
+                    <window key="window" title="QBlocker" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="RHZ-BJ-mfA">
                         <windowStyleMask key="styleMask" titled="YES" fullSizeContentView="YES"/>
                         <rect key="contentRect" x="196" y="241" width="647" height="350"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
@@ -161,6 +163,9 @@
                         <value key="maxSize" type="size" width="647" height="350"/>
                         <value key="minFullScreenContentSize" type="size" width="647" height="350"/>
                         <value key="maxFullScreenContentSize" type="size" width="647" height="350"/>
+                        <connections>
+                            <outlet property="delegate" destination="NJS-yY-o1Q" id="qnV-33-PYI"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="caj-n4-Riy" kind="relationship" relationship="window.shadowedContentViewController" id="s7Z-7G-4CO"/>
@@ -246,11 +251,14 @@
         <scene sceneID="6aa-xv-SIJ">
             <objects>
                 <windowController storyboardIdentifier="preferences window" showSeguePresentationStyle="single" id="gfC-8x-n2e" customClass="ExcludeWindowController" customModule="QBlocker" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Exclude Apps" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="HV7-1Y-AXw">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES" fullSizeContentView="YES"/>
+                    <window key="window" title="Exclude Apps" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="HV7-1Y-AXw">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="310"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
                         <value key="minSize" type="size" width="480" height="310"/>
+                        <connections>
+                            <outlet property="delegate" destination="gfC-8x-n2e" id="7r2-Qb-YOe"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="cSg-bQ-gWp" kind="relationship" relationship="window.shadowedContentViewController" id="p6D-pL-f2u"/>
@@ -306,14 +314,14 @@
                                 </textFieldCell>
                             </textField>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hdQ-jM-EKg">
-                                <rect key="frame" x="18" y="182" width="444" height="27"/>
+                                <rect key="frame" x="18" y="185" width="444" height="24"/>
                                 <sliderCell key="cell" state="on" alignment="left" minValue="1" maxValue="8" doubleValue="4" tickMarkPosition="below" numberOfTickMarks="8" allowsTickMarkValuesOnly="YES" sliderType="linear" id="6kE-Q7-pMa"/>
                                 <connections>
                                     <binding destination="gd4-zX-drz" name="value" keyPath="values.delay" id="D1C-IY-hbe"/>
                                 </connections>
                             </slider>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lsY-gq-1ae">
-                                <rect key="frame" x="18" y="161" width="44" height="14"/>
+                                <rect key="frame" x="18" y="164" width="44" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="QT9-3K-qku"/>
                                     <constraint firstAttribute="width" constant="40" id="bjC-Nd-Lh7"/>
@@ -325,7 +333,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0Td-79-auh">
-                                <rect key="frame" x="421" y="161" width="41" height="14"/>
+                                <rect key="frame" x="421" y="164" width="41" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="37" id="9wP-CQ-m3a"/>
                                     <constraint firstAttribute="height" constant="14" id="d5d-5B-0bu"/>
@@ -370,7 +378,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="SWt-Cl-IuJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="438" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="438" height="139"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -395,6 +403,7 @@
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JqC-g3-9P3">
                                                                     <rect key="frame" x="0.0" y="0.0" width="434" height="17"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="dJM-FI-pG2">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -415,7 +424,6 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="138" id="ZJk-Ca-sBF"/>
@@ -459,7 +467,7 @@
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="200-4c-TLg">
-                                <rect key="frame" x="116" y="221" width="346" height="17"/>
+                                <rect key="frame" x="117" y="221" width="345" height="17"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="QBlocker with the following apps:" id="tTH-fJ-Voj">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -467,7 +475,7 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ija-R0-jFa">
-                                <rect key="frame" x="18" y="216" width="95" height="26"/>
+                                <rect key="frame" x="18" y="216" width="96" height="25"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="tax-Yo-Qah">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -510,7 +518,7 @@
         <scene sceneID="elp-cf-pyV">
             <objects>
                 <windowController storyboardIdentifier="first run window" id="OhL-wp-Wts" customClass="AccessibilityWindowController" customModule="QBlocker" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="QBlocker" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="WUu-Nm-we6">
+                    <window key="window" title="QBlocker" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="WUu-Nm-we6">
                         <windowStyleMask key="styleMask" titled="YES" fullSizeContentView="YES"/>
                         <rect key="contentRect" x="196" y="241" width="647" height="350"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
@@ -518,6 +526,9 @@
                         <value key="maxSize" type="size" width="647" height="350"/>
                         <value key="minFullScreenContentSize" type="size" width="647" height="350"/>
                         <value key="maxFullScreenContentSize" type="size" width="647" height="350"/>
+                        <connections>
+                            <outlet property="delegate" destination="OhL-wp-Wts" id="s8K-QO-BGc"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="exK-R1-cXC" kind="relationship" relationship="window.shadowedContentViewController" id="W32-Jo-68m"/>

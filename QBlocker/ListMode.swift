@@ -11,10 +11,10 @@ enum ListMode: Int {
     case Whitelist = 1
     
     static var selectedMode: ListMode {
-        return ListMode(rawValue: NSUserDefaults.standardUserDefaults().integerForKey("listMode")) ?? .Whitelist
+        return ListMode(rawValue: UserDefaults.standard.integer(forKey: "listMode")) ?? .Whitelist
     }
     
     func select() {
-        NSUserDefaults.standardUserDefaults().setInteger(self.rawValue, forKey: "listMode")
+        UserDefaults.standard.set(self.rawValue, forKey: "listMode")
     }
 }

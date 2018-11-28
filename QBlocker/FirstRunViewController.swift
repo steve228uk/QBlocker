@@ -10,11 +10,11 @@ import Cocoa
 
 class FirstRunViewController: NSViewController {
     
-    @IBAction func dismissWindow(sender: AnyObject) {
+    @IBAction func dismissWindow(_ sender: AnyObject) {
         view.window?.orderOut(self)
     }
     
-    @IBAction func showExcludeApps(sender: AnyObject) {
+    @IBAction func showExcludeApps(_ sender: AnyObject) {
         AppDelegate.sharedDelegate?.showPreferencesWindow()
         view.window?.orderOut(self)
     }

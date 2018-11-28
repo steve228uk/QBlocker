@@ -15,7 +15,7 @@ class ExcludeViewController: NSViewController {
     
     // MARK: - Actions
     
-    @IBAction func addClicked(sender: AnyObject) {
+    @IBAction func addClicked(_ sender: AnyObject) {
         let panel = NSOpenPanel()
         panel.title = "Choose a .app"
         panel.canChooseDirectories = false
@@ -23,26 +23,26 @@ class ExcludeViewController: NSViewController {
         panel.canCreateDirectories = false
         panel.allowsMultipleSelection = true
         panel.allowedFileTypes = ["app"]
-        panel.beginSheetModalForWindow(view.window!) { response in
-            if (response == NSFileHandlingPanelOKButton) {
-                for url in panel.URLs {
-                    guard let bundle = NSBundle(URL: url)?.bundleIdentifier, path = url.path else {
+        panel.beginSheetModal(for: view.window!) { response in
+            if (response.rawValue == NSFileHandlingPanelOKButton) {
+                for url in panel.urls {
+                    guard let bundle = Bundle(url: url)?.bundleIdentifier else {
                         continue
                     }
                     
-                    let name = NSFileManager.defaultManager().displayNameAtPath(path)
+                    let name = FileManager.default.displayName(atPath: url.path)
                     
                     let app = App()
                     app.name = name
                     app.bundleID = bundle
-                    KeyListener.sharedKeyListener.addExcludedApp(app)
+                    KeyListener.sharedKeyListener.addExcludedApp(app: app)
                 }
                 self.tableView.reloadData()
             }
         }
     }
     
-    @IBAction func removeClicked(sender: AnyObject) {
+    @IBAction func removeClicked(_ sender: AnyObject) {
         guard tableView.selectedRowIndexes.count > 0,
             let apps = KeyListener.sharedKeyListener.list else {
                 print("Nothing selected")
@@ -50,12 +50,12 @@ class ExcludeViewController: NSViewController {
             }
         
         var toRemove = [App]()
-        tableView.selectedRowIndexes.enumerateIndexesUsingBlock { index, stop in
+        tableView.selectedRowIndexes.forEach { index in
             toRemove.append(apps[index])
         }
         
         for app in toRemove {
-            KeyListener.sharedKeyListener.removeExcludedApp(app)
+            KeyListener.sharedKeyListener.removeExcludedApp(app: app)
         }
         
         tableView.reloadData()

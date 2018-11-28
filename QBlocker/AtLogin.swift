@@ -26,7 +26,7 @@ struct AtLogin {
     
     /// The launch item that's stored in LSSharedFileList
     private static var launchItem: LSSharedFileListItem? {
-        let appUrl = NSURL(fileURLWithPath: NSBundle.mainBundle().bundlePath)
+        let appUrl = NSURL(fileURLWithPath: Bundle.main.bundlePath)
         
         guard let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil) else {
             return nil
@@ -36,7 +36,7 @@ struct AtLogin {
         for item in loginItems as NSArray {
             
             // Ensure that the item is a LSSharedFileListItem
-            guard CFGetTypeID(item) == LSSharedFileListItemGetTypeID() else {
+            guard CFGetTypeID(item as CFTypeRef) == LSSharedFileListItemGetTypeID() else {
                 continue
             }
             
@@ -64,7 +64,7 @@ struct AtLogin {
         if enabled { // remove it from the startup
             LSSharedFileListItemRemove(loginItems.takeRetainedValue(), launchItem)
         } else { // add it to the startup
-            let appUrl = NSURL(fileURLWithPath: NSBundle.mainBundle().bundlePath)
+            let appUrl = NSURL(fileURLWithPath: Bundle.main.bundlePath)
             LSSharedFileListInsertItemURL(loginItems.takeRetainedValue(), kLSSharedFileListItemBeforeFirst.takeUnretainedValue(), nil, nil, appUrl as CFURL, nil, nil)
         }
         

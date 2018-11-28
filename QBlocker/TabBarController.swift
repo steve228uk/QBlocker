@@ -16,8 +16,8 @@ class TabBarController: SRTabBarController {
         
         tabBarLocation = .Top
         
-        tabBar?.material = .Titlebar
-        tabBar?.blendingMode = .WithinWindow
+        tabBar?.material = .titlebar
+        tabBar?.blendingMode = .withinWindow
         tabBar?.translucent = true
         
     }

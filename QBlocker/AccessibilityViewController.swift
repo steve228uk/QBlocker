@@ -10,14 +10,14 @@ import Cocoa
 
 class AccessibilityViewController: NSViewController {
 
-    @IBAction func openPreferences(sender: AnyObject) {
+    @IBAction func openPreferences(_ sender: AnyObject) {
         
-        guard let scriptPath = NSBundle.mainBundle().pathForResource("OpenPreferences", ofType: "scpt") else {
+        guard let scriptPath = Bundle.main.path(forResource: "OpenPreferences", ofType: "scpt") else {
             print("Could not find applescript")
             return
         }
         
-        let task = NSTask()
+        let task = Process()
         task.launchPath = "/usr/bin/osascript"
         task.arguments = [scriptPath]
         task.launch()

@@ -14,8 +14,8 @@ class ExcludeWindowController: NSWindowController {
         super.windowDidLoad()
     
         window?.titlebarAppearsTransparent = true
-        window?.titleVisibility = .Hidden
-        window?.movableByWindowBackground = true
+        window?.titleVisibility = .hidden
+        window?.isMovableByWindowBackground = true
     }
 
 }
