@@ -21,7 +21,7 @@ struct AtLogin {
     
     /// The launch item that's stored in LSSharedFileList
     private static var launchItem: LSSharedFileListItem? {
-        let appUrl = NSURL(fileURLWithPath: Bundle.main.bundlePath)
+        let appUrl = URL(fileURLWithPath: Bundle.main.bundlePath)
         
         guard let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil) else {
             return nil
@@ -36,7 +36,7 @@ struct AtLogin {
             }
             
             var error: Unmanaged<CFError>?
-            let itemUrl = LSSharedFileListItemCopyResolvedURL((item as! LSSharedFileListItem), 0, &error).takeRetainedValue() as NSURL
+            let itemUrl = LSSharedFileListItemCopyResolvedURL((item as! LSSharedFileListItem), 0, &error).takeRetainedValue() as URL
             
             if itemUrl == appUrl {
                 return (item as! LSSharedFileListItem)
@@ -59,7 +59,7 @@ struct AtLogin {
         if enabled { // remove it from the startup
             LSSharedFileListItemRemove(loginItems.takeRetainedValue(), launchItem)
         } else { // add it to the startup
-            let appUrl = NSURL(fileURLWithPath: Bundle.main.bundlePath)
+            let appUrl = URL(fileURLWithPath: Bundle.main.bundlePath)
             LSSharedFileListInsertItemURL(loginItems.takeRetainedValue(), kLSSharedFileListItemBeforeFirst.takeUnretainedValue(), nil, nil, appUrl as CFURL, nil, nil)
         }
         

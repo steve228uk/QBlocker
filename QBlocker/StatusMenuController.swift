@@ -48,7 +48,7 @@ class StatusMenuController: NSObject, NSMenuDelegate {
     
     func menuWillOpen(_ menu: NSMenu) {
         statusMenu.item(at: 0)?.title = String(format: "%d Quits Blocked", arguments: [KeyListener.shared.accidentalQuits])
-        statusMenu.item(at: 4)?.state = NSControl.StateValue(rawValue: (AtLogin.enabled) ? 1 : 0)
+        statusMenu.item(at: 4)?.state = (AtLogin.enabled) ? .on : .off
     }
     
 }
