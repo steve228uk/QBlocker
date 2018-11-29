@@ -7,19 +7,19 @@
 
 import Foundation
 
-typealias dispatch_cancelable_closure = (_ cancel : Bool) -> Void
+typealias DispatchCancelableClosure = (_ cancel : Bool) -> Void
 typealias DispatchBlock = () -> Void
 
-func delay(time:TimeInterval, closure:@escaping ()->Void) ->  dispatch_cancelable_closure? {
+func delay(time:TimeInterval, closure:@escaping DispatchBlock) ->  DispatchCancelableClosure? {
     
-    func dispatch_later(clsr:@escaping ()->Void) {
+    func dispatchLater(clsr:@escaping DispatchBlock) {
         DispatchQueue.main.asyncAfter(deadline: .now() + time, execute: clsr)
     }
 
     var closure:DispatchBlock? = closure
-    var cancelableClosure:dispatch_cancelable_closure?
+    var cancelableClosure:DispatchCancelableClosure?
     
-    let delayedClosure:dispatch_cancelable_closure = { cancel in
+    let delayedClosure:DispatchCancelableClosure = { cancel in
         if closure != nil {
             if (cancel == false) {
                 DispatchQueue.main.async(execute: closure!)
@@ -31,7 +31,7 @@ func delay(time:TimeInterval, closure:@escaping ()->Void) ->  dispatch_cancelabl
     
     cancelableClosure = delayedClosure
     
-    dispatch_later {
+    dispatchLater {
         if let delayedClosure = cancelableClosure {
             delayedClosure(false)
         }
@@ -40,7 +40,7 @@ func delay(time:TimeInterval, closure:@escaping ()->Void) ->  dispatch_cancelabl
     return cancelableClosure;
 }
 
-func cancel_delay(closure:dispatch_cancelable_closure?) {
+func cancelDelay(closure:DispatchCancelableClosure?) {
     
     if closure != nil {
         closure!(true)

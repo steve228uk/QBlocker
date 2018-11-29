@@ -17,7 +17,7 @@ class HUDAlert {
     var window: NSWindow
     
     /// The dispatch delay that can be cancelled if the HUD is displayed again during that time
-    var delayer: dispatch_cancelable_closure?
+    var delayer: DispatchCancelableClosure?
     
     init() {
         window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 426, height: 79), styleMask: .borderless, backing: .buffered, defer: false)
@@ -42,7 +42,7 @@ class HUDAlert {
             return
         }
     
-        cancel_delay(closure: delayer)
+        cancelDelay(closure: delayer)
         
         let newRect = NSRect(x: (screenRect.size.width - 426) * 0.5, y: (screenRect.size.height - 79) * 0.5, width: 426, height: 79)
         window.setFrame(newRect, display: true)
