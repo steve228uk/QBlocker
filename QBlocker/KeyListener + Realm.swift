@@ -21,7 +21,7 @@ extension KeyListener {
                 realm.add(app, update: true)
             }
         } catch {
-            NSLog("Could not write excluded app")
+            print("Could not write excluded app")
         }
     }
     
@@ -36,7 +36,7 @@ extension KeyListener {
                 realm.delete(app)
             }
         } catch {
-            NSLog("Could not remove excluded app")
+            print("Could not remove excluded app")
         }
     }
     

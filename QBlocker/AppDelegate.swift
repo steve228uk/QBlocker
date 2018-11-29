@@ -45,7 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             do {
                 try KeyListener.shared.start()
             } catch {
-                NSLog("Could not launch listener")
+                print("Could not launch listener")
             }
             
             showFirstRunWindowIfRequired()

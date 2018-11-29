@@ -45,7 +45,7 @@ class ExcludeViewController: NSViewController {
     
     @IBAction func removeClicked(_ sender: AnyObject) {
         guard tableView.selectedRowIndexes.count > 0 else {
-                NSLog("Nothing selected")
+                print("Nothing selected")
                 return
             }
         

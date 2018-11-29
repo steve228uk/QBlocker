@@ -13,57 +13,57 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
     // If the command key wasn't used we can pass the event on
     let flags = event.flags
     guard flags.contains(.maskCommand) else {
-        NSLog("command not clicked")
+        print("command not clicked")
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
     // If the shift key was held down we should ignore the event as it breaks the systemwide logout shortcut
     guard !flags.contains(.maskShift) else {
-        NSLog("shift clicked")
+        print("shift clicked")
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
     // If the q key wasn't clicked we can ignore the event too
     guard KeyListener.keyValue(for: event)?.lowercased() == "q" else {
-        NSLog("q not clicked")
+        print("q not clicked")
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
     guard KeyListener.shared.canQuit else {
-        NSLog("not allowed to quit yet")
+        print("not allowed to quit yet")
         return nil
     }
     
     // get the current active app
     guard let app = NSWorkspace.shared.menuBarOwningApplication else {
-        NSLog("could not get menubar owning app")
+        print("could not get menubar owning app")
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
     // Check if the current app is in the list
     if let bundleId = app.bundleIdentifier {
         let isIdentifierListed = KeyListener.shared.listedBundleIdentifiers.contains(bundleId)
-        NSLog("\(ListMode.selected)")
+        print("\(ListMode.selected)")
         if (ListMode.selected == .blacklist && isIdentifierListed) || (ListMode.selected == .whitelist && !isIdentifierListed) {
-            NSLog("App is excluded")
+            print("App is excluded")
             return Unmanaged<CGEvent>.passUnretained(event)
         }
     }
     
     // check that the app has CMD Q enabled
     guard KeyListener.isCmdQActive(for: app) else {
-        NSLog("\(app.bundleIdentifier ?? String(describing: app)) does not use cmd+q")
+        print("\(app.bundleIdentifier ?? String(describing: app)) does not use cmd+q")
         return nil
     }
     
     if KeyListener.shared.canQuit && KeyListener.shared.tries <= KeyListener.delay {
-        NSLog("showing HUD")
+        print("showing HUD")
         HUDAlert.sharedHUDAlert.showHUD(delayTime: 1)
     }
     
     KeyListener.shared.tries += 1
     if KeyListener.shared.tries > KeyListener.delay {
-        NSLog("quit successful")
+        print("quit successful")
         KeyListener.shared.tries = 0
         KeyListener.shared.canQuit = false
         HUDAlert.sharedHUDAlert.dismissHUD(fade: false)
@@ -83,7 +83,7 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
     
     // If the shift key was held down we should ignore the event as it breaks the systemwide logout shortcut
     guard !flags.contains(.maskShift) else {
-        NSLog("shift clicked")
+        print("shift clicked")
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
