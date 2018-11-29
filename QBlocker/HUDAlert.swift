@@ -11,7 +11,7 @@ import Cocoa
 class HUDAlert {
     
     /// Shared instance
-    static let sharedHUDAlert = HUDAlert()
+    static let shared = HUDAlert()
     
     /// The window that will be used to display the HUD alert
     var window: NSWindow

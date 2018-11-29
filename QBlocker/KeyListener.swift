@@ -58,7 +58,7 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
     
     if KeyListener.shared.canQuit && KeyListener.shared.tries <= KeyListener.delay {
         print("showing HUD")
-        HUDAlert.sharedHUDAlert.showHUD(delayTime: 1)
+        HUDAlert.shared.showHUD(delayTime: 1)
     }
     
     KeyListener.shared.tries += 1
@@ -66,7 +66,7 @@ private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: C
         print("quit successful")
         KeyListener.shared.tries = 0
         KeyListener.shared.canQuit = false
-        HUDAlert.sharedHUDAlert.dismissHUD(fade: false)
+        HUDAlert.shared.dismissHUD(fade: false)
         return Unmanaged<CGEvent>.passUnretained(event)
     }
     
@@ -95,7 +95,7 @@ private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGE
     if KeyListener.shared.tries <= KeyListener.delay {
         KeyListener.shared.logAccidentalQuit()
     } else {
-        HUDAlert.sharedHUDAlert.dismissHUD()
+        HUDAlert.shared.dismissHUD()
     }
     
     KeyListener.shared.tries = 0
