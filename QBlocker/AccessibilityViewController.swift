@@ -13,7 +13,7 @@ class AccessibilityViewController: NSViewController {
     @IBAction func openPreferences(_ sender: AnyObject) {
         
         guard let scriptPath = Bundle.main.path(forResource: "OpenPreferences", ofType: "scpt") else {
-            print("Could not find applescript")
+            NSLog("Could not find applescript")
             return
         }
         

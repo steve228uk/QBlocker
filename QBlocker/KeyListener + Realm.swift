@@ -15,13 +15,13 @@ extension KeyListener {
      
      - parameter app: The app to be added
      */
-    func addExcludedApp(app: App) {
+    func add(excludedApp app: App) {
         do {
             try realm?.write {
                 realm?.add(app, update: true)
             }
         } catch {
-            print("Could not write excluded app")
+            NSLog("Could not write excluded app")
         }
     }
     
@@ -36,7 +36,7 @@ extension KeyListener {
                 realm?.delete(app)
             }
         } catch {
-            print("Could not remove excluded app")
+            NSLog("Could not remove excluded app")
         }
     }
     

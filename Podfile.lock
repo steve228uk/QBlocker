@@ -25,7 +25,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   SRTabBarController:
-    :commit: 6802278bda36b53dc07072ed0c23efa3d40c97e1
+    :commit: a5363305a591024f1db24791fcecf88a4e89e015
     :git: https://github.com/es-kumagai/SRTabBarController
 
 SPEC CHECKSUMS:

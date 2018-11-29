@@ -21,12 +21,12 @@ class HUDAlert {
     
     init() {
         window = NSWindow(contentRect: NSMakeRect(0, 0, 426, 79), styleMask: .borderless, backing: .buffered, defer: false)
-        window?.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.assistiveTechHighWindow)))
+        window?.level = NSWindow.Level(.assistiveTechHighWindow)
         window?.isOpaque = false
-        window?.backgroundColor = NSColor.clear
+        window?.backgroundColor = .clear
 
-        let vc = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "Alert")
-        window?.contentView? = (vc as AnyObject).view
+        let vc = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "Alert") as! NSViewController
+        window?.contentView? = vc.view
         window?.contentView?.wantsLayer = true
     
         window?.makeKey()
@@ -38,7 +38,7 @@ class HUDAlert {
     func showHUD(delayTime: TimeInterval? = nil) {
         
         guard let screenRect = NSScreen.main?.visibleFrame else {
-            print("Could not get screen frame")
+            NSLog("Could not get screen frame")
             return
         }
     

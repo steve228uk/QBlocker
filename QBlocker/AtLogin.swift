@@ -16,12 +16,7 @@ struct AtLogin {
     /// Whether launch at login is enabled or not
     static var enabled: Bool {
         
-        if launchItem != nil {
-            return true
-        }
-        
-        return false
-        
+        return launchItem != nil
     }
     
     /// The launch item that's stored in LSSharedFileList

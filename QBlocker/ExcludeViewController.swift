@@ -24,9 +24,10 @@ class ExcludeViewController: NSViewController {
         panel.allowsMultipleSelection = true
         panel.allowedFileTypes = ["app"]
         panel.beginSheetModal(for: view.window!) { response in
-            if (response.rawValue == NSFileHandlingPanelOKButton) {
+            if (response == .OK) {
                 for url in panel.urls {
-                    guard let bundle = Bundle(url: url)?.bundleIdentifier else {
+					
+					guard let bundle = Bundle(url: url)?.bundleIdentifier else {
                         continue
                     }
                     
@@ -35,7 +36,7 @@ class ExcludeViewController: NSViewController {
                     let app = App()
                     app.name = name
                     app.bundleID = bundle
-                    KeyListener.shared.addExcludedApp(app: app)
+					KeyListener.shared.add(excludedApp: app)
                 }
                 self.tableView.reloadData()
             }
@@ -45,19 +46,14 @@ class ExcludeViewController: NSViewController {
     @IBAction func removeClicked(_ sender: AnyObject) {
         guard tableView.selectedRowIndexes.count > 0,
             let apps = KeyListener.shared.list else {
-                print("Nothing selected")
+                NSLog("Nothing selected")
                 return
             }
         
-        var toRemove = [App]()
-        tableView.selectedRowIndexes.forEach { index in
-            toRemove.append(apps[index])
-        }
-        
-        for app in toRemove {
-            KeyListener.shared.removeExcludedApp(app: app)
-        }
-        
+		tableView.selectedRowIndexes
+			.map { index in apps[index] }
+			.forEach { app in KeyListener.shared.removeExcludedApp(app: app) }
+		
         tableView.reloadData()
     }
     

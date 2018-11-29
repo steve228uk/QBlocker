@@ -13,7 +13,7 @@ class AccessibilityWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        window?.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.popUpMenuWindow)))
+        window?.level = NSWindow.Level(.popUpMenuWindow)
         window?.titlebarAppearsTransparent = true
     }
 }
