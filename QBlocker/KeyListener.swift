@@ -116,7 +116,7 @@ class KeyListener {
     }
     
     /// Reference to our default Realm
-    var realm: Realm?
+    var realm: Realm
     
     /// The CGEvent for key down
     var keyDown: CFMachPort?
@@ -144,24 +144,20 @@ class KeyListener {
     }
     
     /// Array of apps to be ignored/allowed (depending on the setting) by QBlocker
-    var list: Results<App>? {
-        return realm?.objects(App.self).sorted(byKeyPath: "name")
+    var list: Results<App> {
+        return realm.objects(App.self).sorted(byKeyPath: "name")
     }
     
     /// The bundle identifiers of all apps from list
     var listedBundleIdentifiers: Set<String> {
-        guard let apps = list else {
-            return []
-        }
-        
-        return Set(apps.map { $0.bundleID })
+        return Set(list.map { $0.bundleID })
     }
     
     init() {
         do {
             realm = try Realm()
         } catch {
-            NSLog("Failed to load Realm")
+            fatalError("Failed to load Realm")
         }
     }
     

@@ -44,15 +44,14 @@ class ExcludeViewController: NSViewController {
     }
     
     @IBAction func removeClicked(_ sender: AnyObject) {
-        guard tableView.selectedRowIndexes.count > 0,
-            let apps = KeyListener.shared.list else {
+        guard tableView.selectedRowIndexes.count > 0 else {
                 NSLog("Nothing selected")
                 return
             }
         
 		tableView.selectedRowIndexes
-			.map { index in apps[index] }
-			.forEach { app in KeyListener.shared.removeExcludedApp(app: app) }
+			.map { index in KeyListener.shared.list[index] }
+			.forEach { app in KeyListener.shared.remove(excludedApp: app) }
 		
         tableView.reloadData()
     }
