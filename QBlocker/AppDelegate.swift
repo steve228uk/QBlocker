@@ -28,7 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         UserDefaults.standard.register(defaults: [
             "accidentalQuits": 0,
             "firstRunComplete": false,
-            "listMode": 0,
+            "listMode": ListMode.blacklist.rawValue,
             "delay": 4
         ])
     }
