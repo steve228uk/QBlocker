@@ -1,21 +1,39 @@
 PODS:
-  - DevMateKit (1.7.1)
-  - Realm (0.101.0):
-    - Realm/Headers (= 0.101.0)
-  - Realm/Headers (0.101.0)
-  - RealmSwift (0.101.0):
-    - Realm (= 0.101.0)
+  - DevMateKit (1.9.2)
+  - Realm (3.12.0):
+    - Realm/Headers (= 3.12.0)
+  - Realm/Headers (3.12.0)
+  - RealmSwift (3.12.0):
+    - Realm (= 3.12.0)
   - SRTabBarController (0.1.0)
 
 DEPENDENCIES:
   - DevMateKit
   - RealmSwift
-  - SRTabBarController
+  - SRTabBarController (from `https://github.com/es-kumagai/SRTabBarController`, branch `swift-4.2`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - DevMateKit
+    - Realm
+    - RealmSwift
+
+EXTERNAL SOURCES:
+  SRTabBarController:
+    :branch: swift-4.2
+    :git: https://github.com/es-kumagai/SRTabBarController
+
+CHECKOUT OPTIONS:
+  SRTabBarController:
+    :commit: e8a177411da89eed41ec4192230550a1254598a1
+    :git: https://github.com/es-kumagai/SRTabBarController
 
 SPEC CHECKSUMS:
-  DevMateKit: 3ba77083f5faa40266e0d2d70776de2a82c71dd0
-  Realm: b21596d6d7e1c054f6fae967d27263d2593ca309
-  RealmSwift: 5247501bcd68b9db3a718cba808e1ce45ba67034
+  DevMateKit: 7900fa17efc254d318d5637559d96f7769dd0a2e
+  Realm: cdaef23c4ddb36ab1ddffed23f5a7f3332fc5585
+  RealmSwift: 5576324033f0aa5ef1e0a839a3da2281dff47a7f
   SRTabBarController: aeb73a975a47aff9e14f3546da2394fce8271b09
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 2194d8d8289ce95c05a038fac855c59f7ee0f912
+
+COCOAPODS: 1.5.3

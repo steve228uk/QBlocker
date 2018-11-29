@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum KeyListenerError: ErrorType {
+enum KeyListenerError: Error {
     
     case AccessibilityPermissionDenied
     

@@ -12,7 +12,7 @@ import CoreServices
 class StatusMenuController: NSObject, NSMenuDelegate {
     
     /// The icon added to the menu bar
-    let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
+    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     
     /// Reference to the storyboard
     @IBOutlet weak var statusMenu: NSMenu!
@@ -20,14 +20,14 @@ class StatusMenuController: NSObject, NSMenuDelegate {
     override func awakeFromNib() {
         statusMenu.delegate = self
         statusItem.image = NSImage(named: "Menu Bar")
-        statusItem.image?.template = true
+        statusItem.image?.isTemplate = true
         statusItem.menu = statusMenu
     }
     
     // MARK: - Actions
     
-    @IBAction func quitItemClicked(sender: AnyObject) {
-        NSApplication.sharedApplication().terminate(self)
+    @IBAction func quitItemClicked(_ sender: AnyObject) {
+        NSApplication.shared.terminate(self)
     }
     
     /**
@@ -35,20 +35,20 @@ class StatusMenuController: NSObject, NSMenuDelegate {
      
      - parameter sender: The menu item
      */
-    @IBAction func openAtLogin(sender: NSMenuItem) {
+    @IBAction func openAtLogin(_ sender: NSMenuItem) {
         AtLogin.toggle()
     }
     
     
-    @IBAction func showPreferences(sender: AnyObject) {
+    @IBAction func showPreferences(_ sender: AnyObject) {
         AppDelegate.sharedDelegate?.showPreferencesWindow()
     }
     
     // MARK: - NSMenuDelegate
     
-    func menuWillOpen(menu: NSMenu) {
-        statusMenu.itemAtIndex(0)?.title = String(format: "%d Quits Blocked", arguments: [KeyListener.sharedKeyListener.accidentalQuits])
-        statusMenu.itemAtIndex(4)?.state = (AtLogin.enabled) ? 1 : 0
+    func menuWillOpen(_ menu: NSMenu) {
+        statusMenu.item(at: 0)?.title = String(format: "%d Quits Blocked", arguments: [KeyListener.shared.accidentalQuits])
+        statusMenu.item(at: 4)?.state = (AtLogin.enabled) ? .on : .off
     }
     
 }

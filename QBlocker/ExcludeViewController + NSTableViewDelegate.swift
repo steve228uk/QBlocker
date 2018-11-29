@@ -10,14 +10,13 @@ import Cocoa
 
 extension ExcludeViewController: NSTableViewDelegate {
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
-        guard let cell = tableView.makeViewWithIdentifier("app name cell", owner: nil) as? NSTableCellView,
-            let app = KeyListener.sharedKeyListener.list?[row] else {
+        guard let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "app name cell"), owner: nil) as? NSTableCellView else {
                 return nil
         }
         
-        cell.textField?.stringValue = app.name
+        cell.textField?.stringValue = KeyListener.shared.list[row].name
         return cell
     }
     
