@@ -84,7 +84,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      */
     func showPreferencesWindow() {
         NSApplication.shared.activate(ignoringOtherApps: true)
-        self.preferencesWindowController.showWindow(nil)
+        preferencesWindowController.showWindow(nil)
     }
 
     /**
