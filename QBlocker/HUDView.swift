@@ -10,12 +10,13 @@ import Cocoa
 
 class HUDView: NSView {
 
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
+	override func awakeFromNib() {
+		
+		super.awakeFromNib()
+		
+		wantsLayer = true
 
-        wantsLayer = true
-        layer?.backgroundColor = NSColor(deviceHue: 0, saturation: 0, brightness: 0, alpha: 0.5).cgColor
-        layer?.cornerRadius = 12
-    }
-    
+		layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
+		layer?.cornerRadius = 12
+	}
 }

@@ -131,8 +131,8 @@
                                 <rect key="frame" x="18" y="20" width="386" height="39"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Hold ⌘Q To Quit" id="eXf-sC-q1h">
                                     <font key="font" metaFont="systemBold" size="32"/>
-                                    <color key="textColor" name="placeholderTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                         </subviews>
@@ -422,11 +422,11 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="138" id="ZJk-Ca-sBF"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="440" id="oCq-Rq-x8X"/>
                                 </constraints>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Ohh-ze-fTj">
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="Ohh-ze-fTj">
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="EbU-jJ-vgN">
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="EbU-jJ-vgN">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
