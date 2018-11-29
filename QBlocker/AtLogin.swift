@@ -41,7 +41,7 @@ struct AtLogin {
             }
             
             var error: Unmanaged<CFError>?
-            let itemUrl = LSSharedFileListItemCopyResolvedURL(item as! LSSharedFileListItem, 0, &error).takeRetainedValue() as NSURL
+            let itemUrl = LSSharedFileListItemCopyResolvedURL((item as! LSSharedFileListItem), 0, &error).takeRetainedValue() as NSURL
             
             if itemUrl == appUrl {
                 return (item as! LSSharedFileListItem)
