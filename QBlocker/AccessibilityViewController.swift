@@ -3,29 +3,50 @@
 //  QBlocker
 //
 //  Created by Stephen Radford on 05/05/2016.
-//  Copyright © 2016 Cocoon Development Ltd. All rights reserved.
+//  Modernized as SwiftUI content.
 //
 
-import Cocoa
+import SwiftUI
 
-class AccessibilityViewController: NSViewController {
+struct AccessibilityPromptView: View {
+    @State private var trusted = AccessibilityPermission.isTrusted
 
-    @IBAction func openPreferences(sender: AnyObject) {
-        
-        guard let scriptPath = NSBundle.mainBundle().pathForResource("OpenPreferences", ofType: "scpt") else {
-            print("Could not find applescript")
-            return
+    var body: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            Image(systemName: trusted ? "checkmark.shield" : "keyboard.badge.eye")
+                .font(.system(size: 42))
+                .foregroundStyle(trusted ? .green : .accentColor)
+
+            Text(trusted ? "QBlocker is ready" : "Accessibility permission is required")
+                .font(.title2.weight(.semibold))
+
+            Text("QBlocker needs Accessibility permission to detect Cmd-Q, check whether the frontmost app uses that shortcut, and cancel accidental quits.")
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+
+            HStack {
+                Button("Open System Settings") {
+                    AccessibilityPermission.openSystemSettings()
+                }
+                .buttonStyle(.borderedProminent)
+
+                Button("Request Permission") {
+                    trusted = AccessibilityPermission.request()
+                    KeyListener.shared.restartIfPossible()
+                }
+
+                Button("Refresh") {
+                    trusted = AccessibilityPermission.isTrusted
+                    KeyListener.shared.restartIfPossible()
+
+                    if trusted {
+                        AccessibilityWindowController.shared.close()
+                        FirstRunWindowController.shared.showIfNeeded(settings: .shared)
+                    }
+                }
+            }
         }
-        
-        let task = NSTask()
-        task.launchPath = "/usr/bin/osascript"
-        task.arguments = [scriptPath]
-        task.launch()
-        
-        // Quit the app
-        NSApp.terminate(self)
+        .padding(28)
+        .frame(width: 520, alignment: .leading)
     }
-    
-    
-    
 }

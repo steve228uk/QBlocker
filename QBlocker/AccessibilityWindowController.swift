@@ -3,19 +3,39 @@
 //  QBlocker
 //
 //  Created by Stephen Radford on 05/05/2016.
-//  Copyright © 2016 Cocoon Development Ltd. All rights reserved.
+//  Modernized as a SwiftUI window presenter.
 //
 
-import Cocoa
+import AppKit
+import SwiftUI
 
-class AccessibilityWindowController: NSWindowController {
+@MainActor
+final class AccessibilityWindowController {
+    static let shared = AccessibilityWindowController()
 
-    override func windowDidLoad() {
-        super.windowDidLoad()
+    private var window: NSWindow?
 
-        window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.PopUpMenuWindowLevelKey))
-        window?.titlebarAppearsTransparent = true
-        window?.backgroundColor = NSColor(calibratedHue:0.00, saturation:0.00, brightness:0.90, alpha:1.00)
+    private init() {}
+
+    func show() {
+        if window == nil {
+            let rootView = AccessibilityPromptView()
+            let hostingController = NSHostingController(rootView: rootView)
+
+            let window = NSWindow(contentViewController: hostingController)
+            window.title = "Accessibility Required"
+            window.styleMask = [.titled, .closable]
+            window.isReleasedWhenClosed = false
+            window.setContentSize(NSSize(width: 520, height: 260))
+            window.center()
+            self.window = window
+        }
+
+        NSApplication.shared.activate(ignoringOtherApps: true)
+        window?.makeKeyAndOrderFront(nil)
     }
-    
+
+    func close() {
+        window?.orderOut(nil)
+    }
 }

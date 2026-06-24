@@ -3,273 +3,376 @@
 //  QBlocker
 //
 //  Created by Stephen Radford on 02/05/2016.
-//  Copyright © 2016 Cocoon Development Ltd. All rights reserved.
+//  Modernized for Swift 6.
 //
 
-import RealmSwift
+import AppKit
+import ApplicationServices
 
-private func keyDownCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, ptr: UnsafeMutablePointer<Void>) -> Unmanaged<CGEvent>? {
-    
-    // If the command key wasn't used we can pass the event on
-    let flags = CGEventGetFlags(event)    
-    guard (flags.rawValue & CGEventFlags.MaskCommand.rawValue) != 0 else {
-        print("command not clicked")
-        return Unmanaged<CGEvent>.passUnretained(event)
+private func keyDownCallback(
+    proxy: CGEventTapProxy,
+    type: CGEventType,
+    event: CGEvent,
+    userInfo: UnsafeMutableRawPointer?
+) -> Unmanaged<CGEvent>? {
+    guard let userInfo else {
+        return Unmanaged.passUnretained(event)
     }
-    
-    // If the shift key was held down we should ignore the event as it breaks the systemwide logout shortcut
-    guard (flags.rawValue & CGEventFlags.MaskShift.rawValue) == 0 else {
-        print("shift clicked")
-        return Unmanaged<CGEvent>.passUnretained(event)
-    }
-    
-    // If the q key wasn't clicked we can ignore the event too
-    guard KeyListener.keyValueForEvent(event)?.lowercaseString == "q" else {
-        print("q not clicked")
-        return Unmanaged<CGEvent>.passUnretained(event)
-    }
-    
-    guard KeyListener.sharedKeyListener.canQuit else {
-        print("not allowed to quit yet")
-        return nil
-    }
-    
-    // get the current active app
-    guard let app = NSWorkspace.sharedWorkspace().menuBarOwningApplication else {
-        print("could not get menubar owning app")
-        return Unmanaged<CGEvent>.passUnretained(event)
-    }
-    
-    // Check if the current app is in the list
-    if let bundleId = app.bundleIdentifier {
-        let isIdentifierListed = KeyListener.sharedKeyListener.listedBundleIdentifiers.contains(bundleId)
-        print(ListMode.selectedMode)
-        if (ListMode.selectedMode == .Blacklist && isIdentifierListed) || (ListMode.selectedMode == .Whitelist && !isIdentifierListed) {
-            print("App is excluded")
-            return Unmanaged<CGEvent>.passUnretained(event)
-        }
-    }
-    
-    // check that the app has CMD Q enabled
-    guard KeyListener.cmdQActiveForApp(app) else {
-        print("\(app.bundleIdentifier) does not use cmd+q")
-        return nil
-    }
-    
-    if KeyListener.sharedKeyListener.canQuit && KeyListener.sharedKeyListener.tries <= KeyListener.delay {
-        print("showing HUD")
-        HUDAlert.sharedHUDAlert.showHUD(1)
-    }
-    
-    KeyListener.sharedKeyListener.tries += 1
-    if KeyListener.sharedKeyListener.tries > KeyListener.delay {
-        print("quit successful")
-        KeyListener.sharedKeyListener.tries = 0
-        KeyListener.sharedKeyListener.canQuit = false
-        HUDAlert.sharedHUDAlert.dismissHUD(false)
-        return Unmanaged<CGEvent>.passUnretained(event)
-    }
-    
-    return nil
+
+    let listener = Unmanaged<KeyListener>.fromOpaque(userInfo).takeUnretainedValue()
+    return listener.handleKeyDown(type: type, event: event)
 }
 
-private func keyUpCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, ptr: UnsafeMutablePointer<Void>) -> Unmanaged<CGEvent>? {
-    
-    // If the command key wasn't used we can pass the event on
-    let flags = CGEventGetFlags(event)
-    guard (flags.rawValue & CGEventFlags.MaskCommand.rawValue) != 0 else {
-        return Unmanaged<CGEvent>.passUnretained(event)
+private func keyUpCallback(
+    proxy: CGEventTapProxy,
+    type: CGEventType,
+    event: CGEvent,
+    userInfo: UnsafeMutableRawPointer?
+) -> Unmanaged<CGEvent>? {
+    guard let userInfo else {
+        return Unmanaged.passUnretained(event)
     }
-    
-    // If the shift key was held down we should ignore the event as it breaks the systemwide logout shortcut
-    guard (flags.rawValue & CGEventFlags.MaskShift.rawValue) == 0 else {
-        print("shift clicked")
-        return Unmanaged<CGEvent>.passUnretained(event)
-    }
-    
-    // If the q key wasn't clicked we can ignore the event too
-    guard KeyListener.keyValueForEvent(event)?.lowercaseString == "q" else {
-        return Unmanaged<CGEvent>.passUnretained(event)
-    }
-    
-    if KeyListener.sharedKeyListener.tries <= KeyListener.delay {
-        KeyListener.sharedKeyListener.logAccidentalQuit()
-    } else {
-        HUDAlert.sharedHUDAlert.dismissHUD()
-    }
-    
-    KeyListener.sharedKeyListener.tries = 0
-    KeyListener.sharedKeyListener.canQuit = true
-    
-    return Unmanaged<CGEvent>.passUnretained(event)
+
+    let listener = Unmanaged<KeyListener>.fromOpaque(userInfo).takeUnretainedValue()
+    return listener.handleKeyUp(type: type, event: event)
 }
 
+final class KeyListener: ObservableObject {
+    nonisolated(unsafe) static let shared = KeyListener()
 
-class KeyListener {
-    
-    /// Shared instance of the key listener
-    static let sharedKeyListener = KeyListener()
-    
-    /// How long the Q key needs to be held before you can quit
-    static var delay: Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey("delay") ?? 4
+    private enum CommandQState {
+        case idle
+        case holding(processIdentifier: pid_t, keyCode: CGKeyCode, workItem: CancelableDelay)
+        case quitForwarded
     }
-    
-    /// Reference to our default Realm
-    var realm: Realm?
-    
-    /// The CGEvent for key down
-    var keyDown: CFMachPort?
-    
-    /// The run loop for key down
-    var keyDownRunLoopSource: CFRunLoopSource?
-    
-    /// The CG event for key up
-    var keyUp: CFMachPort?
-    
-    /// The run loop for key up
-    var keyUpRunLoopSource: CFRunLoopSource?
-    
-    /// The number of "tries" that CMD + Q have been hit.
-    /// This is set when a user holds down the CMD + Q shortcut.
-    var tries = 0
-    
-    /// Can quit is marked as false as soon as an app has just quit.
-    /// If this is not checked then subsequent apps will continue to quit behind it.
-    var canQuit = true
-    
-    /// The number of accidental quits that have been saved by QBlocker
-    var accidentalQuits: Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey("accidentalQuits")
+
+    @Published private(set) var isRunning = false
+    @Published private(set) var lastError: String?
+
+    private weak var settings: AppSettings?
+    private var keyDownTap: CFMachPort?
+    private var keyDownRunLoopSource: CFRunLoopSource?
+    private var keyUpTap: CFMachPort?
+    private var keyUpRunLoopSource: CFRunLoopSource?
+    private var commandQState = CommandQState.idle
+
+    private init() {}
+
+    func configure(settings: AppSettings) {
+        self.settings = settings
     }
-    
-    /// Array of apps to be ignored/allowed (depending on the setting) by QBlocker
-    var list: Results<App>? {
-        return realm?.objects(App).sorted("name")
-    }
-    
-    /// The bundle identifiers of all apps from list
-    var listedBundleIdentifiers: Set<String> {
-        guard let apps = list else {
-            return []
-        }
-        
-        return Set(apps.map { $0.bundleID })
-    }
-    
-    init() {
-        do {
-            realm = try Realm()
-        } catch {
-            print("Failed to load Realm")
-        }
-    }
-    
-    /**
-     Start the keyDown and keyUp listeners.
-     
-     - throws: `KeyListenerError`
-     */
+
     func start() throws {
-        
-        keyDown = CGEventTapCreate(CGEventTapLocation.CGHIDEventTap,
-                                   CGEventTapPlacement.HeadInsertEventTap,
-                                   CGEventTapOptions.Default,
-                                   CGEventMask((1 << CGEventType.KeyDown.rawValue)),
-                                   keyDownCallback,
-                                   UnsafeMutablePointer<Void>(Unmanaged.passUnretained(self).toOpaque()))
-        
-        keyUp = CGEventTapCreate(CGEventTapLocation.CGHIDEventTap,
-                                CGEventTapPlacement.HeadInsertEventTap,
-                                CGEventTapOptions.Default,
-                                CGEventMask((1 << CGEventType.KeyUp.rawValue)),
-                                keyUpCallback,
-                                UnsafeMutablePointer<Void>(Unmanaged.passUnretained(self).toOpaque()))
-        
-        guard keyDown != nil else {
-            throw KeyListenerError.AccessibilityPermissionDenied
+        guard AccessibilityPermission.isTrusted else {
+            lastError = KeyListenerError.accessibilityPermissionDenied.localizedDescription
+            throw KeyListenerError.accessibilityPermissionDenied
         }
 
-        keyDownRunLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, keyDown, 0)
-        CFRunLoopAddSource(CFRunLoopGetCurrent(), keyDownRunLoopSource, kCFRunLoopCommonModes)
-        
-        keyUpRunLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, keyUp, 0)
-        CFRunLoopAddSource(CFRunLoopGetCurrent(), keyUpRunLoopSource, kCFRunLoopCommonModes)
-        
-    }
-    
-    /**
-     Store accidental quits in the user defaults
-     */
-    func logAccidentalQuit() {
-        let quits = accidentalQuits + 1
-        NSUserDefaults.standardUserDefaults().setInteger(quits, forKey: "accidentalQuits")
-    }
-    
-    /**
-     Checks if CMD+Q is in the menu bar for the current application
-     
-     - parameter app: The Current App
-     */
-    class func cmdQActiveForApp(app: NSRunningApplication) -> Bool {
-        
-        let app = AXUIElementCreateApplication(app.processIdentifier).takeRetainedValue()
-        var menuBar: AnyObject?
-        AXUIElementCopyAttributeValue(app, kAXMenuBarAttribute, &menuBar)
-        
-        // If we can't get the menubar then exit
-        guard menuBar != nil else {
-            return false
-        }
-        
-        // Get the toplevel menu items
-        let menu = menuBar as! AXUIElement
-        var children: AnyObject?
-        AXUIElementCopyAttributeValue(menu, kAXChildrenAttribute, &children)
+        stop()
 
-        guard let items = children as? NSArray where items.count > 0 else {
-            return false
+        let userInfo = Unmanaged.passUnretained(self).toOpaque()
+
+        keyDownTap = CGEvent.tapCreate(
+            tap: .cghidEventTap,
+            place: .headInsertEventTap,
+            options: .defaultTap,
+            eventsOfInterest: CGEventMask(1 << CGEventType.keyDown.rawValue),
+            callback: keyDownCallback,
+            userInfo: userInfo
+        )
+
+        keyUpTap = CGEvent.tapCreate(
+            tap: .cghidEventTap,
+            place: .headInsertEventTap,
+            options: .defaultTap,
+            eventsOfInterest: CGEventMask(
+                (1 << CGEventType.keyUp.rawValue) |
+                (1 << CGEventType.flagsChanged.rawValue)
+            ),
+            callback: keyUpCallback,
+            userInfo: userInfo
+        )
+
+        guard let keyDownTap, let keyUpTap else {
+            stop()
+            lastError = KeyListenerError.couldNotCreateEventTap.localizedDescription
+            throw KeyListenerError.couldNotCreateEventTap
         }
-        
-        // Get the submenus of the first item
-        var subMenus: AnyObject?
-        let title = items[1] as! AXUIElement // subscript 0 is the apple menu
-        AXUIElementCopyAttributeValue(title, kAXChildrenAttribute, &subMenus)
-        
-        guard let menus = subMenus as? NSArray where menus.count > 0 else {
-            return false
+
+        keyDownRunLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, keyDownTap, 0)
+        keyUpRunLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, keyUpTap, 0)
+
+        if let keyDownRunLoopSource {
+            CFRunLoopAddSource(CFRunLoopGetCurrent(), keyDownRunLoopSource, .commonModes)
         }
-        
-        // Get the entries of the submenu
-        var entries: AnyObject?
-        let submenu = menus[0] as! AXUIElement
-        AXUIElementCopyAttributeValue(submenu, kAXChildrenAttribute, &entries)
-        
-        guard let menuItems = entries as? NSArray where menuItems.count > 0 else {
-            return false
+
+        if let keyUpRunLoopSource {
+            CFRunLoopAddSource(CFRunLoopGetCurrent(), keyUpRunLoopSource, .commonModes)
         }
-        
-        // Loop through the menu items and check if CMD + Q is the shortcut
-        for item in menuItems {
-            var cmdChar: AnyObject?
-            AXUIElementCopyAttributeValue(item as! AXUIElement, kAXMenuItemCmdCharAttribute, &cmdChar)
-            if let char = cmdChar as? String where char == "Q" {
-                return true
+
+        CGEvent.tapEnable(tap: keyDownTap, enable: true)
+        CGEvent.tapEnable(tap: keyUpTap, enable: true)
+        isRunning = true
+        lastError = nil
+    }
+
+    func stop() {
+        cancelCommandQHold(logAccidentalQuit: false)
+
+        if let keyDownRunLoopSource {
+            CFRunLoopRemoveSource(CFRunLoopGetCurrent(), keyDownRunLoopSource, .commonModes)
+        }
+
+        if let keyUpRunLoopSource {
+            CFRunLoopRemoveSource(CFRunLoopGetCurrent(), keyUpRunLoopSource, .commonModes)
+        }
+
+        keyDownRunLoopSource = nil
+        keyUpRunLoopSource = nil
+        keyDownTap = nil
+        keyUpTap = nil
+        isRunning = false
+    }
+
+    func restartIfPossible() {
+        guard AccessibilityPermission.isTrusted else {
+            stop()
+            return
+        }
+
+        try? start()
+    }
+
+    fileprivate func handleKeyDown(type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
+        guard type == .keyDown else {
+            return Unmanaged.passUnretained(event)
+        }
+
+        guard isCommandQ(event), !isShiftModified(event) else {
+            return Unmanaged.passUnretained(event)
+        }
+
+        guard case .idle = commandQState else {
+            return nil
+        }
+
+        guard let app = NSWorkspace.shared.menuBarOwningApplication else {
+            return Unmanaged.passUnretained(event)
+        }
+
+        guard shouldProtect(app) else {
+            return Unmanaged.passUnretained(event)
+        }
+
+        beginCommandQHold(for: app, event: event)
+
+        return nil
+    }
+
+    fileprivate func handleKeyUp(type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
+        if type == .flagsChanged {
+            if !event.flags.contains(.maskCommand) {
+                switch commandQState {
+                case .holding:
+                    cancelCommandQHold(logAccidentalQuit: true)
+                case .quitForwarded:
+                    commandQState = .idle
+                case .idle:
+                    break
+                }
             }
+
+            return Unmanaged.passUnretained(event)
         }
-        
-        return false
+
+        guard type == .keyUp else {
+            return Unmanaged.passUnretained(event)
+        }
+
+        guard isQKey(event), !isShiftModified(event) else {
+            return Unmanaged.passUnretained(event)
+        }
+
+        switch commandQState {
+        case .holding:
+            cancelCommandQHold(logAccidentalQuit: true)
+            return nil
+        case .quitForwarded:
+            commandQState = .idle
+            return nil
+        case .idle:
+            return Unmanaged.passUnretained(event)
+        }
     }
-    
-    /**
-     Return the key character
-     
-     - parameter event: They keyboard event
-     
-     - returns: The characters clicked
-     */
-    class func keyValueForEvent(event: CGEvent) -> String? {
-        return NSEvent(CGEvent: event)?.charactersIgnoringModifiers
+
+    private func isCommandQ(_ event: CGEvent) -> Bool {
+        event.flags.contains(.maskCommand)
+            && isQKey(event)
     }
-    
+
+    private func isQKey(_ event: CGEvent) -> Bool {
+        event.getIntegerValueField(.keyboardEventKeycode) == 12
+            || keyValue(for: event)?.lowercased() == "q"
+    }
+
+    private func isShiftModified(_ event: CGEvent) -> Bool {
+        event.flags.contains(.maskShift)
+    }
+
+    private func keyValue(for event: CGEvent) -> String? {
+        NSEvent(cgEvent: event)?.charactersIgnoringModifiers
+    }
+
+    private func shouldProtect(_ app: NSRunningApplication) -> Bool {
+        guard
+            let bundleIdentifier = app.bundleIdentifier,
+            let settings
+        else {
+            return true
+        }
+
+        return settings.listMode.shouldProtect(
+            bundleIdentifier: bundleIdentifier,
+            listedBundleIdentifiers: settings.listedBundleIdentifiers
+        )
+    }
+
+    private func beginCommandQHold(for app: NSRunningApplication, event: CGEvent) {
+        let processIdentifier = app.processIdentifier
+        let keyCode = CGKeyCode(event.getIntegerValueField(.keyboardEventKeycode))
+
+        NSLog("QBlocker: starting Cmd-Q hold for pid \(processIdentifier)")
+        HUDAlert.shared.showHUD(holdDuration: holdDuration)
+
+        let workItem = delay(holdDuration) { [weak self] in
+            self?.forwardCommandQ(to: processIdentifier)
+        }
+
+        commandQState = .holding(processIdentifier: processIdentifier, keyCode: keyCode, workItem: workItem)
+    }
+
+    private var holdDuration: TimeInterval {
+        TimeInterval(max(1, settings?.delayPresses ?? 4))
+    }
+
+    private func cancelCommandQHold(logAccidentalQuit: Bool) {
+        guard case let .holding(_, _, workItem) = commandQState else {
+            return
+        }
+
+        NSLog("QBlocker: cancelling Cmd-Q hold")
+        cancelDelay(workItem)
+        commandQState = .idle
+        HUDAlert.shared.dismissHUD()
+
+        if logAccidentalQuit {
+            settings?.logAccidentalQuit()
+        }
+    }
+
+    private func forwardCommandQ(to processIdentifier: pid_t) {
+        guard
+            case let .holding(heldProcessIdentifier, heldKeyCode, _) = commandQState,
+            heldProcessIdentifier == processIdentifier,
+            let app = NSRunningApplication(processIdentifier: processIdentifier)
+        else {
+            return
+        }
+
+        HUDAlert.shared.dismissHUD()
+        commandQState = .quitForwarded
+
+        if Self.performCommandQ(in: app) {
+            NSLog("QBlocker: forwarded Cmd-Q via Accessibility for pid \(processIdentifier)")
+            return
+        }
+
+        if postSyntheticCommandQ(keyCode: heldKeyCode) {
+            NSLog("QBlocker: forwarded Cmd-Q via synthetic keyboard event for pid \(processIdentifier)")
+            return
+        }
+
+        NSLog("QBlocker: failed to forward Cmd-Q for pid \(processIdentifier)")
+        commandQState = .idle
+    }
+
+    private static func performCommandQ(in runningApplication: NSRunningApplication) -> Bool {
+        guard let menuItem = commandQMenuItem(in: runningApplication) else {
+            return false
+        }
+
+        return AXUIElementPerformAction(menuItem, kAXPressAction as CFString) == .success
+    }
+
+    private func postSyntheticCommandQ(keyCode: CGKeyCode) -> Bool {
+        guard
+            let source = CGEventSource(stateID: .hidSystemState),
+            let keyDown = CGEvent(keyboardEventSource: source, virtualKey: keyCode, keyDown: true),
+            let keyUp = CGEvent(keyboardEventSource: source, virtualKey: keyCode, keyDown: false)
+        else {
+            return false
+        }
+
+        keyDown.flags = .maskCommand
+        keyUp.flags = .maskCommand
+
+        setEventTapsEnabled(false)
+        keyDown.post(tap: .cghidEventTap)
+        keyUp.post(tap: .cghidEventTap)
+
+        delay(0.05) { [weak self] in
+            self?.setEventTapsEnabled(true)
+        }
+
+        return true
+    }
+
+    private func setEventTapsEnabled(_ enabled: Bool) {
+        if let keyDownTap {
+            CGEvent.tapEnable(tap: keyDownTap, enable: enabled)
+        }
+
+        if let keyUpTap {
+            CGEvent.tapEnable(tap: keyUpTap, enable: enabled)
+        }
+    }
+
+    private static func commandQMenuItem(in runningApplication: NSRunningApplication) -> AXUIElement? {
+        let app = AXUIElementCreateApplication(runningApplication.processIdentifier)
+
+        var menuBarValue: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(app, kAXMenuBarAttribute as CFString, &menuBarValue) == .success,
+              let menuBar = menuBarValue else {
+            return nil
+        }
+
+        var childrenValue: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(menuBar as! AXUIElement, kAXChildrenAttribute as CFString, &childrenValue) == .success,
+              let topLevelItems = childrenValue as? [AXUIElement],
+              topLevelItems.count > 1 else {
+            return nil
+        }
+
+        var submenuValue: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(topLevelItems[1], kAXChildrenAttribute as CFString, &submenuValue) == .success,
+              let submenus = submenuValue as? [AXUIElement],
+              let appMenu = submenus.first else {
+            return nil
+        }
+
+        var entriesValue: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(appMenu, kAXChildrenAttribute as CFString, &entriesValue) == .success,
+              let menuItems = entriesValue as? [AXUIElement] else {
+            return nil
+        }
+
+        return menuItems.first { item in
+            var commandCharacter: CFTypeRef?
+            guard AXUIElementCopyAttributeValue(item, kAXMenuItemCmdCharAttribute as CFString, &commandCharacter) == .success else {
+                return false
+            }
+
+            return (commandCharacter as? String) == "Q"
+        }
+    }
 }

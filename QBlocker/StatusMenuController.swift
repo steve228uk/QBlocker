@@ -3,52 +3,74 @@
 //  QBlocker
 //
 //  Created by Stephen Radford on 03/05/2016.
-//  Copyright © 2016 Cocoon Development Ltd. All rights reserved.
+//  Modernized as the SwiftUI app entrypoint.
 //
 
-import Cocoa
-import CoreServices
+import SwiftUI
 
-class StatusMenuController: NSObject, NSMenuDelegate {
-    
-    /// The icon added to the menu bar
-    let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
-    
-    /// Reference to the storyboard
-    @IBOutlet weak var statusMenu: NSMenu!
-    
-    override func awakeFromNib() {
-        statusMenu.delegate = self
-        statusItem.image = NSImage(named: "Menu Bar")
-        statusItem.image?.template = true
-        statusItem.menu = statusMenu
+@main
+struct QBlockerApplication: SwiftUI.App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    @StateObject private var settings = AppSettings.shared
+
+    var body: some Scene {
+        MenuBarExtra {
+            StatusMenuView(settings: settings)
+        } label: {
+            Image("Menu Bar")
+        }
+        .menuBarExtraStyle(.menu)
     }
-    
-    // MARK: - Actions
-    
-    @IBAction func quitItemClicked(sender: AnyObject) {
-        NSApplication.sharedApplication().terminate(self)
+}
+
+struct StatusMenuView: View {
+    @ObservedObject var settings: AppSettings
+    @ObservedObject private var listener = KeyListener.shared
+    @State private var launchAtLogin = AtLogin.enabled
+    @State private var launchAtLoginError: String?
+
+    var body: some View {
+        Text("\(settings.accidentalQuits) Quits Blocked")
+
+        if !AccessibilityPermission.isTrusted {
+            Button("Grant Accessibility Permission") {
+                AccessibilityWindowController.shared.show()
+            }
+        } else if !listener.isRunning {
+            Button("Restart Listener") {
+                listener.restartIfPossible()
+            }
+        }
+
+        Divider()
+
+        Button("Preferences...") {
+            PreferencesWindowController.shared.show(settings: settings)
+        }
+
+        Button(launchAtLogin ? "Disable Open at Login" : "Enable Open at Login") {
+            setLaunchAtLogin(!launchAtLogin)
+        }
+
+        if let launchAtLoginError {
+            Text(launchAtLoginError)
+        }
+
+        Divider()
+
+        Button("Quit QBlocker") {
+            NSApplication.shared.terminate(nil)
+        }
     }
-    
-    /**
-     Toggle open at login on/off
-     
-     - parameter sender: The menu item
-     */
-    @IBAction func openAtLogin(sender: NSMenuItem) {
-        AtLogin.toggle()
+
+    private func setLaunchAtLogin(_ enabled: Bool) {
+        do {
+            try AtLogin.setEnabled(enabled)
+            launchAtLogin = AtLogin.enabled
+            launchAtLoginError = nil
+        } catch {
+            launchAtLogin = AtLogin.enabled
+            launchAtLoginError = error.localizedDescription
+        }
     }
-    
-    
-    @IBAction func showPreferences(sender: AnyObject) {
-        AppDelegate.sharedDelegate?.showPreferencesWindow()
-    }
-    
-    // MARK: - NSMenuDelegate
-    
-    func menuWillOpen(menu: NSMenu) {
-        statusMenu.itemAtIndex(0)?.title = String(format: "%d Quits Blocked", arguments: [KeyListener.sharedKeyListener.accidentalQuits])
-        statusMenu.itemAtIndex(4)?.state = (AtLogin.enabled) ? 1 : 0
-    }
-    
 }

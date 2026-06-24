@@ -3,62 +3,107 @@
 //  QBlocker
 //
 //  Created by Stephen Radford on 07/05/2016.
-//  Copyright © 2016 Cocoon Development Ltd. All rights reserved.
+//  Modernized as SwiftUI preferences.
 //
 
-import Cocoa
-import RealmSwift
+import SwiftUI
+import UniformTypeIdentifiers
 
-class ExcludeViewController: NSViewController {
+struct PreferencesView: View {
+    @ObservedObject var settings: AppSettings
 
-    @IBOutlet weak var tableView: NSTableView!
-    
-    // MARK: - Actions
-    
-    @IBAction func addClicked(sender: AnyObject) {
+    var body: some View {
+        TabView {
+            RulesPreferencesView(settings: settings)
+                .tabItem {
+                    Label("Rules", systemImage: "list.bullet.rectangle")
+                }
+
+            GeneralPreferencesView(settings: settings)
+                .tabItem {
+                    Label("Settings", systemImage: "gearshape")
+                }
+        }
+        .padding(24)
+        .frame(minWidth: 620, minHeight: 460)
+    }
+}
+
+struct RulesPreferencesView: View {
+    @ObservedObject var settings: AppSettings
+    @State private var selection = Set<ExcludedApp.ID>()
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Picker("Rule Mode", selection: $settings.listMode) {
+                ForEach(ListMode.allCases) { mode in
+                    Text(mode.shortTitle).tag(mode)
+                }
+            }
+            .pickerStyle(.segmented)
+
+            Text(settings.listMode.title)
+                .font(.callout)
+                .foregroundStyle(.secondary)
+
+            List(settings.apps, selection: $selection) { app in
+                HStack {
+                    Image(nsImage: NSWorkspace.shared.icon(for: .applicationBundle))
+                        .resizable()
+                        .frame(width: 24, height: 24)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(app.name)
+                        Text(app.bundleID)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+            .frame(minHeight: 220)
+
+            HStack {
+                Button {
+                    addApps()
+                } label: {
+                    Label("Add", systemImage: "plus")
+                }
+
+                Button {
+                    settings.removeApps(with: selection)
+                    selection.removeAll()
+                } label: {
+                    Label("Remove", systemImage: "minus")
+                }
+                .disabled(selection.isEmpty)
+
+                Spacer()
+            }
+        }
+    }
+
+    private func addApps() {
         let panel = NSOpenPanel()
-        panel.title = "Choose a .app"
+        panel.title = "Choose Apps"
         panel.canChooseDirectories = false
         panel.canChooseFiles = true
         panel.canCreateDirectories = false
         panel.allowsMultipleSelection = true
-        panel.allowedFileTypes = ["app"]
-        panel.beginSheetModalForWindow(view.window!) { response in
-            if (response == NSFileHandlingPanelOKButton) {
-                for url in panel.URLs {
-                    guard let bundle = NSBundle(URL: url)?.bundleIdentifier, path = url.path else {
-                        continue
-                    }
-                    
-                    let name = NSFileManager.defaultManager().displayNameAtPath(path)
-                    
-                    let app = App()
-                    app.name = name
-                    app.bundleID = bundle
-                    KeyListener.sharedKeyListener.addExcludedApp(app)
-                }
-                self.tableView.reloadData()
+        panel.allowedContentTypes = [.applicationBundle]
+
+        guard panel.runModal() == .OK else {
+            return
+        }
+
+        let apps = panel.urls.compactMap { url -> ExcludedApp? in
+            guard let bundleIdentifier = Bundle(url: url)?.bundleIdentifier else {
+                return nil
             }
+
+            let name = FileManager.default.displayName(atPath: url.path)
+            return ExcludedApp(name: name, bundleID: bundleIdentifier)
         }
+
+        settings.addApps(apps)
     }
-    
-    @IBAction func removeClicked(sender: AnyObject) {
-        guard tableView.selectedRowIndexes.count > 0,
-            let apps = KeyListener.sharedKeyListener.list else {
-                print("Nothing selected")
-                return
-            }
-        
-        var toRemove = [App]()
-        tableView.selectedRowIndexes.enumerateIndexesUsingBlock { index, stop in
-            toRemove.append(apps[index])
-        }
-        
-        for app in toRemove {
-            KeyListener.sharedKeyListener.removeExcludedApp(app)
-        }
-        
-        tableView.reloadData()
-    }
-    
 }

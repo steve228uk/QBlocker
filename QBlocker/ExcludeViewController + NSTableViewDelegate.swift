@@ -1,24 +1,35 @@
 //
-//  ExcludeViewController + NSTableViewDelegate.swift
+//  AccessibilityPermission.swift
 //  QBlocker
 //
 //  Created by Stephen Radford on 07/05/2016.
-//  Copyright © 2016 Cocoon Development Ltd. All rights reserved.
+//  Modernized as shared Accessibility helpers.
 //
 
-import Cocoa
+import AppKit
+import ApplicationServices
 
-extension ExcludeViewController: NSTableViewDelegate {
-    
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        
-        guard let cell = tableView.makeViewWithIdentifier("app name cell", owner: nil) as? NSTableCellView,
-            let app = KeyListener.sharedKeyListener.list?[row] else {
-                return nil
-        }
-        
-        cell.textField?.stringValue = app.name
-        return cell
+enum AccessibilityPermission {
+    private static let promptOptionKey = "AXTrustedCheckOptionPrompt"
+
+    static var isTrusted: Bool {
+        AXIsProcessTrustedWithOptions(options(prompt: false))
     }
-    
+
+    @discardableResult
+    static func request() -> Bool {
+        AXIsProcessTrustedWithOptions(options(prompt: true))
+    }
+
+    static func openSystemSettings() {
+        guard let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") else {
+            return
+        }
+
+        NSWorkspace.shared.open(url)
+    }
+
+    private static func options(prompt: Bool) -> CFDictionary {
+        [promptOptionKey: prompt] as CFDictionary
+    }
 }
