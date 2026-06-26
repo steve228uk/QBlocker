@@ -2,8 +2,7 @@
 //  ListMode.swift
 //  QBlocker
 //
-//  Created by Florian Schliep on 25.05.16.
-//  Modernized for SwiftUI.
+//  Copyright © 2026 Churro Studio. All rights reserved.
 //
 
 import Foundation
@@ -17,18 +16,18 @@ enum ListMode: Int, CaseIterable, Codable, Identifiable {
     var title: String {
         switch self {
         case .blocklist:
-            "Block Cmd-Q in every app except the list below"
+            "Protect all apps except the list below"
         case .allowlist:
-            "Only block Cmd-Q in the apps below"
+            "Protect only the apps below"
         }
     }
 
     var shortTitle: String {
         switch self {
         case .blocklist:
-            "Blocklist"
+            "All Except"
         case .allowlist:
-            "Allowlist"
+            "Only These"
         }
     }
 

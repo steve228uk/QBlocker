@@ -6,7 +6,7 @@ QBlocker stops you from accidentally quitting an app when you actually meant to 
 
 ## Download
 
-Grab the [latest stable version here](https://dl.devmate.com/uk.co.wearecocoon.QBlocker/QBlocker.dmg) or download a version from the Github releases page.
+Download the latest build from the GitHub releases page. The 2026 Churro Studio build uses the new bundle identifier `studio.churro.QBlocker`, so macOS may ask you to grant Accessibility permission again after upgrading from older `uk.co.wearecocoon.QBlocker` builds.
 
 ## Contributing
 

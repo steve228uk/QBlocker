@@ -2,15 +2,15 @@
 //  AppSettings.swift
 //  QBlocker
 //
-//  Created by Stephen Radford on 07/05/2016.
-//  Modernized from database-backed persistence to Codable storage.
+//  Copyright © 2026 Churro Studio. All rights reserved.
 //
 
 import Combine
 import Foundation
 
+@MainActor
 final class AppSettings: ObservableObject {
-    nonisolated(unsafe) static let shared = AppSettings()
+    static let shared = AppSettings()
 
     @Published var accidentalQuits: Int {
         didSet { defaults.set(accidentalQuits, forKey: Keys.accidentalQuits) }
@@ -39,9 +39,15 @@ final class AppSettings: ObservableObject {
     private let defaults: UserDefaults
     private let store: AppRuleStore
 
-    init(defaults: UserDefaults = .standard, store: AppRuleStore = AppRuleStore()) {
+    init(
+        defaults: UserDefaults = .standard,
+        store: AppRuleStore = AppRuleStore(),
+        legacyDefaults: UserDefaults? = UserDefaults(suiteName: Legacy.bundleIdentifier)
+    ) {
         self.defaults = defaults
         self.store = store
+
+        Self.migrateLegacyDefaultsIfNeeded(defaults: defaults, legacyDefaults: legacyDefaults)
 
         defaults.register(defaults: [
             Keys.accidentalQuits: 0,
@@ -81,5 +87,61 @@ final class AppSettings: ObservableObject {
         static let firstRunComplete = "firstRunComplete"
         static let listMode = "listMode"
         static let delayPresses = "delay"
+        static let migratedLegacyDefaults = "migratedLegacyDefaultsFromWeAreCocoon"
+    }
+
+    private enum Legacy {
+        static let bundleIdentifier = "uk.co.wearecocoon.QBlocker"
+    }
+
+    private static func migrateLegacyDefaultsIfNeeded(defaults: UserDefaults, legacyDefaults: UserDefaults?) {
+        guard !defaults.bool(forKey: Keys.migratedLegacyDefaults),
+              let legacyDefaults else {
+            return
+        }
+
+        let legacyValues = legacyDefaults.dictionaryRepresentation()
+        for key in [
+            Keys.accidentalQuits,
+            Keys.firstRunComplete,
+            Keys.listMode,
+            Keys.delayPresses
+        ] where defaults.object(forKey: key) == nil {
+            if let value = legacyValues[key] {
+                defaults.set(value, forKey: key)
+            }
+        }
+
+        defaults.set(true, forKey: Keys.migratedLegacyDefaults)
+    }
+
+}
+
+extension AppSettings {
+    static func preview(
+        accidentalQuits: Int = 8,
+        firstRunComplete: Bool = false,
+        listMode: ListMode = .blocklist,
+        delayPresses: Int = 4,
+        apps: [ExcludedApp] = [
+            ExcludedApp(name: "Safari", bundleID: "com.apple.Safari"),
+            ExcludedApp(name: "Xcode", bundleID: "com.apple.dt.Xcode")
+        ]
+    ) -> AppSettings {
+        let defaults = UserDefaults(suiteName: "QBlockerPreview-\(UUID().uuidString)")!
+        defaults.set(accidentalQuits, forKey: Keys.accidentalQuits)
+        defaults.set(firstRunComplete, forKey: Keys.firstRunComplete)
+        defaults.set(listMode.rawValue, forKey: Keys.listMode)
+        defaults.set(delayPresses, forKey: Keys.delayPresses)
+
+        return AppSettings(
+            defaults: defaults,
+            store: AppRuleStore(appDirectory: FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString))
+        ).withPreviewApps(apps)
+    }
+
+    private func withPreviewApps(_ previewApps: [ExcludedApp]) -> AppSettings {
+        apps = previewApps
+        return self
     }
 }

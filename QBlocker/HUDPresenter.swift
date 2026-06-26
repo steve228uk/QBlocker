@@ -1,24 +1,24 @@
 //
-//  HUDAlert.swift
+//  HUDPresenter.swift
 //  QBlocker
 //
-//  Created by Stephen Radford on 03/05/2016.
-//  Modernized without storyboard dependencies.
+//  Copyright © 2026 Churro Studio. All rights reserved.
 //
 
 import AppKit
 import CoreImage
 import QuartzCore
 
-final class HUDAlert: @unchecked Sendable {
-    static let shared = HUDAlert()
+final class HUDPresenter: @unchecked Sendable {
+    static let shared = HUDPresenter()
 
     private static let blurFilterName = "presentationBlur"
 
-    private let windowSize = NSSize(width: 300, height: 60)
+    private let windowSize = NSSize(width: 198, height: 46)
     private let topGap: CGFloat = 16
     private let offscreenPadding: CGFloat = 16
     @MainActor private var presentationID = 0
+    @MainActor private var autoDismissWorkItem: CancelableDelay?
 
     @MainActor
     private lazy var panel: NSPanel = {
@@ -83,6 +83,8 @@ final class HUDAlert: @unchecked Sendable {
 
         presentationID += 1
         let currentPresentationID = presentationID
+        cancelDelay(autoDismissWorkItem)
+        autoDismissWorkItem = nil
 
         let frames = hudFrames(on: screen)
         let contentView = panel.contentView as? HUDContainerView
@@ -97,6 +99,7 @@ final class HUDAlert: @unchecked Sendable {
         panel.orderFrontRegardless()
         panel.displayIfNeeded()
         hudView?.startProgress(duration: holdDuration)
+        scheduleAutoDismiss(holdDuration: holdDuration, presentationID: currentPresentationID)
 
         let duration = 0.36
         contentView?.animateEntrance(duration: duration)
@@ -133,6 +136,8 @@ final class HUDAlert: @unchecked Sendable {
 
     @MainActor
     private func dismissHUDOnMain(fade: Bool) {
+        cancelDelay(autoDismissWorkItem)
+        autoDismissWorkItem = nil
         presentationID += 1
         let currentPresentationID = presentationID
 
@@ -175,6 +180,27 @@ final class HUDAlert: @unchecked Sendable {
     }
 
     @MainActor
+    private func scheduleAutoDismiss(holdDuration: TimeInterval?, presentationID: Int) {
+        guard let holdDuration, holdDuration > 0 else {
+            return
+        }
+
+        autoDismissWorkItem = delay(holdDuration) { [weak self] in
+            self?.dismissHUDIfCurrentPresentation(presentationID)
+        }
+    }
+
+    private func dismissHUDIfCurrentPresentation(_ expectedPresentationID: Int) {
+        performOnMainSync { @MainActor in
+            guard self.presentationID == expectedPresentationID else {
+                return
+            }
+
+            self.dismissHUDOnMain(fade: true)
+        }
+    }
+
+    @MainActor
     private func hudFrames(on screen: NSScreen) -> (shown: NSRect, hidden: NSRect) {
         let screenFrame = screen.frame
         let visibleFrame = screen.visibleFrame
@@ -193,28 +219,6 @@ final class HUDAlert: @unchecked Sendable {
         )
 
         return (shownFrame, hiddenFrame)
-    }
-
-    @MainActor
-    private func animateLayerTransform(
-        on view: NSView?,
-        from startTransform: CATransform3D,
-        to endTransform: CATransform3D,
-        duration: TimeInterval,
-        timingFunctionName: CAMediaTimingFunctionName
-    ) {
-        guard let layer = view?.layer else {
-            return
-        }
-
-        let animation = CABasicAnimation(keyPath: "transform")
-        animation.fromValue = startTransform
-        animation.toValue = endTransform
-        animation.duration = duration
-        animation.timingFunction = CAMediaTimingFunction(name: timingFunctionName)
-
-        layer.transform = endTransform
-        layer.add(animation, forKey: "hudTransform")
     }
 
     @MainActor

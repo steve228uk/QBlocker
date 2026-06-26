@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-QBlocker is a macOS Swift/AppKit menu bar app. Application source lives in `QBlocker/`, with the main lifecycle in `App.swift` and `AppDelegate.swift`. Keyboard interception is handled by `KeyListener.swift`; settings and persistence live in `AppSettings.swift`; HUD presentation is split between `HUDAlert.swift` and `HUDView.swift`. App assets are in `QBlocker/Assets.xcassets/`, larger source assets are in `Assets/`, and the static marketing site is in `Website/`. `Tests/` exists for future test targets, but there is no active XCTest target wired into the project at present.
+QBlocker is a macOS SwiftUI/AppKit menu bar app. Application source lives in `QBlocker/`, with the SwiftUI menu bar entry point in `StatusMenuController.swift` and launch/runtime setup in `AppDelegate.swift`. Keyboard interception is handled by `KeyListener.swift`; settings and persistence live in `AppSettings.swift`; HUD presentation is split between `HUDPresenter.swift` and `HUDView.swift`. App assets are in `QBlocker/Assets.xcassets/`, larger source assets are in `Assets/`, and the static marketing site is in `Website/`. There is no active test target.
 
 ## Build, Test, and Development Commands
 
@@ -20,7 +20,7 @@ rtk open QBlocker.xcodeproj
 
 Opens the project in Xcode for local running, signing, and UI inspection.
 
-There is currently no dedicated test command. Add an XCTest target before relying on automated test coverage.
+There is currently no dedicated test command.
 
 ## Coding Style & Naming Conventions
 
@@ -28,7 +28,7 @@ Use Swift 6 and macOS 14-compatible APIs. Prefer AppKit-native types and pattern
 
 ## Testing Guidelines
 
-When adding tests, use XCTest under `Tests/` and name files after the unit under test, such as `KeyListenerTests.swift` or `AppSettingsTests.swift`. Focus coverage on event-tap state transitions, settings persistence, and UI-independent timing logic. For HUD or accessibility changes, verify manually in a signed local build because behavior depends on macOS permissions and display geometry.
+Do not add tests unless explicitly requested. Verify behavior with local builds and manual signed-runtime checks. For HUD or accessibility changes, verify in a signed local build because behavior depends on macOS permissions and display geometry.
 
 ## Commit & Pull Request Guidelines
 

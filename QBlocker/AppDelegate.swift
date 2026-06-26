@@ -2,8 +2,7 @@
 //  AppDelegate.swift
 //  QBlocker
 //
-//  Created by Stephen Radford on 01/05/2016.
-//  Modernized for SwiftUI lifecycle.
+//  Copyright © 2026 Churro Studio. All rights reserved.
 //
 
 import AppKit
@@ -12,15 +11,15 @@ import AppKit
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
-        HUDAlert.shared.prepare()
+        HUDPresenter.shared.prepare()
         KeyListener.shared.configure(settings: .shared)
+        AppEnvironment.live.refresh()
 
         if AccessibilityPermission.isTrusted {
             try? KeyListener.shared.start()
-            FirstRunWindowController.shared.showIfNeeded(settings: .shared)
-        } else {
-            AccessibilityWindowController.shared.show()
         }
+
+        OnboardingWindowController.shared.showIfNeeded(settings: .shared, environment: .live)
     }
 
     func applicationWillTerminate(_ notification: Notification) {

@@ -2,8 +2,7 @@
 //  StatusMenuController.swift
 //  QBlocker
 //
-//  Created by Stephen Radford on 03/05/2016.
-//  Modernized as the SwiftUI app entrypoint.
+//  Copyright © 2026 Churro Studio. All rights reserved.
 //
 
 import SwiftUI
@@ -12,12 +11,13 @@ import SwiftUI
 struct QBlockerApplication: SwiftUI.App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var settings = AppSettings.shared
+    @StateObject private var environment = AppEnvironment.live
 
     var body: some Scene {
         MenuBarExtra {
-            StatusMenuView(settings: settings)
+            StatusMenuView(settings: settings, environment: environment)
         } label: {
-            Image("Menu Bar")
+            Image(systemName: "command")
         }
         .menuBarExtraStyle(.menu)
     }
@@ -25,52 +25,46 @@ struct QBlockerApplication: SwiftUI.App {
 
 struct StatusMenuView: View {
     @ObservedObject var settings: AppSettings
-    @ObservedObject private var listener = KeyListener.shared
-    @State private var launchAtLogin = AtLogin.enabled
-    @State private var launchAtLoginError: String?
+    @ObservedObject var environment: AppEnvironment
 
     var body: some View {
-        Text("\(settings.accidentalQuits) Quits Blocked")
+        Text(blockedCountText)
 
-        if !AccessibilityPermission.isTrusted {
+        if !environment.accessibilityTrusted {
             Button("Grant Accessibility Permission") {
-                AccessibilityWindowController.shared.show()
+                OnboardingWindowController.shared.show(settings: settings, environment: environment)
             }
-        } else if !listener.isRunning {
+        } else if !environment.listenerRunning {
             Button("Restart Listener") {
-                listener.restartIfPossible()
+                environment.restartListener()
             }
         }
 
         Divider()
 
-        Button("Preferences...") {
-            PreferencesWindowController.shared.show(settings: settings)
-        }
+            Button("Settings...") {
+                SettingsWindowController.shared.show(settings: settings, environment: environment)
+            }
 
-        Button(launchAtLogin ? "Disable Open at Login" : "Enable Open at Login") {
-            setLaunchAtLogin(!launchAtLogin)
-        }
-
-        if let launchAtLoginError {
-            Text(launchAtLoginError)
-        }
-
-        Divider()
+            Divider()
 
         Button("Quit QBlocker") {
             NSApplication.shared.terminate(nil)
         }
     }
 
-    private func setLaunchAtLogin(_ enabled: Bool) {
-        do {
-            try AtLogin.setEnabled(enabled)
-            launchAtLogin = AtLogin.enabled
-            launchAtLoginError = nil
-        } catch {
-            launchAtLogin = AtLogin.enabled
-            launchAtLoginError = error.localizedDescription
-        }
+    private var blockedCountText: String {
+        "\(settings.accidentalQuits) \(settings.accidentalQuits == 1 ? "Quit" : "Quits") Blocked"
     }
+}
+
+#Preview("Running") {
+    StatusMenuView(settings: .preview(accidentalQuits: 1), environment: .preview())
+}
+
+#Preview("Needs Permission") {
+    StatusMenuView(
+        settings: .preview(accidentalQuits: 12),
+        environment: .preview(accessibilityTrusted: false, listenerRunning: false)
+    )
 }

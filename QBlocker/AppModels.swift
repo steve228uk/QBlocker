@@ -1,9 +1,8 @@
 //
-//  App.swift
+//  AppModels.swift
 //  QBlocker
 //
-//  Created by Stephen Radford on 07/05/2016.
-//  Modernized for SwiftUI.
+//  Copyright © 2026 Churro Studio. All rights reserved.
 //
 
 import Foundation

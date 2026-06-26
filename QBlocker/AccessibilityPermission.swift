@@ -2,8 +2,7 @@
 //  AccessibilityPermission.swift
 //  QBlocker
 //
-//  Created by Stephen Radford on 07/05/2016.
-//  Modernized as shared Accessibility helpers.
+//  Copyright © 2026 Churro Studio. All rights reserved.
 //
 
 import AppKit

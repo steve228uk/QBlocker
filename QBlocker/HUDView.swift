@@ -2,18 +2,19 @@
 //  HUDView.swift
 //  QBlocker
 //
-//  Created by Stephen Radford on 03/05/2016.
-//  Modernized without storyboard dependencies.
+//  Copyright © 2026 Churro Studio. All rights reserved.
 //
 
 import AppKit
 import QuartzCore
+import SwiftUI
 
 final class HUDView: NSView {
-    private let titleLabel = NSTextField(labelWithString: "Hold ⌘ Q to Quit")
+    private let materialView = NSVisualEffectView()
+    private let titleLabel = NSTextField(labelWithString: "Keep holding ⌘Q")
     private let backgroundLayer = CALayer()
-    private let progressTrack = CALayer()
-    private let progressFill = CALayer()
+    private let progressTrack = CAShapeLayer()
+    private let progressFill = CAShapeLayer()
     private var progress: CGFloat = 0
 
     override init(frame frameRect: NSRect) {
@@ -31,50 +32,75 @@ final class HUDView: NSView {
         layer?.backgroundColor = NSColor.clear.cgColor
         layer?.masksToBounds = true
 
-        backgroundLayer.backgroundColor = NSColor.black.cgColor
+        materialView.material = .hudWindow
+        materialView.blendingMode = .withinWindow
+        materialView.state = .active
+        materialView.translatesAutoresizingMaskIntoConstraints = false
+        materialView.wantsLayer = true
+        addSubview(materialView)
+
+        backgroundLayer.backgroundColor = NSColor.black.withAlphaComponent(0.38).cgColor
         backgroundLayer.masksToBounds = true
+        backgroundLayer.zPosition = 0
         layer?.addSublayer(backgroundLayer)
 
-        progressTrack.backgroundColor = NSColor.clear.cgColor
-        progressTrack.masksToBounds = true
-        progressFill.anchorPoint = CGPoint(x: 0, y: 0.5)
-        progressFill.backgroundColor = accentColor
-        progressFill.masksToBounds = true
+        progressTrack.fillColor = nil
+        progressTrack.lineCap = .round
+        progressTrack.lineJoin = .round
+        progressTrack.strokeColor = NSColor.labelColor.withAlphaComponent(0.18).cgColor
+        progressTrack.zPosition = 20
         layer?.addSublayer(progressTrack)
-        progressTrack.addSublayer(progressFill)
 
-        titleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
-        titleLabel.textColor = .white
+        progressFill.fillColor = nil
+        progressFill.lineCap = .round
+        progressFill.lineJoin = .round
+        progressFill.strokeColor = accentColor
+        progressFill.strokeStart = 0
+        progressFill.strokeEnd = 0
+        progressFill.zPosition = 21
+        layer?.addSublayer(progressFill)
+
+        titleLabel.font = .systemFont(ofSize: 15, weight: .semibold)
+        titleLabel.textColor = .labelColor
         titleLabel.alignment = .center
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(titleLabel)
 
         NSLayoutConstraint.activate([
+            materialView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            materialView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            materialView.topAnchor.constraint(equalTo: topAnchor),
+            materialView.bottomAnchor.constraint(equalTo: bottomAnchor),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1),
-            titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 28),
-            trailingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor, constant: 28)
+            titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 18),
+            trailingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor, constant: 18)
         ])
     }
 
     override func layout() {
         super.layout()
 
-        let barHeight: CGFloat = 3
-        let barFrame = CGRect(x: 0, y: 0, width: bounds.width, height: barHeight)
+        let borderWidth: CGFloat = 3
+        let borderRect = bounds.insetBy(dx: borderWidth / 2, dy: borderWidth / 2)
+        let borderPath = progressBorderPath(in: borderRect)
 
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         layer?.cornerRadius = bounds.height / 2
+        materialView.layer?.cornerRadius = bounds.height / 2
+        materialView.layer?.masksToBounds = true
         backgroundLayer.cornerRadius = bounds.height / 2
         backgroundLayer.frame = bounds
-        progressTrack.cornerRadius = barHeight / 2
-        progressTrack.frame = barFrame
-        progressFill.cornerRadius = barHeight / 2
-        progressFill.backgroundColor = accentColor
-        progressFill.position = CGPoint(x: 0, y: barHeight / 2)
-        progressFill.bounds = CGRect(x: 0, y: 0, width: bounds.width * progress, height: barHeight)
+        progressTrack.frame = bounds
+        progressTrack.lineWidth = borderWidth
+        progressTrack.path = borderPath
+        progressFill.frame = bounds
+        progressFill.lineWidth = borderWidth
+        progressFill.path = borderPath
+        progressFill.strokeColor = accentColor
+        progressFill.strokeEnd = progress
         CATransaction.commit()
     }
 
@@ -93,20 +119,20 @@ final class HUDView: NSView {
         }
 
         progress = 1
-        progressFill.bounds.size.width = bounds.width
+        progressFill.strokeEnd = 1
 
-        let animation = CABasicAnimation(keyPath: "bounds.size.width")
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = 0
-        animation.toValue = bounds.width
+        animation.toValue = 1
         animation.duration = duration
         animation.timingFunction = CAMediaTimingFunction(name: .linear)
         progressFill.add(animation, forKey: "holdProgress")
     }
 
     func stopProgress(reset: Bool) {
-        if !reset, bounds.width > 0 {
-            let currentWidth = progressFill.presentation()?.bounds.width ?? progressFill.bounds.width
-            progress = min(max(currentWidth / bounds.width, 0), 1)
+        if !reset {
+            let currentStrokeEnd = progressFill.presentation()?.strokeEnd ?? progressFill.strokeEnd
+            progress = min(max(currentStrokeEnd, 0), 1)
         }
 
         progressFill.removeAnimation(forKey: "holdProgress")
@@ -119,6 +145,52 @@ final class HUDView: NSView {
         layoutSubtreeIfNeeded()
     }
 
+    private func progressBorderPath(in rect: CGRect) -> CGPath {
+        let radius = min(rect.width, rect.height) / 2
+        let minX = rect.minX
+        let maxX = rect.maxX
+        let minY = rect.minY
+        let maxY = rect.maxY
+        let midX = rect.midX
+
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: midX, y: maxY))
+        path.addLine(to: CGPoint(x: maxX - radius, y: maxY))
+        path.addArc(
+            center: CGPoint(x: maxX - radius, y: maxY - radius),
+            radius: radius,
+            startAngle: .pi / 2,
+            endAngle: 0,
+            clockwise: true
+        )
+        path.addLine(to: CGPoint(x: maxX, y: minY + radius))
+        path.addArc(
+            center: CGPoint(x: maxX - radius, y: minY + radius),
+            radius: radius,
+            startAngle: 0,
+            endAngle: -.pi / 2,
+            clockwise: true
+        )
+        path.addLine(to: CGPoint(x: minX + radius, y: minY))
+        path.addArc(
+            center: CGPoint(x: minX + radius, y: minY + radius),
+            radius: radius,
+            startAngle: -.pi / 2,
+            endAngle: -.pi,
+            clockwise: true
+        )
+        path.addLine(to: CGPoint(x: minX, y: maxY - radius))
+        path.addArc(
+            center: CGPoint(x: minX + radius, y: maxY - radius),
+            radius: radius,
+            startAngle: .pi,
+            endAngle: .pi / 2,
+            clockwise: true
+        )
+        path.addLine(to: CGPoint(x: midX, y: maxY))
+        return path
+    }
+
     private var accentColor: CGColor {
         NSColor.controlAccentColor.cgColor
     }
@@ -126,4 +198,20 @@ final class HUDView: NSView {
     var capsuleLayer: CALayer {
         backgroundLayer
     }
+}
+
+private struct HUDViewPreview: NSViewRepresentable {
+    func makeNSView(context: Context) -> HUDView {
+        let view = HUDView(frame: NSRect(x: 0, y: 0, width: 198, height: 46))
+        view.startProgress(duration: 4)
+        return view
+    }
+
+    func updateNSView(_ nsView: HUDView, context: Context) {}
+}
+
+#Preview {
+    HUDViewPreview()
+        .frame(width: 198, height: 46)
+        .padding(40)
 }

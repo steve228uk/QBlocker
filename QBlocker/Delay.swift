@@ -2,8 +2,7 @@
 //  Delay.swift
 //  QBlocker
 //
-//  Created by Stephen Radford on 07/05/2016.
-//  Modernized for Swift concurrency-era APIs.
+//  Copyright © 2026 Churro Studio. All rights reserved.
 //
 
 import Foundation

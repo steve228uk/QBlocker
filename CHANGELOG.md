@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3
+
+- Modernizes QBlocker as a SwiftUI menu bar app with previewable settings and onboarding views.
+- Updates ownership to Churro Studio and changes the bundle identifier to `studio.churro.QBlocker`.
+- Adds a one-time migration for settings from older `uk.co.wearecocoon.QBlocker` builds.
+- Improves the Command-Q HUD, Accessibility onboarding, Settings layout, rule management, and event-tap recovery.
+- Note: macOS may ask you to grant Accessibility permission again after upgrading because the app identity changed.
+
 ## 1.2
 
 - Adds ability to change the length of delay before an app quits.

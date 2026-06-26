@@ -2,12 +2,11 @@
 //  KeyListener.swift
 //  QBlocker
 //
-//  Created by Stephen Radford on 02/05/2016.
-//  Modernized for Swift 6.
+//  Copyright © 2026 Churro Studio. All rights reserved.
 //
 
-import AppKit
-import ApplicationServices
+@preconcurrency import AppKit
+@preconcurrency import ApplicationServices
 
 private func keyDownCallback(
     proxy: CGEventTapProxy,
@@ -20,7 +19,9 @@ private func keyDownCallback(
     }
 
     let listener = Unmanaged<KeyListener>.fromOpaque(userInfo).takeUnretainedValue()
-    return listener.handleKeyDown(type: type, event: event)
+    return MainActor.assumeIsolated {
+        listener.handleKeyDown(type: type, event: event)
+    }
 }
 
 private func keyUpCallback(
@@ -34,11 +35,14 @@ private func keyUpCallback(
     }
 
     let listener = Unmanaged<KeyListener>.fromOpaque(userInfo).takeUnretainedValue()
-    return listener.handleKeyUp(type: type, event: event)
+    return MainActor.assumeIsolated {
+        listener.handleKeyUp(type: type, event: event)
+    }
 }
 
+@MainActor
 final class KeyListener: ObservableObject {
-    nonisolated(unsafe) static let shared = KeyListener()
+    static let shared = KeyListener()
 
     private enum CommandQState {
         case idle
@@ -59,10 +63,13 @@ final class KeyListener: ObservableObject {
     private init() {}
 
     func configure(settings: AppSettings) {
+        preconditionMainThread()
         self.settings = settings
     }
 
     func start() throws {
+        preconditionMainThread()
+
         guard AccessibilityPermission.isTrusted else {
             lastError = KeyListenerError.accessibilityPermissionDenied.localizedDescription
             throw KeyListenerError.accessibilityPermissionDenied
@@ -117,6 +124,7 @@ final class KeyListener: ObservableObject {
     }
 
     func stop() {
+        preconditionMainThread()
         cancelCommandQHold(logAccidentalQuit: false)
 
         if let keyDownRunLoopSource {
@@ -135,6 +143,8 @@ final class KeyListener: ObservableObject {
     }
 
     func restartIfPossible() {
+        preconditionMainThread()
+
         guard AccessibilityPermission.isTrusted else {
             stop()
             return
@@ -144,11 +154,21 @@ final class KeyListener: ObservableObject {
     }
 
     fileprivate func handleKeyDown(type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
+        preconditionMainThread()
+
+        if handleDisabledEventTap(type: type) {
+            return nil
+        }
+
         guard type == .keyDown else {
             return Unmanaged.passUnretained(event)
         }
 
         guard isCommandQ(event), !isShiftModified(event) else {
+            return Unmanaged.passUnretained(event)
+        }
+
+        if case .quitForwarded = commandQState {
             return Unmanaged.passUnretained(event)
         }
 
@@ -170,6 +190,12 @@ final class KeyListener: ObservableObject {
     }
 
     fileprivate func handleKeyUp(type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
+        preconditionMainThread()
+
+        if handleDisabledEventTap(type: type) {
+            return nil
+        }
+
         if type == .flagsChanged {
             if !event.flags.contains(.maskCommand) {
                 switch commandQState {
@@ -189,18 +215,22 @@ final class KeyListener: ObservableObject {
             return Unmanaged.passUnretained(event)
         }
 
-        guard isQKey(event), !isShiftModified(event) else {
+        guard !isShiftModified(event) else {
             return Unmanaged.passUnretained(event)
         }
 
         switch commandQState {
-        case .holding:
+        case let .holding(_, heldKeyCode, _) where eventKeyCode(event) == heldKeyCode:
             cancelCommandQHold(logAccidentalQuit: true)
             return nil
         case .quitForwarded:
+            guard isQKey(event) else {
+                return Unmanaged.passUnretained(event)
+            }
+
             commandQState = .idle
-            return nil
-        case .idle:
+            return Unmanaged.passUnretained(event)
+        case .holding, .idle:
             return Unmanaged.passUnretained(event)
         }
     }
@@ -211,8 +241,15 @@ final class KeyListener: ObservableObject {
     }
 
     private func isQKey(_ event: CGEvent) -> Bool {
-        event.getIntegerValueField(.keyboardEventKeycode) == 12
-            || keyValue(for: event)?.lowercased() == "q"
+        if let keyValue = keyValue(for: event), !keyValue.isEmpty {
+            return keyValue.lowercased() == "q"
+        }
+
+        return eventKeyCode(event) == 12
+    }
+
+    private func eventKeyCode(_ event: CGEvent) -> CGKeyCode {
+        CGKeyCode(event.getIntegerValueField(.keyboardEventKeycode))
     }
 
     private func isShiftModified(_ event: CGEvent) -> Bool {
@@ -242,7 +279,7 @@ final class KeyListener: ObservableObject {
         let keyCode = CGKeyCode(event.getIntegerValueField(.keyboardEventKeycode))
 
         NSLog("QBlocker: starting Cmd-Q hold for pid \(processIdentifier)")
-        HUDAlert.shared.showHUD(holdDuration: holdDuration)
+        HUDPresenter.shared.showHUD(holdDuration: holdDuration)
 
         let workItem = delay(holdDuration) { [weak self] in
             self?.forwardCommandQ(to: processIdentifier)
@@ -263,7 +300,7 @@ final class KeyListener: ObservableObject {
         NSLog("QBlocker: cancelling Cmd-Q hold")
         cancelDelay(workItem)
         commandQState = .idle
-        HUDAlert.shared.dismissHUD()
+        HUDPresenter.shared.dismissHUD()
 
         if logAccidentalQuit {
             settings?.logAccidentalQuit()
@@ -274,18 +311,13 @@ final class KeyListener: ObservableObject {
         guard
             case let .holding(heldProcessIdentifier, heldKeyCode, _) = commandQState,
             heldProcessIdentifier == processIdentifier,
-            let app = NSRunningApplication(processIdentifier: processIdentifier)
+              NSRunningApplication(processIdentifier: processIdentifier) != nil
         else {
             return
         }
 
-        HUDAlert.shared.dismissHUD()
+        HUDPresenter.shared.dismissHUD()
         commandQState = .quitForwarded
-
-        if Self.performCommandQ(in: app) {
-            NSLog("QBlocker: forwarded Cmd-Q via Accessibility for pid \(processIdentifier)")
-            return
-        }
 
         if postSyntheticCommandQ(keyCode: heldKeyCode) {
             NSLog("QBlocker: forwarded Cmd-Q via synthetic keyboard event for pid \(processIdentifier)")
@@ -294,14 +326,6 @@ final class KeyListener: ObservableObject {
 
         NSLog("QBlocker: failed to forward Cmd-Q for pid \(processIdentifier)")
         commandQState = .idle
-    }
-
-    private static func performCommandQ(in runningApplication: NSRunningApplication) -> Bool {
-        guard let menuItem = commandQMenuItem(in: runningApplication) else {
-            return false
-        }
-
-        return AXUIElementPerformAction(menuItem, kAXPressAction as CFString) == .success
     }
 
     private func postSyntheticCommandQ(keyCode: CGKeyCode) -> Bool {
@@ -321,10 +345,23 @@ final class KeyListener: ObservableObject {
         keyUp.post(tap: .cghidEventTap)
 
         delay(0.05) { [weak self] in
-            self?.setEventTapsEnabled(true)
+            self?.finishSyntheticCommandQForwarding()
         }
 
         return true
+    }
+
+    private func finishSyntheticCommandQForwarding() {
+        setEventTapsEnabled(true)
+        resetQuitForwardedStateIfNeeded()
+    }
+
+    private func resetQuitForwardedStateIfNeeded() {
+        guard case .quitForwarded = commandQState else {
+            return
+        }
+
+        commandQState = .idle
     }
 
     private func setEventTapsEnabled(_ enabled: Bool) {
@@ -337,42 +374,19 @@ final class KeyListener: ObservableObject {
         }
     }
 
-    private static func commandQMenuItem(in runningApplication: NSRunningApplication) -> AXUIElement? {
-        let app = AXUIElementCreateApplication(runningApplication.processIdentifier)
-
-        var menuBarValue: CFTypeRef?
-        guard AXUIElementCopyAttributeValue(app, kAXMenuBarAttribute as CFString, &menuBarValue) == .success,
-              let menuBar = menuBarValue else {
-            return nil
+    private func handleDisabledEventTap(type: CGEventType) -> Bool {
+        guard type == .tapDisabledByTimeout || type == .tapDisabledByUserInput else {
+            return false
         }
 
-        var childrenValue: CFTypeRef?
-        guard AXUIElementCopyAttributeValue(menuBar as! AXUIElement, kAXChildrenAttribute as CFString, &childrenValue) == .success,
-              let topLevelItems = childrenValue as? [AXUIElement],
-              topLevelItems.count > 1 else {
-            return nil
-        }
+        NSLog("QBlocker: event tap disabled by macOS; re-enabling")
+        setEventTapsEnabled(true)
+        isRunning = keyDownTap != nil && keyUpTap != nil
+        lastError = nil
+        return true
+    }
 
-        var submenuValue: CFTypeRef?
-        guard AXUIElementCopyAttributeValue(topLevelItems[1], kAXChildrenAttribute as CFString, &submenuValue) == .success,
-              let submenus = submenuValue as? [AXUIElement],
-              let appMenu = submenus.first else {
-            return nil
-        }
-
-        var entriesValue: CFTypeRef?
-        guard AXUIElementCopyAttributeValue(appMenu, kAXChildrenAttribute as CFString, &entriesValue) == .success,
-              let menuItems = entriesValue as? [AXUIElement] else {
-            return nil
-        }
-
-        return menuItems.first { item in
-            var commandCharacter: CFTypeRef?
-            guard AXUIElementCopyAttributeValue(item, kAXMenuItemCmdCharAttribute as CFString, &commandCharacter) == .success else {
-                return false
-            }
-
-            return (commandCharacter as? String) == "Q"
-        }
+    private func preconditionMainThread() {
+        precondition(Thread.isMainThread, "KeyListener must be used from the main thread")
     }
 }

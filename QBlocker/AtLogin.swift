@@ -2,8 +2,7 @@
 //  AtLogin.swift
 //  QBlocker
 //
-//  Created by Stephen Radford on 04/05/2016.
-//  Modernized for ServiceManagement.
+//  Copyright © 2026 Churro Studio. All rights reserved.
 //
 
 import Foundation
